@@ -25,7 +25,7 @@ namespace Server.Loader
             foreach (var file in files)
             {
                 var o = JObject.Parse(File.ReadAllText(file));
-                //var jsonType = (int)o["StoreType"];
+                var jsonType = (int)o["StoreType"];
 
                 switch (jsonType)
                 {

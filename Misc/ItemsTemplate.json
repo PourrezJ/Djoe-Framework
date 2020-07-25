@@ -1,0 +1,40 @@
+{
+    "Items": [
+        {
+            // Basic Item Exemple
+            "Name": "",
+            "Description": "",
+            "Weight": 0,
+            "Icon": "",
+            "ItemPrice": 0,
+            "IsGiven": false, // Can Give this item (default false)
+            "IsUsable": false, // Can Use this item (default false)
+            "IsStackable": true, // Can make a stack in inventory (default true)
+            "IsDropable": true// Can drop to the ground (default true)
+        },
+        {
+            // Food Item Exemple
+            "Name": "",
+            "Description": "",
+            "Weight": 0,
+            "Icon": "",
+            "ItemPrice": 0,
+            "IsGiven": true, // Can Give this item (default false)
+            "IsUsable": true, // Can Use this item (default false)
+            "IsStackable": true, // Can make a stack in inventory (default true)
+            "IsDropable": true,// Can drop to the ground (default true)
+            "Thirst": 300,
+            "Hunger": 100,
+            "Metabolism": 250,
+            "Stamina": 200,
+            "InnerCoreHealth": 10,
+            "OuterCoreHealth": 5,
+            "InnerCoreHealthGold": 0.0,
+            "OuterCoreHealthGold": 500.0,
+            "InnerCoreStaminaGold": 200.0,
+            "OuterCoreStaminaGold": 1000.0,
+            "PropName": "p_mugCoffee01x",
+            "Animation": "drink"
+        }
+    ]
+}

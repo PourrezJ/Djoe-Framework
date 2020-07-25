@@ -17,11 +17,10 @@ namespace Shared
         public bool IsDropable { get; set; }
         public string Icon { get; set; }
         public double ItemPrice { get; set; }
-        public bool IsDockable { get; set; }
 
         public Dictionary<string, dynamic> Variables = new Dictionary<string, dynamic>();
 
-        public Item(ItemID id, string name, string description, double weight = 0, bool isGiven = false, bool isUsable = false, bool isStackable = true, bool isDropable = true, bool isDockable = false, double itemPrice = 0,
+        public Item(ItemID id, string name, string description, double weight = 0, bool isGiven = false, bool isUsable = false, bool isStackable = true, bool isDropable = true, double itemPrice = 0,
             string icon = "unknown-item")
         {
             this.Id = id;
@@ -33,7 +32,6 @@ namespace Shared
             this.IsStackable = isStackable;
             this.Icon = icon;
             this.IsDropable = isDropable;
-            this.IsDockable = isDockable;
             this.ItemPrice = itemPrice;
         }
 

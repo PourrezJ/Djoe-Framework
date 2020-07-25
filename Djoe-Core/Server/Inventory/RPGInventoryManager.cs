@@ -547,7 +547,7 @@ namespace Server
                                 }
                                 else
                                 {
-                                    client.SendNotificationError("Vous n'avez pas assez de place pour faire ça");
+                                    //client.SendNotificationError("Vous n'avez pas assez de place pour faire ça");
                                     return;
                                 }
 
@@ -559,7 +559,7 @@ namespace Server
                                     if (stack.Item.Id == ItemID.Bag)
                                     {
                                         menu.CloseMenu(client);
-                                        client.SendNotificationError("Euh ... non!");
+                                        //client.SendNotificationError("Euh ... non!");
                                         return;
                                     }
 
@@ -577,7 +577,7 @@ namespace Server
                                 }
                                 else
                                 {
-                                    client.SendNotificationError("Vous n'avez pas assez de place pour faire ça");
+                                    //client.SendNotificationError("Vous n'avez pas assez de place pour faire ça");
                                     return;
                                 }
 
@@ -600,7 +600,7 @@ namespace Server
                                 }
                                 else
                                 {
-                                    client.SendNotificationError("Vous n'avez pas assez de place pour faire ça");
+                                    //client.SendNotificationError("Vous n'avez pas assez de place pour faire ça");
                                     return;
                                 }
 

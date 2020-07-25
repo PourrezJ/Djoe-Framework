@@ -33,17 +33,7 @@ namespace Server.Utils.Extensions
             if (text == "")
                 return;
 
-            client.TriggerEvent("notify", "Notification", text, 7000);
-        }
-
-        public static void SendNotificationError(this Player client, string text)
-        {
-            client.TriggerEvent("alertNotify", "Erreur", text, 7000);
-        }
-
-        public static void SendNotificationSuccess(this Player client, string text)
-        {
-            client.TriggerEvent("successNotify", "Succès", text, 7000);
+            client.TriggerEvent("DisplayRightTip", text, 7000);
         }
         #endregion
 

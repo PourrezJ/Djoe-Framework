@@ -1,18 +1,16 @@
 ﻿using Newtonsoft.Json.Linq;
 using Server.Utils;
 using Shared;
-using System;
+using Shared.ItemsClass;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.Loader
 {
     public static class ItemLoader
     {
-        public static List<Item> BusinessesList = new List<Item>();
+        public static ConcurrentDictionary<int, Item> ItemList = new ConcurrentDictionary<int, Item>();
         public static void Init()
         {
             Logger.Info("--- Start loading all item in database ---");
@@ -25,15 +23,25 @@ namespace Server.Loader
             foreach (var file in files)
             {
                 var o = JObject.Parse(File.ReadAllText(file));
-                var jsonType = (int)o["StoreType"];
+                JObject[] items = o["Items"].ToObject<JObject[]>();
 
-                switch (jsonType)
+                foreach(var item in items)
                 {
+                    int id = (int)item["Id"];
+                    if (ItemList.ContainsKey(id))
+                    {
+                        Logger.Warn($"Item {(string)item["Name"]} use a existant id {id}");
+                        continue;
+                    }
 
+                    var cI = Item.DynamicToItem(item);
+
+                    if (cI != null)
+                        ItemList.TryAdd((int)cI.Id, cI);
                 }
             }
 
-            Logger.Info($"--- Finish loading all item in database: {BusinessesList.Count} ---");
+            Logger.Info($"--- Finish loading all item in database: {ItemList.Count} ---");
         }
 
         private static string MakePath(string relativePath = "") => "Items";

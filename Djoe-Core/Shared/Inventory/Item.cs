@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Shared.ItemsClass;
 using System;
 using System.Collections.Generic;
 
@@ -115,6 +116,34 @@ namespace Shared
         public dynamic GetData(string key) => Variables[key];
         public void ResetData(string key) => Variables[key] = null;
         public bool HasData(string key) => Variables.ContainsKey(key);
+
+        public static Item DynamicToItem(dynamic item)
+        {
+            int id = (int)item["Id"];
+
+            if (item["Thirst"] != null)
+            {
+                return item.ToObject<FoodItem>();
+            }
+            else if (item["WeaponHash"] != null)
+            {
+                return item.ToObject<WeaponItem>();
+            }
+            else if (item["Classes"] != null)
+            {
+                return item.ToObject<ClothesItem>();
+            }
+            else
+            {
+                try
+                {
+                    return item.ToObject<Item>();
+                }
+                catch { // Can't cast to Item
+                    return null;
+                }
+            }
+        }
 
         object ICloneable.Clone()
         {

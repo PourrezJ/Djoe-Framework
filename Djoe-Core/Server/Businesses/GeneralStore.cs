@@ -11,12 +11,16 @@ namespace Server.Stores
 {
     public class GeneralStore : Store
     {
+        public Dictionary<int, Item> ItemList = new Dictionary<int, Item>();
+
         public GeneralStore(string businnessName, UCoords location, BlipSprite blipSprite, BlipType blipType, PedHash pedhash = 0) : base(businnessName, location, blipSprite, blipType, pedhash)
         {
         }
 
         public override void Init()
         {
+
+
             base.Init();
         }
 

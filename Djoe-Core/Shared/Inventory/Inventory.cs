@@ -210,7 +210,7 @@ namespace Shared
 
             return quantityNeeded - value; // valeur supprimer
         }
-
+        /*
         public static Item ItemByID(ItemID id)
         {
             var item = Items.ItemsList.Find(i => i.Id == id) ?? null;
@@ -220,7 +220,7 @@ namespace Shared
 
             return item.CloneItem();
         }
-
+        */
         public Item GetItem(ItemID itemID)
         {
             ItemStack item = InventoryList.ToList().Find(p => p?.Item.Id == itemID);

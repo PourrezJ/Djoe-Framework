@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Server.Stores;
 using Server.Utils;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +30,30 @@ namespace Server.Loader
                 {
                     case (int)StoreType.GeneralStore:
                         var gs = o.ToObject<GeneralStore>();
+
+                        var itemList = o["Items"];
+
+                        foreach(var dynItem in itemList)
+                        {
+                            var itemID = (int)dynItem["Id"];
+
+                            if (ItemLoader.ItemList.ContainsKey(itemID))
+                            {
+                                var item = ItemLoader.ItemList[itemID];
+
+                                if (dynItem["Name"] != null)
+                                    item.Name = (string)dynItem["Name"];
+
+                                if (dynItem["Price"] != null)
+                                    item.ItemPrice = (double)dynItem["Price"];
+
+                                if (dynItem["Description"] != null)
+                                    item.Description = (string)dynItem["Description"];
+
+                                gs.ItemList.Add(itemID, item);
+                            }
+                        }
+
                         gs.Init();
                     break;
                 }

@@ -57,9 +57,9 @@
     <Compile Include="Inventory\InventoryTypes.cs" />
     <Compile Include="Inventory\Item.cs" />
     <Compile Include="Inventory\ItemID.cs" />
-    <Compile Include="Inventory\ItemsClass\BagItem.cs" />
-    <Compile Include="Inventory\ItemsClass\Items.cs" />
-    <Compile Include="Inventory\ItemsClass\Weapons.cs" />
+    <Compile Include="Inventory\ItemsClass\ClothesItem.cs" />
+    <Compile Include="Inventory\ItemsClass\FoodItem.cs" />
+    <Compile Include="Inventory\ItemsClass\WeaponItem.cs" />
     <Compile Include="Inventory\ItemStack.cs" />
     <Compile Include="Inventory\OutfitInventory.cs" />
     <Compile Include="ItemType.cs" />

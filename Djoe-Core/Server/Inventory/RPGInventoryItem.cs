@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Shared;
+using Shared.ItemsClass;
 
 namespace Server
 {
@@ -27,13 +28,16 @@ namespace Server
 
         public RPGInventoryItem(ItemStack stack, string inventoryType, int slotIndex)
         {
+            if (!(stack is ClothesItem))
+                return;
+
             Stack = stack;
             InventoryType = inventoryType;
             InventorySlot = slotIndex;
             Id = stack.Item.Id;
             Name = stack.Item.Name;
             Icon = stack.Item.Icon;
-            Classes = stack.Item.Classes;
+            Classes = (stack.Item as ClothesItem).Classes;
             Quantity = stack.Quantity;
             Usable = stack.Item.IsUsable;
             Givable = stack.Item.IsGiven;

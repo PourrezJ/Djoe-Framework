@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Inventory.ItemsClass
+namespace Shared.ItemsClass
 {
-    class FoodItem : Item
+    public class FoodItem : Item
     {
         public int Thirst;
         public int Hunger;

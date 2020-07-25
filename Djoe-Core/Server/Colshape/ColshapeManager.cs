@@ -4,6 +4,8 @@ using CitizenFX.Core;
 using System.Threading.Tasks;
 using Server;
 using System.Linq;
+using Server.Utils;
+using System.Threading;
 
 namespace Server.Colshape
 {
@@ -29,6 +31,12 @@ namespace Server.Colshape
         public ColshapeManager()
         {
             EventHandlers["playerDropped"] += new Action<Player, string>(OnPlayerDisconnect);
+
+            var thread = new Thread(Loop)
+            {
+                IsBackground = true
+            };
+            thread.Start();
         }
         #endregion
 
@@ -91,85 +99,103 @@ namespace Server.Colshape
             }
         }
 
-        [Tick]
-        public Task OnTick()
+        //[Tick]
+        public void Loop()
         {
-            lock (Colshapes)
+            while (true)
             {
-                foreach (IColshape colshape in Colshapes.Values)
+                DateTime startTime = DateTime.Now;
+                lock (Colshapes)
                 {
-                    lock (colshape.Entities)
-                    {                        
-                        foreach (Player entity in colshape.Entities)
-                        {
-                            if (!colshape.IsEntityInside(entity))
-                            {
-                                _entitiesToRemove.Add(entity);
-
-                                OnPlayerLeaveColshape?.Invoke(colshape, entity);
-
-                                entity.TriggerEvent("OnPlayerLeaveColshape", colshape.Id);
-                            }
-                        }
-
-                        if (_entitiesToRemove.Count > 0)
-                        {
-                            foreach (Player entity in _entitiesToRemove)
-                                colshape.RemoveEntity(entity);
-
-                            _entitiesToRemove.Clear();
-                        }
-                    }
-                }
-            }
-
-            lock (Players)
-            {
-                foreach(var player in Players)
-                {
-                    lock (Colshapes)
+                    foreach (IColshape colshape in Colshapes.Values)
                     {
-                        foreach (IColshape colshape in Colshapes.Values)
+                        lock (colshape.Entities)
                         {
-                            if (!colshape.IsEntityIn(player) && colshape.IsEntityInside(player))
+                            foreach (Player entity in colshape.Entities)
                             {
-                                colshape.AddEntity(player);
-                                OnPlayerEnterColshape?.Invoke(colshape, player);
-                                player.TriggerEvent("OnPlayerEnterColshape", colshape.Id);
+                                if (!colshape.IsEntityInside(entity))
+                                {
+                                    _entitiesToRemove.Add(entity);
+
+                                    OnPlayerLeaveColshape?.Invoke(colshape, entity);
+
+                                    entity.TriggerEvent("OnPlayerLeaveColshape", colshape.Id);
+                                    Logger.Debug($"[Colshape {colshape.Id}] Player {entity.Name} leaving, {Math.Round((DateTime.Now - startTime).TotalMilliseconds, 4)}ms, Entities: {colshape.Entities.Count - _entitiesToRemove.Count}");
+
+                                }
+                            }
+
+                            if (_entitiesToRemove.Count > 0)
+                            {
+                                foreach (Player entity in _entitiesToRemove)
+                                    colshape.RemoveEntity(entity);
+
+                                _entitiesToRemove.Clear();
                             }
                         }
                     }
                 }
-            }
 
-            return Task.FromResult(0);
+                lock (Players)
+                {
+                    foreach (var player in Players)
+                    {
+                        lock (Colshapes)
+                        {
+                            foreach (IColshape colshape in Colshapes.Values)
+                            {
+                                if (!colshape.IsEntityIn(player) && colshape.IsEntityInside(player))
+                                {
+                                    colshape.AddEntity(player);
+                                    OnPlayerEnterColshape?.Invoke(colshape, player);
+                                    player.TriggerEvent("OnPlayerEnterColshape", colshape.Id);
+                                    Logger.Debug($"[Colshape {colshape.Id}] Player {player.Name} entering, {Math.Round((DateTime.Now - startTime).TotalMilliseconds, 4)}ms, Entities: {colshape.Entities.Count}");
+
+                                }
+                            }
+                        }
+                    }
+                }
+                Thread.Sleep(25);
+            }
+            //return Task.FromResult(0);
         }
 
-        private static void OnEntityInteractInColshape(Player client, object[] args)
+        public static void OnEntityInteractInColshape(Player client)
         {
             try
             {
-                if (args[0] == null || (long)args[0] != 69)
-                {
-                    Debug.WriteLine($"[OnEntityInteractInColshape] Error args[0]: {args[0]}");
-                        return;
-                }
+                DateTime startTime = DateTime.Now;
 
                 lock (Colshapes)
                 {
-                    IColshape colshape = Colshapes[(long)args[1]];
-
-                    if (colshape.IsEntityIn(client))
+                    foreach (var colshape in Colshapes)
                     {
-                        colshape.PlayerInteractInColshape(client);
-                        OnPlayerInteractInColshape?.Invoke(colshape, client);       
+                        if (colshape.Value.IsEntityIn(client))
+                        {
+                            colshape.Value.PlayerInteractInColshape(client);
+                            OnPlayerInteractInColshape?.Invoke(colshape.Value, client);
+                            Logger.Debug($"[Colshape {colshape.Value.Id}] Player {client.Name} interacting, {Math.Round((DateTime.Now - startTime).TotalMilliseconds, 4)}ms, Entities: {colshape.Value.Entities.Count}");
+
+                            return;
+                        }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                Logger.Exception(ex);
             }
+        }
+
+        public static bool IsInColShape(Player entity)
+        {
+            foreach (var colshape in Colshapes)
+            {
+                if (colshape.Value.IsEntityIn(entity))
+                    return true;
+            }
+            return false;
         }
         #endregion
     }

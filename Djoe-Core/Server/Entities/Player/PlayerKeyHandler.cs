@@ -18,15 +18,19 @@ namespace Server.Entities
 
             switch (control)
             {
-                case (uint)Control.Loot:
-                    
+                case (uint)Control.Loot: // E
+                    if (Colshape.ColshapeManager.IsInColShape(player))
+                    {
+                        Colshape.ColshapeManager.OnEntityInteractInColshape(player);
+                        return;
+                    }
                     break;
 
-                case (uint)Control.QuickUseItem:
+                case (uint)Control.QuickUseItem: // I
                     PlayerManager.OpenInventory(player);
                     break;
 
-                case (uint)Control.SelectItemWheel:
+                case (uint)Control.SelectItemWheel: // F4
                     PlayerMenu.OpenMenu(player);
                     break;
             }

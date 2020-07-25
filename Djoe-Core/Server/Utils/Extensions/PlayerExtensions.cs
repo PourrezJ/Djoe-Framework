@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Shared;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -58,7 +59,6 @@ namespace Server.Utils.Extensions
                 return null;
 
             var sid = player.Identifiers["steam"];
-
             if (PlayerManager.Characters.ContainsKey(sid))
             {
                 return PlayerManager.Characters[sid];

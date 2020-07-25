@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System;
 using CitizenFX.Core;
-using ClientExtended.External;
 using System.Threading.Tasks;
+using Server;
+using System.Linq;
 
-namespace Client.Colshape
+namespace Server.Colshape
 {
     #region Delegates
     public delegate void ColshapePlayerEventHandler(IColshape colshape, Player client);
@@ -12,12 +13,10 @@ namespace Client.Colshape
 
     public class ColshapeManager : BaseScript
     {
-        #region Private static fields
+        #region Fields
         private static volatile uint _colshapeId = 0;
-        private static readonly Dictionary<long, IColshape> _colshapes = new Dictionary<long, IColshape>();
         private static readonly HashSet<Player> _entitiesToRemove = new HashSet<Player>();
-
-        private static List<IColshape> NetworkColshapes = new List<IColshape>();
+        public static readonly Dictionary<long, IColshape> Colshapes = new Dictionary<long, IColshape>();
         #endregion
 
         #region Events
@@ -29,34 +28,25 @@ namespace Client.Colshape
         #region Init
         public ColshapeManager()
         {
-            EventHandlers["CreateColshape"] += new Action<Player, int, Vector3, float, int>(CreateColshape);
+            EventHandlers["playerDropped"] += new Action<Player, string>(OnPlayerDisconnect);
         }
         #endregion
 
         #region Event handlers
-        private static void CreateColshape(Player player, int id, Vector3 position, float range, int type)
+
+        public static void OnPlayerConnect(Player player)
         {
-            IColshape colshape = null;
-
-            switch (type)
+            lock (Colshapes)
             {
-                case 0:
-                    colshape = ColshapeManager.CreateCylinderColshape(position, range, range);
-                break;
-
-                case 1:
-                    colshape = ColshapeManager.CreateSphereColshape(position, range);
-                break;
+                
             }
-
-            NetworkColshapes.Add(colshape);
         }
 
-        public static void OnPlayerDisconnect(Player player, string reason)
+        public static void OnPlayerDisconnect([FromSource]Player player, string reason)
         {
-            lock (_colshapes)
+            lock (Colshapes)
             {
-                foreach (IColshape colshape in _colshapes.Values)
+                foreach (IColshape colshape in Colshapes.Values)
                 {
                     if (colshape.IsEntityIn(player))
                     {
@@ -71,11 +61,11 @@ namespace Client.Colshape
         #region Public static methods
         public static IColshape CreateCylinderColshape(Vector3 position, float radius, float height)
         {
-            IColshape colshape = new CylinderColshape(_colshapeId++, position, radius, height);
+            IColshape colshape = new CylinderColshape(_colshapeId++, position - new Vector3(0, 0, 1), radius, height);
 
-            lock (_colshapes)
+            lock (Colshapes)
             {
-                _colshapes.Add(colshape.Id, colshape);
+                Colshapes.Add(colshape.Id, colshape);
             }
 
             return colshape;
@@ -83,11 +73,11 @@ namespace Client.Colshape
 
         public static IColshape CreateSphereColshape(Vector3 position, float radius)
         {
-            IColshape colshape = new SphereColshape(_colshapeId++, position, radius);
+            IColshape colshape = new SphereColshape(_colshapeId++, position - new Vector3(0, 0, 1), radius);
 
-            lock (_colshapes)
+            lock (Colshapes)
             {
-                _colshapes.Add(colshape.Id, colshape);
+                Colshapes.Add(colshape.Id, colshape);
             }
 
             return colshape;
@@ -95,18 +85,18 @@ namespace Client.Colshape
 
         public static void DeleteColshape(IColshape colshape)
         {
-            lock (_colshapes)
+            lock (Colshapes)
             {
-                _colshapes.Remove(colshape.Id);
+                Colshapes.Remove(colshape.Id);
             }
         }
 
         [Tick]
         public Task OnTick()
         {
-            lock (_colshapes)
+            lock (Colshapes)
             {
-                foreach (IColshape colshape in _colshapes.Values)
+                foreach (IColshape colshape in Colshapes.Values)
                 {
                     lock (colshape.Entities)
                     {                        
@@ -118,8 +108,7 @@ namespace Client.Colshape
 
                                 OnPlayerLeaveColshape?.Invoke(colshape, entity);
 
-                                if (NetworkColshapes.Contains(colshape))
-                                    BaseScript.TriggerServerEvent("OnPlayerLeaveColshape", colshape.Id);
+                                entity.TriggerEvent("OnPlayerLeaveColshape", colshape.Id);
                             }
                         }
 
@@ -133,20 +122,26 @@ namespace Client.Colshape
                     }
                 }
             }
-            
-            lock (_colshapes)
+
+            lock (Players)
             {
-                foreach (IColshape colshape in _colshapes.Values)
+                foreach(var player in Players)
                 {
-                    if (!colshape.IsEntityIn(Game.Player) && colshape.IsEntityInside(Game.Player))
+                    lock (Colshapes)
                     {
-                        colshape.AddEntity(Game.Player);
-                        OnPlayerEnterColshape?.Invoke(colshape, Game.Player);
-                        if (NetworkColshapes.Contains(colshape))
-                            BaseScript.TriggerServerEvent("OnPlayerEnterColshape", colshape.Id);
+                        foreach (IColshape colshape in Colshapes.Values)
+                        {
+                            if (!colshape.IsEntityIn(player) && colshape.IsEntityInside(player))
+                            {
+                                colshape.AddEntity(player);
+                                OnPlayerEnterColshape?.Invoke(colshape, player);
+                                player.TriggerEvent("OnPlayerEnterColshape", colshape.Id);
+                            }
+                        }
                     }
                 }
             }
+
             return Task.FromResult(0);
         }
 
@@ -160,9 +155,9 @@ namespace Client.Colshape
                         return;
                 }
 
-                lock (_colshapes)
+                lock (Colshapes)
                 {
-                    IColshape colshape = _colshapes[(long)args[1]];
+                    IColshape colshape = Colshapes[(long)args[1]];
 
                     if (colshape.IsEntityIn(client))
                     {

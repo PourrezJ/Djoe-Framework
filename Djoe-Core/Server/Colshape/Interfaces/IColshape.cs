@@ -1,8 +1,7 @@
 ﻿using CitizenFX.Core;
-using ClientExtended.External;
 using System.Collections.Generic;
 
-namespace Client.Colshape
+namespace Server.Colshape
 {
     public interface IColshape
     {

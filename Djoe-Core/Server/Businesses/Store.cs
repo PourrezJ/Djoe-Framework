@@ -1,10 +1,12 @@
 ﻿using CitizenFX.Core;
+using Server.Colshape;
 using Newtonsoft.Json;
 using Server.Controllers;
 using Server.Entities;
 using Server.Loader;
 using Server.Utils.Enums;
 using Shared;
+using System;
 
 namespace Server.Stores
 {
@@ -51,6 +53,10 @@ namespace Server.Stores
             if (PedHash != 0)
             {
                 Ped = PedsManager.CreatePed(PedHash, Location, false, false);
+                var colshape = ColshapeManager.CreateCylinderColshape(Location.ToVector3(), 10, 3);
+                colshape.OnPlayerEnterColshape += OnPlayerEnterColshape;
+                colshape.OnPlayerLeaveColshape += OnPlayerLeaveColshape;
+                colshape.OnPlayerInteractInColshape += OnPlayerInteractInColshape;
             }
 
             Blip = BlipsManager.CreateBlip(BusinnessName, (BlipSprite)BlipSprite, BlipType.WeaponWhite, Location.ToVector3(), Location.Heading);
@@ -60,10 +66,25 @@ namespace Server.Stores
                 StoreLoader.BusinessesList.Add(this);
             }
         }
+
+        private void OnPlayerInteractInColshape(IColshape colshape, Player client)
+        {
+            Console.WriteLine("OnPlayerInteractInColshape");
+        }
+
+        private void OnPlayerLeaveColshape(IColshape colshape, Player client)
+        {
+            Console.WriteLine("OnPlayerLeaveColshape");
+        }
+
+        private void OnPlayerEnterColshape(IColshape colshape, Player client)
+        {
+            Console.WriteLine("OnPlayerEnterColshape");
+        }
         #endregion
 
         #region Events
-        
+
         public void OnNpcFirstInteract(Player client, PedNetwork npc = null)
         {
             OpenMenu(client, npc);

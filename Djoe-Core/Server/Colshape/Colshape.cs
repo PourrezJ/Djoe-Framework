@@ -1,9 +1,8 @@
 ﻿using CitizenFX.Core;
-using ClientExtended.External;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Client.Colshape
+namespace Server.Colshape
 {
     public abstract class Colshape : IColshape
     {

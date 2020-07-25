@@ -59,11 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Colshape\Colshape.cs" />
-    <Compile Include="Colshape\ColshapeManager.cs" />
-    <Compile Include="Colshape\CylinderColshape.cs" />
-    <Compile Include="Colshape\Interfaces\IColshape.cs" />
-    <Compile Include="Colshape\SphereColshape.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Controllers\BlipsManager.cs" />
     <Compile Include="Controllers\PedsManager.cs" />

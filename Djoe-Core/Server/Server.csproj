@@ -72,6 +72,11 @@
   <ItemGroup>
     <Compile Include="Businesses\Store.cs" />
     <Compile Include="Businesses\GeneralStore.cs" />
+    <Compile Include="Colshape\Colshape.cs" />
+    <Compile Include="Colshape\ColshapeManager.cs" />
+    <Compile Include="Colshape\CylinderColshape.cs" />
+    <Compile Include="Colshape\Interfaces\IColshape.cs" />
+    <Compile Include="Colshape\SphereColshape.cs" />
     <Compile Include="Controllers\BlipsManager.cs" />
     <Compile Include="Database\MongoDB.cs" />
     <Compile Include="Entities\PedsManager.cs" />

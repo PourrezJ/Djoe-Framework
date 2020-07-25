@@ -1,9 +1,10 @@
 ﻿using CitizenFX.Core;
-using ClientExtended.External;
+using Server.Utils.Extensions;
+using System;
 using System.Runtime.ExceptionServices;
 using System.Security;
 
-namespace Client.Colshape
+namespace Server.Colshape
 {
     public class CylinderColshape : Colshape
     {
@@ -24,12 +25,19 @@ namespace Client.Colshape
         {
             lock (entity)
             {
-                if (entity.Character == null)
-                    return false;
-                if (entity.Character.Position.Z < Position.Z || entity.Character.Position.Z > Position.Z + Height)
+                /*
+                if (entity.Character == null) < -- can't work server side on RedM | FiveM without OneSync
+                    return false;*/
+
+                var data = entity?.GetPlayerDatabase();
+
+                if (data == null)
                     return false;
 
-                return IsPositionInside(entity.Character.Position);
+                if (data.LastCoord.Z < Position.Z || data.LastCoord.Z > Position.Z + Height)
+                    return false;
+
+                return IsPositionInside(data.LastCoord.ToVector3());
             }
         }
 

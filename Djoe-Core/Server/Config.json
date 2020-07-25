@@ -1,0 +1,24 @@
+{
+  "defaultlang": "Fr",
+
+  "Whitelist": false,
+
+  // Database
+  // Si Host est vide, la connection local sera utilisé
+  "Host": "",
+  "Database": "RedM",
+  "User": "",
+  "Password": "",
+  "Port": 0,
+
+  "FirstSpawnCoord": {
+    "X": -366.431,
+    "Y": 727.4282,
+    "Z": 0,
+    "Heading": 0
+  },
+
+  //StartingMoney
+  "StartingMoney": 0,
+  "StartingBankMoney": 0
+}

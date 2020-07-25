@@ -1,0 +1,171 @@
+﻿using CitizenFX.Core.Native;
+using System.Collections.Generic;
+
+namespace ClientExtended.External
+{
+    public static class Game
+    {
+        private static Player _player;
+        public static Player Player
+        {
+            get {
+                var handle = API.PlayerId();
+                if (_player != null && handle == _player.Handle)
+                {
+                    return _player;
+                }
+                _player = new Player(handle);
+                return _player;
+            }
+        }
+
+        public static List<Player> Players
+        {
+            get
+            {
+                List<Player> players = new List<Player>();
+
+                for (int i = 0; i < 256; i++)
+                {
+                    if (Function.Call<bool>(Hash.NETWORK_IS_PLAYER_CONNECTED, i))
+                    {
+                        players.Add(new Player(Function.Call<int>(Hash.NETWORK_GET_ENTITY_FROM_NETWORK_ID, i)));
+                    }
+                }
+                return players;
+            }
+        }
+
+        public static Ped PlayerPed => Player.Character;
+
+        public static int PlayerMoney
+        {
+            get => Function.Call<int>(Hash._MONEY_GET_CASH_BALANCE);
+            set {
+                var source = PlayerMoney;
+                var target = value;
+                if (target < source)
+                {
+                    Function.Call(Hash._MONEY_DECREMENT_CASH_BALANCE, source - target);
+                }
+                else
+                {
+                    Function.Call(Hash._MONEY_INCREMENT_CASH_BALANCE, target - source);
+                }
+            }
+        }
+
+        public static bool IsPauseMenuActive => Function.Call<bool>(Hash.IS_PAUSE_MENU_ACTIVE);
+
+
+        public static bool IsCinematicModeEnabled
+        {
+            set => Function.Call(Hash.SET_CINEMATIC_BUTTON_ACTIVE, value);
+        }
+
+        public static bool IsCinematicModeActive
+        {
+            set => Function.Call(Hash.SET_CINEMATIC_MODE_ACTIVE, value);
+        }
+
+        public static int GenerateHash(string name)
+        {
+            return Function.Call<int>(Hash.GET_HASH_KEY, name);
+        }
+
+        public static bool IsControlPressed(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_DISABLED_CONTROL_PRESSED, index, (uint)control);
+        }
+
+        public static bool IsControlJustPressed(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_DISABLED_CONTROL_JUST_PRESSED, index, (uint)control);
+        }
+
+        public static bool IsControlJustReleased(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_DISABLED_CONTROL_JUST_RELEASED, index, (uint)control);
+        }
+
+        public static bool IsEnabledControlPressed(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_CONTROL_PRESSED, index, (uint)control);
+        }
+
+        public static bool IsEnabledControlJustPressed(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_CONTROL_JUST_PRESSED, index, (uint)control);
+        }
+
+        public static bool IsEnabledControlReleased(int index, Control control)
+        {
+            return !IsPauseMenuActive && Function.Call<bool>(Hash.IS_CONTROL_RELEASED, index, (uint)control);
+        }
+
+        public static bool IsEnabledControlJustReleased(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_CONTROL_JUST_RELEASED, index, (uint)control);
+        }
+
+        public static bool IsControlEnabled(int index, Control control)
+        {
+            return Function.Call<bool>(Hash.IS_CONTROL_ENABLED, index, (uint)control);
+        }
+
+        public static float GetControlNormal(int index, Control control)
+        {
+            return Function.Call<float>(Hash.GET_CONTROL_NORMAL, index, (uint)control);
+        }
+
+        public static void SetControlNormal(int index, Control control, float value)
+        {
+            Function.Call(Hash._SET_CONTROL_NORMAL, index, (uint)control, value);
+        }
+
+        public static void DisableControlThisFrame(int index, Control control)
+        {
+            Function.Call(Hash.DISABLE_CONTROL_ACTION, index, control, true);
+        }
+
+        public static float GetDisabledControlNormal(int index, Control control)
+        {
+            return Function.Call<float>(Hash.GET_DISABLED_CONTROL_NORMAL, index, (uint)control);
+        }
+
+        public static bool IsDisabledControlJustPressed(int index, Control control)
+        {
+            return IsControlJustPressed(index, control) && !IsControlEnabled(index, control);
+        }
+
+        public static bool IsDisabledControlJustReleased(int index, Control control)
+        {
+            return IsControlJustReleased(index, control) && !IsControlEnabled(index, control);
+        }
+
+        public static void Pause(bool value)
+        {
+            Function.Call(Hash.SET_GAME_PAUSED, value);
+        }
+
+        public static void PauseClock(bool value)
+        {
+            Function.Call(Hash.PAUSE_CLOCK, value);
+        }
+
+        public static bool DoesGXTEntryExist(string entry)
+        {
+            return Function.Call<bool>(Hash.DOES_TEXT_LABEL_EXIST, entry);
+        }
+
+        public static string GetGXTEntry(string entry)
+        {
+            return DoesGXTEntryExist(entry) ? Function.Call<string>(Hash._GET_LABEL_TEXT, entry) : string.Empty;
+        }
+
+        public static int GetHashKey(string key)
+        {
+            return Util.GetHashKey(key);
+        }
+    }
+}

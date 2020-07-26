@@ -55,7 +55,13 @@ namespace Server.Stores
 
         private void OnItemSelectCallBack(Player client, Menu menu, IMenuItem menuItem, int itemIndex)
         {
+            if (!(menuItem is ListItem))
+                return;
+
             ListItem listItem = (menuItem as ListItem);
+
+            if (listItem.SelectedItem == 0)
+                return;
 
             var item = ItemList[itemIndex];
             var itemPrice = item.ItemPrice;
@@ -68,11 +74,19 @@ namespace Server.Stores
 
             if (playerData.HasMoney(totalPrice))
             {
-                playerData.PocketInventory.AddItem(item, listItem.SelectedItem, false);
+                if (playerData.PocketInventory.AddItem(item, listItem.SelectedItem, false))
+                {
+                    client.SendTipRightNotification($"Vous venez d'acheter  ~e~{((listItem.SelectedItem == 1) ? "un(e)" : listItem.SelectedItem.ToString())} " + item.Name 
+                       + $"\n~q~pour la somme de ~e~${totalPrice}");
+                }
+                else
+                {
+                    client.SendTipRightNotification($"Vous n'avez pas la place dans votre sacoche pour {((listItem.SelectedItem == 1) ? "un(e)" : listItem.SelectedItem.ToString())} ~e~" + item.Name);
+                }
             }
             else
             {
-
+                client.SendTipRightNotification($"Vous n'avez pas assez d'argent pour  ~e~{((listItem.SelectedItem == 1) ? "un(e)" : listItem.SelectedItem.ToString())} " + item.Name);
             }
         }
 

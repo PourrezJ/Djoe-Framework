@@ -3,6 +3,25 @@ using System;
 
 namespace Client.Ui
 {
+        //    Colors: 
+        //~e~Red
+        //~o~Yellow
+        //~d~Orange
+        //~m~Grey
+        //~q~White
+        //~t~Light Grey
+        //~v~Black
+        //~u~Pink
+        //~pa~Blue
+        //~t1~Purple
+        //~t2~Orange
+        //~t3~Light Blue
+        //~t4~Yellow
+        //~t5~Light Pink
+        //~t6~Green
+        //~t7~Dark Blue
+        //~t8~Light RedIsh
+
     public class Notifications : BaseScript
     {
         public static Notifications Instance;

@@ -35,6 +35,22 @@ namespace Server.Utils.Extensions
 
             client.TriggerEvent("djoe:Tip", text, duration);
         }
+
+        public static void SendTipRightNotification(this Player client, string text, int duration = 7000)
+        {
+            if (text == "")
+                return;
+
+            client.TriggerEvent("djoe:TipRight", text, duration);
+        }
+
+        public static void SendTipBottomNotification(this Player client, string text, int duration = 7000)
+        {
+            if (text == "")
+                return;
+
+            client.TriggerEvent("djoe:TipBottom", text, duration);
+        }
         #endregion
 
         #region Misc

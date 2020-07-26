@@ -23,27 +23,27 @@ namespace Client.Ui
         {
             await Utils.Misc.LoadTexture(dic);
 
-            Instance.Exports["vorp_core"].DisplayLeftNotification(title, text, dic, icon, miliseconds);
+            Instance.Exports["djoe_core"].DisplayLeftNotification(title, text, dic, icon, miliseconds);
         }
 
         public static void NotifyDisplayTopCenterNotification(string text, string location, int miliseconds)
         {
-            Instance.Exports["vorp_core"].DisplayTopCenterNotification(text, location, miliseconds);
+            Instance.Exports["djoe_core"].DisplayTopCenterNotification(text, location, miliseconds);
         }
 
         public static void NotifyDisplayObjetive(string text, int miliseconds)
         {
-            Instance.Exports["vorp_core"].DisplayObjetive(text, miliseconds);
+            Instance.Exports["djoe_core"].DisplayObjetive(text, miliseconds);
         }
 
         public static void NotifyDisplayRightTip(string text, int miliseconds)
         {
-            Instance.Exports["vorp_core"].DisplayRightTip(text, miliseconds);
+            Instance.Exports["djoe_core"].DisplayRightTip(text, miliseconds);
         }
 
         public static void NotifyTip(string text, int miliseconds)
         {
-            Instance.Exports["vorp_core"].DisplayTip(text, miliseconds);
+            Instance.Exports["djoe_core"].DisplayTip(text, miliseconds);
         }
     }
 }

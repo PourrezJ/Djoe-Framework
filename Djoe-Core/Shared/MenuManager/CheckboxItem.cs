@@ -7,11 +7,10 @@
         #endregion
 
         #region Constructor
-        public CheckboxItem(string text, string description, string id, bool isChecked, bool executeCallback = false) : base(text, description, id)
+        public CheckboxItem(string text, string description, string id, bool isChecked) : base(text, description, id)
         {
             Type = MenuItemType.CheckboxItem;
             Checked = isChecked;
-            ExecuteCallback = executeCallback;
         }
         #endregion
 

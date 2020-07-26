@@ -41,31 +41,31 @@ namespace Server.Menus
                 for (int a = 0; a < onlinePlayer.Count; a++)
                     players.Add(onlinePlayer[a].identity.ToString());
 
-                Menu.Add(new ListItem("Choix Joueur", "Sélection du joueur destinataire", "Id_ChoisePlayer", players, 0, true, true));
+                Menu.Add(new ListItem("Choix Joueur", "Sélection du joueur destinataire", "Id_ChoisePlayer", players, 0, true));
 
-                var kickItem = new MenuItem("Kick", "", "Id_Kick", true);
+                var kickItem = new MenuItem("Kick", "", "Id_Kick");
                 kickItem.SetInput("Raison", 99, InputType.Text);
                 Menu.Add(kickItem);
 
-                var banItem = new MenuItem("Ban", "", "Id_Ban", true);
+                var banItem = new MenuItem("Ban", "", "Id_Ban");
                 banItem.SetInput("Raison", 99, InputType.Text);
                 Menu.Add(banItem);
 
-                var horseItem = new MenuItem("Spawn Chevaux", "", "Id_SpawnHorse", true);
+                var horseItem = new MenuItem("Spawn Chevaux", "", "Id_SpawnHorse");
                 horseItem.SetInput("", 99, InputType.Text);
                 Menu.Add(horseItem);
 
-                var vehicleItem = new MenuItem("Spawn Vehicule", "", "Id_SpawnVehicle", true);
+                var vehicleItem = new MenuItem("Spawn Vehicule", "", "Id_SpawnVehicle");
                 vehicleItem.SetInput("", 99, InputType.Text);
                 Menu.Add(vehicleItem);
 
-                var weaponItem = new MenuItem("Give Weapon", "", "Id_Weapon", true);
+                var weaponItem = new MenuItem("Give Weapon", "", "Id_Weapon");
                 weaponItem.SetInput("", 99, InputType.Text);
                 Menu.Add(weaponItem);
 
-                Menu.Add(new CheckboxItem("Invisible", "", "Id_Invisible", false, true));
-                Menu.Add(new CheckboxItem("GodMode", "", "Id_GodMode", false, true)); 
-                Menu.Add(new CheckboxItem("NoClip", "", "Id_NoClip", false, true));
+                Menu.Add(new CheckboxItem("Invisible", "", "Id_Invisible", false));
+                Menu.Add(new CheckboxItem("GodMode", "", "Id_GodMode", false)); 
+                Menu.Add(new CheckboxItem("NoClip", "", "Id_NoClip", false));
                 
             }
 

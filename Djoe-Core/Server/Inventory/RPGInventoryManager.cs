@@ -377,7 +377,7 @@ namespace Server
 
                             if (phDistant.AddItem(invItem.Stack.Item, quantity))
                             {
-                                menu.DistantPlayer.SendNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
+                                menu.DistantPlayer.SendTipNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
 
@@ -388,7 +388,7 @@ namespace Server
                                 return;
                             if (phDistant.AddItem(invItem.Stack.Item, quantity))
                             {
-                                menu.DistantPlayer.SendNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
+                                menu.DistantPlayer.SendTipNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
 
@@ -399,7 +399,7 @@ namespace Server
                                 return;
                             if (phDistant.AddItem(invItem.Stack.Item, quantity))
                             {
-                                menu.DistantPlayer.SendNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
+                                menu.DistantPlayer.SendTipNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
                             break;
@@ -409,7 +409,7 @@ namespace Server
                                 return;
                             if (phDistant.AddItem(invItem.Stack.Item, quantity))
                             {
-                                menu.DistantPlayer.SendNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
+                                menu.DistantPlayer.SendTipNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
                             RPGInventory_SetPlayerProps(client, invItem.Stack.Item);

@@ -24,7 +24,6 @@ namespace Shared.MenuManager
         //public BadgeStyle? LeftBadge { get; set; }
         //public BadgeStyle? RightBadge { get; set; }
         //public string RightLabel { get; set; }
-        public bool ExecuteCallback { get; set; }
         public bool InputSetRightLabel { get; set; }
         public string InputValue { get; set; }
         public byte? InputMaxLength { get; set; }
@@ -38,7 +37,7 @@ namespace Shared.MenuManager
         #endregion
 
         #region Constructor
-        public MenuItem(string text, string description = null, string id = null, bool executeCallback = false, string rightLabel = "")
+        public MenuItem(string text, string description = null, string id = null, string rightLabel = "")
         {
             Type = MenuItemType.MenuItem;
 
@@ -65,7 +64,6 @@ namespace Shared.MenuManager
             else
                 RightLabel = rightLabel;
                 */
-            ExecuteCallback = executeCallback;
             InputSetRightLabel = false;
             InputValue = null;
             InputMaxLength = null;

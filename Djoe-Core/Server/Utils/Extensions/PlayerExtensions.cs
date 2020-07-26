@@ -28,12 +28,12 @@ namespace Server.Utils.Extensions
         #endregion
 
         #region Notification
-        public static void SendNotification(this Player client, string text)
+        public static void SendTipNotification(this Player client, string text, int duration = 7000)
         {
             if (text == "")
                 return;
 
-            client.TriggerEvent("DisplayRightTip", text, 7000);
+            client.TriggerEvent("djoe:Tip", text, duration);
         }
         #endregion
 

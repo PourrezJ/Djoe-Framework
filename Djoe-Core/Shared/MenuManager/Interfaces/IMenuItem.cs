@@ -3,7 +3,6 @@
     public interface IMenuItem
     {
         string Description { get; set; }
-        bool ExecuteCallback { get; set; }
         string Id { get; set; }
         byte? InputMaxLength { get; set; }
         bool InputSetRightLabel { get; set; }

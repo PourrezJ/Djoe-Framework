@@ -51,7 +51,6 @@ namespace Shared.MenuManager
                 string Id = (string)item["Id"];
                 string Text = (string)item["Text"];
                 string Description = (string)item["Description"];
-                bool ExecuteCallback = (bool)item["ExecuteCallback"];
                 bool InputSetRightLabel = (bool)item["InputSetRightLabel"];
                 bool InputErrorResetValue = (bool)item["InputErrorResetValue"];
                 string LeftBadge = (string)item["LeftBadge"];
@@ -63,22 +62,22 @@ namespace Shared.MenuManager
                 {
                     case MenuItemType.ColoredItem:
                     case MenuItemType.MenuItem:
-                        menuitem = new MenuItem(Text, Description, Id, ExecuteCallback, RightLabel);
+                        menuitem = new MenuItem(Text, Description, Id, RightLabel);
                         break;
 
                     case MenuItemType.CheckboxItem:
-                        menuitem = new CheckboxItem(Text, Description, Id, (bool)item["Checked"], ExecuteCallback);
+                        menuitem = new CheckboxItem(Text, Description, Id, (bool)item["Checked"]);
                         break;
 
                     case MenuItemType.ListItem:
                         JArray a = (JArray)item["Items"];
                         List<string> items = a.ToObject<List<string>>();
                         int SelectedItem = (int)item["SelectedItem"];
-                        menuitem = new ListItem(Text, Description, Id, items, SelectedItem, ExecuteCallback);
+                        menuitem = new ListItem(Text, Description, Id, items, SelectedItem);
                         break;
 
                     default:
-                        menuitem = new MenuItem(Text, Description, Id, ExecuteCallback, RightLabel);
+                        menuitem = new MenuItem(Text, Description, Id, RightLabel);
                         break;
                 }
 

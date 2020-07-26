@@ -20,13 +20,21 @@ namespace Client
         private static Menu menuData;
         private static UIMenu uiMenu;
 
-        private static List<MenuItem> listItem;
-
+        public static MenuOpenedDelegate OpenMenuCallback { get; set; }
         public static ItemCallBackDelegate ItemCallBack { get; set; }
+        public static ListIndexChangeDelegate ListIndexChangeCallBack { get; set; }
+        public static CheckBoxChangeDelegate CheckBoxChangeCallBack { get; set; }
+        public static IndexChangeDelegate IndexChangeCallBack { get; set; }
+        public static MenuClosedDelegate MenuClosedCallBack { get; set; }
         #endregion
 
         #region Delegates
-        public delegate void ItemCallBackDelegate(UIMenu menu, MenuItem menuItem, string input = "");
+        public delegate void MenuOpenedDelegate(UIMenu uimenu, Menu menu);
+        public delegate void ItemCallBackDelegate(Menu menu, UIMenu uimenu, MenuItem menuItem, MenuAPI.MenuItem uiMenuItem, string input = "");
+        public delegate void ListIndexChangeDelegate(Menu menu, UIMenu uimenu, MenuAPI.MenuListItem listItem, int oldSelectionIndex, int newSelectionIndex, int itemIndex);
+        public delegate void CheckBoxChangeDelegate(Menu menu, UIMenu uimenu, MenuAPI.MenuCheckboxItem menuItem, int itemIndex, bool newCheckedState);
+        public delegate void IndexChangeDelegate(Menu menu, UIMenu uimenu, MenuAPI.MenuItem oldItem, MenuAPI.MenuItem newItem, int oldIndex, int newIndex);
+        public delegate void MenuClosedDelegate(Menu menu, UIMenu uimenu);
         #endregion
 
         #region Constructor
@@ -50,7 +58,11 @@ namespace Client
                 uiMenu = null;
             }
 
+            Debug.WriteLine(JsonConvert.SerializeObject(menuData.Items));
+
             uiMenu = new UIMenu(!string.IsNullOrEmpty(menuData.Title) ? menuData.Title : " ", menuData.SubTitle);
+
+            OpenMenuCallback?.Invoke(uiMenu, menuData);
 
             if (menuData.BannerSprite != null)
                 uiMenu.HeaderTexture = new KeyValuePair<string, string>(menuData.BannerSprite.Dict, menuData.BannerSprite.Name);
@@ -70,6 +82,7 @@ namespace Client
                 else if (CanClose())
                 {
                     CloseMenu();
+                    MenuClosedCallBack?.Invoke(menuData, uiMenu);
                 }
             };
 
@@ -92,114 +105,54 @@ namespace Client
 
                 else if (menuData.Items[i].Type == MenuItemType.CheckboxItem)
                 {
-                    menuItem = new MenuAPI.MenuCheckboxItem(menuData.Items[i].Text, menuData.Items[i].Description, ((CheckboxItem)menuData.Items[i]).Checked);
+                    menuItem = new MenuCheckboxItem(menuData.Items[i].Text, menuData.Items[i].Description, ((CheckboxItem)menuData.Items[i]).Checked);
                 }
                 else if (menuData.Items[i].Type == MenuItemType.ListItem)
                 {
-                    menuItem = new MenuAPI.MenuListItem(menuData.Items[i].Text, ((ListItem)menuData.Items[i]).Items, ((ListItem)menuData.Items[i]).SelectedItem, menuData.Items[i].Description);
+                    menuItem = new MenuListItem(menuData.Items[i].Text, ((ListItem)menuData.Items[i]).Items, ((ListItem)menuData.Items[i]).SelectedItem, menuData.Items[i].Description);
                 }
 
                 if (menuItem != null)
                     uiMenu.AddMenuItem(menuItem);
             }
 
-            uiMenu.OnCheckboxChange += (UIMenu menu, MenuAPI.MenuCheckboxItem menuItem, int itemIndex, bool newCheckedState) => {
-
-                if ((bool)menuData.Items[GetIndexOfMenuItem((MenuAPI.MenuItem)menuItem)].ExecuteCallback)
-                {
-                    ((CheckboxItem)menuData.Items[GetIndexOfMenuItem((MenuAPI.MenuItem)menuItem)]).Checked = newCheckedState;
-                    TriggerServerEvent("MenuManager_ExecuteCallback", GetIndexOfMenuItem((MenuAPI.MenuItem)menuItem), false, newCheckedState, "", 0);
-                }
+            uiMenu.OnCheckboxChange += (UIMenu menu, MenuAPI.MenuCheckboxItem menuItem, int itemIndex, bool newCheckedState) => 
+            {
+                CheckBoxChangeCallBack?.Invoke(menuData, menu, menuItem, itemIndex, newCheckedState);
+                ((CheckboxItem)menuData.Items[itemIndex]).Checked = newCheckedState;
+                TriggerServerEvent("MenuManager_ExecuteCallback", itemIndex, false, newCheckedState, "", 0);
             };
 
             uiMenu.OnListIndexChange += (UIMenu menu, MenuAPI.MenuListItem listItem, int oldSelectionIndex, int newSelectionIndex, int itemIndex) =>
             {
-                var indexMenu = GetIndexOfMenuItem((MenuAPI.MenuItem)listItem);
-                ((ListItem)menuData.Items[indexMenu]).SelectedItem = itemIndex;
+                ListIndexChangeCallBack?.Invoke(menuData, menu, listItem, oldSelectionIndex, newSelectionIndex, itemIndex);
 
-                if (((ListItem)menuData.Items[indexMenu]).ExecuteCallbackListChange)
+                ((ListItem)menuData.Items[itemIndex]).SelectedItem = itemIndex;
+
+                if (((ListItem)menuData.Items[itemIndex]).ExecuteCallbackListChange)
                 {
-                    TriggerServerEvent("MenuManager_ListChanged", indexMenu, itemIndex);
+                    TriggerServerEvent("MenuManager_ListChanged", itemIndex, itemIndex);
                 }
+            };
+
+            uiMenu.OnListItemSelect += (UIMenu menu, MenuListItem listItem, int selectedIndex, int itemIndex) =>
+            {
+                OnItemSelect(menu, listItem, itemIndex, selectedIndex);
             };
 
             uiMenu.OnItemSelect += (sender, uiitem, index) =>
             {
-                MenuItem menuItem = menuData.Items[GetIndexOfMenuItem(uiitem)];
-
-                if (menuItem == null)
-                    return;
-
-                try
-                {
-                    if (menuItem.IsInput())
-                    {
-                        Task.Factory.StartNew(async () =>
-                        {
-                            var input = await Inputbox.GetUserInput(menuItem.InputValue, menuItem.InputMaxLength.GetValueOrDefault(22));
-                            bool valid = false;
-                            Debug.WriteLine(input);
-                            if (menuItem.InputType == InputType.Number && long.TryParse(input, out long intValue))
-                                valid = true;
-                            else if (menuItem.InputType == InputType.UNumber && ulong.TryParse(input, out ulong uintValue))
-                                valid = true;
-                            else if (menuItem.InputType == InputType.Float && double.TryParse(input, out double doubleValue))
-                                valid = true;
-                            else if (menuItem.InputType == InputType.UFloat && double.TryParse(input, out double udoubleValue) && udoubleValue >= 0)
-                                valid = true;
-                            else
-                                valid = true;
-
-                            if (!valid && menuItem.InputErrorResetValue.HasValue && menuItem.InputErrorResetValue.Value)
-                            {
-                                menuItem.InputValue = "";
-                            }
-                            else if (valid)
-                            {
-                                Debug.WriteLine("Input Valide");
-                                menuItem.InputValue = input;
-
-                                if (menuItem.InputSetRightLabel)
-                                {
-                                    /*
-                                    menuItem.RightLabel = input;
-                                    uiMenu.MenuItems[index].SetRightLabel(input);*/
-                                }
-                            }
-
-                            uiMenu.Visible = true;
-
-                            if (!valid)
-                                return;
-
-                            //int itemIndex, bool forced, bool checkbox, string input, int itemListIndex
-
-                            ItemCallBack?.Invoke(uiMenu, menuItem, input);
-
-                            if (menuItem.ExecuteCallback)
-                                GameMode.TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, input, 0);
-                        });
-                    }
-                    else if (menuItem.ExecuteCallback)
-                        TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, "", 0);
-
-                    if (!menuItem.IsInput())
-                        ItemCallBack?.Invoke(uiMenu, menuItem);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
+                Debug.WriteLine("MenuManager_ExecuteCallback");
+                OnItemSelect(sender, uiitem, index);
             };
 
 
             uiMenu.OnIndexChange += (MenuAPI.Menu menu, MenuAPI.MenuItem oldItem, MenuAPI.MenuItem newItem, int oldIndex, int newIndex) =>
             {
+                IndexChangeCallBack?.Invoke(menuData, menu, oldItem, newItem, oldIndex, newIndex);
                 if (menuData.CallbackOnIndexChange)
                     TriggerServerEvent("MenuManager_IndexChanged", newIndex);
             };
-
-            listItem = menuData.Items;
 
             //uiMenu.MouseControlsEnabled = false;
             //uiMenu.MouseEdgeEnabled = false;
@@ -210,6 +163,74 @@ namespace Client
         #endregion
 
         #region Methods
+        private static void OnItemSelect(UIMenu uimenu, MenuAPI.MenuItem uiitem, int index, int selectedIndex = 0)
+        {
+            MenuItem menuItem = menuData.Items[index];
+
+            if (menuItem == null)
+                return;
+
+            try
+            {
+                if (menuItem.IsInput())
+                {
+                    Task.Factory.StartNew(async () =>
+                    {
+                        var input = await Inputbox.GetUserInput(menuItem.InputValue, menuItem.InputMaxLength.GetValueOrDefault(22));
+                        bool valid = false;
+                        Debug.WriteLine(input);
+                        if (menuItem.InputType == InputType.Number && long.TryParse(input, out long intValue))
+                            valid = true;
+                        else if (menuItem.InputType == InputType.UNumber && ulong.TryParse(input, out ulong uintValue))
+                            valid = true;
+                        else if (menuItem.InputType == InputType.Float && double.TryParse(input, out double doubleValue))
+                            valid = true;
+                        else if (menuItem.InputType == InputType.UFloat && double.TryParse(input, out double udoubleValue) && udoubleValue >= 0)
+                            valid = true;
+                        else
+                            valid = true;
+
+                        if (!valid && menuItem.InputErrorResetValue.HasValue && menuItem.InputErrorResetValue.Value)
+                        {
+                            menuItem.InputValue = "";
+                        }
+                        else if (valid)
+                        {
+                            Debug.WriteLine("Input Valide");
+                            menuItem.InputValue = input;
+
+                            if (menuItem.InputSetRightLabel)
+                            {
+                                /*
+                                menuItem.RightLabel = input;
+                                uiMenu.MenuItems[index].SetRightLabel(input);*/
+                            }
+                        }
+
+                        uiMenu.Visible = true;
+
+                        if (!valid)
+                            return;
+
+                        //int itemIndex, bool forced, bool checkbox, string input, int itemListIndex
+
+                        ItemCallBack?.Invoke(menuData, uiMenu, menuItem, uiitem, input);
+
+                        TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, input, selectedIndex);
+                    });
+                }
+
+                TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, "", selectedIndex);
+
+                if (!menuItem.IsInput())
+                    ItemCallBack?.Invoke(menuData, uiMenu, menuItem, uiitem);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+        }
+
         private static bool CanClose()
         {
             if (menuData == null)
@@ -227,16 +248,18 @@ namespace Client
             menuData = null;
         }
 
+        /*
         public static int GetIndexOfMenuItem(MenuAPI.MenuItem item)
         {
-            for (int i = 0; i < listItem.Count; i++)
+            for (int i = 0; i < menuData.Items.Count; i++)
             {
-                if (listItem[i].Text == item.Text)
+                Debug.WriteLine($"{menuData.Items[i].Text} {item.Text}");
+                if (menuData.Items[i].Text == item.Text)
                     return i;
             }
 
             return -1;
-        }
+        }*/
 
         /*
         public PointF ConvertAnchorPos(float x, float y, MenuAnchor anchor, float xOffset, float yOffset)

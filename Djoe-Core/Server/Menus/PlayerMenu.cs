@@ -26,7 +26,7 @@ namespace Server.Menus
             Menu = new Menu("ID_Personnal", data.identity.ToString(), "Menu Personnel");
 
             if (data.StaffRank >= Shared.StaffRank.Animateur)
-                Menu.Add(new MenuItem("Administration", "", "Id_AdminMenu", true));
+                Menu.Add(new MenuItem("Administration", "", "Id_AdminMenu"));
 
             Menu.ItemSelectCallback += OnItemSelect;
 

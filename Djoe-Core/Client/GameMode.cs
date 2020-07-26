@@ -32,6 +32,9 @@ namespace Client
             Hud.UiCoreInit();
             Commands.Init();
 
+            // Menus
+            GeneralStore.Init();
+
             Tick += OnTick;
         }
 

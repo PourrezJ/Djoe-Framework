@@ -73,6 +73,7 @@
     <Compile Include="MenuManager\Interfaces\IMenuItem.cs" />
     <Compile Include="MenuManager\ListItem.cs" />
     <Compile Include="MenuManager\Menu.cs" />
+    <Compile Include="MenuManager\MenuAnchor.cs" />
     <Compile Include="MenuManager\MenuColor.cs" />
     <Compile Include="MenuManager\MenuConverter.cs" />
     <Compile Include="MenuManager\MenuItem.cs" />

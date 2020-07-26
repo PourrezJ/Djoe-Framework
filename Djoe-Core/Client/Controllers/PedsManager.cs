@@ -54,7 +54,9 @@ namespace Client.Controllers
                 ped.Tasks.WanderAround();
 
             ped.IsPositionFrozen = peddata.IsPositionFrozen;
-
+            ped.IsInvincible = peddata.Invincible | peddata.IsPositionFrozen;
+            API.SetEntityCanBeDamaged(ped.Handle, false);
+            
             PedList.Add(ped, peddata);
 
             Debug.WriteLine("ped created: " + peddata.NetworkID);

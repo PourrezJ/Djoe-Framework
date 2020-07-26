@@ -22,6 +22,7 @@ namespace Shared
         public bool IsPositionFrozen;
         public bool Networked;
         public bool TaskWanderStandard;
+        public bool Invincible;
     }
 
     public class HorseNetwork : PedNetwork

@@ -13,7 +13,7 @@ namespace Shared.MenuManager
         #endregion
 
         #region Constructors
-        public ListItem(string text, string description, string id, int itemsMax, int selectedItem, bool executeCallback = false, bool executeCallbackListChange = false) : base(text, description, id)
+        public ListItem(string text, string description, string id, int itemsMax, int selectedItem, bool executeCallbackListChange = false) : base(text, description, id)
         {
             Type = MenuItemType.ListItem;
             Items = new List<string>();
@@ -22,11 +22,10 @@ namespace Shared.MenuManager
                 Items.Add(i.ToString());
 
             SelectedItem = selectedItem;
-            ExecuteCallback = executeCallback;
             ExecuteCallbackListChange = executeCallbackListChange;
         }
 
-        public ListItem(string text, string description, string id, List<string> items, int selectedItem, bool executeCallback = false, bool executeCallbackListChange= false) : base(text, description, id)
+        public ListItem(string text, string description, string id, List<string> items, int selectedItem, bool executeCallbackListChange= false) : base(text, description, id)
         {
             Type = MenuItemType.ListItem;
             Items = items;

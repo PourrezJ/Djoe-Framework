@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using MongoDB.Bson.IO;
 using Server.Colshape;
 using Server.Utils.Enums;
 using Server.Utils.Extensions;
@@ -14,7 +15,7 @@ namespace Server.Stores
 {
     public class GeneralStore : Store
     {
-        public Dictionary<int, Item> ItemList = new Dictionary<int, Item>();
+        public List<Item> ItemList = new List<Item>();
 
         public GeneralStore(string businnessName, UCoords location, BlipSprite blipSprite, BlipType blipType, PedHash pedhash = 0) : base(businnessName, location, blipSprite, blipType, pedhash)
         {
@@ -46,7 +47,7 @@ namespace Server.Stores
 
             foreach (var item in ItemList)
             {
-                var listItem = new ListItem(item.Value.Name + $" ${item.Value.ItemPrice}/${item.Value.ItemPrice}", item.Value.Description, item.Value.Name, 99, 0, true);
+                var listItem = new ListItem(item.Name + $" ${item.ItemPrice}/${item.ItemPrice}", item.Description, item.Name, 99, 0, true);
                 menu.Add(listItem);
             }
 
@@ -63,7 +64,7 @@ namespace Server.Stores
             if (listItem.SelectedItem == 0)
                 return;
 
-            var item = ItemList[itemIndex];
+            var item = ItemList.ElementAt(itemIndex);
             var itemPrice = item.ItemPrice;
             var totalPrice = itemPrice * listItem.SelectedItem;
 

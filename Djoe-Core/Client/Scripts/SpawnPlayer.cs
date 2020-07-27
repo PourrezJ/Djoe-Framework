@@ -114,8 +114,6 @@ namespace Client.Scripts
             Function.Call((Hash)0xBC3422DC91667621, PlayerData.Money);
             Game.PlayerMoney = (int)PlayerData.Money;
 
-
-
             API.ShutdownLoadingScreen();
             API.DoScreenFadeIn(500);
 

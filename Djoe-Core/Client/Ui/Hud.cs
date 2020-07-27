@@ -26,7 +26,7 @@ namespace Client.Ui
             GameMode.RegisterEventHandler("djoe:addMoneyUi", new Action<string>(AddMoneyUi));
             GameMode.RegisterEventHandler("djoe:removeMoneyUi", new Action<string>(RemoveMoneyUi));
 
-            //GameMode.RegisterTickHandler(OnTick);
+            GameMode.RegisterTickHandler(OnTick);
             Function.Call((Hash)0x8BC7C1F929D07BF3, Game.GenerateHash("HUD_CTX_PROMPT_MONEY")); // Disable money
             Function.Call((Hash)0x8BC7C1F929D07BF3, Game.GenerateHash("HUD_CTX_IN_FAST_TRAVEL_MENU")); // emoves reticle, help, feed, award massages, etc.
 
@@ -35,7 +35,6 @@ namespace Client.Ui
 
         private static Task OnTick()
         {
-
 
             return Task.FromResult(0);
         }

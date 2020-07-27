@@ -50,7 +50,7 @@ namespace Server.Loader
                                 if (dynItem["Description"] != null)
                                     item.Description = (string)dynItem["Description"];
 
-                                gs.ItemList.Add(itemID, item);
+                                gs.ItemList.Add(item);
                             }
                         }
 

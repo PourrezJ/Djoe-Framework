@@ -190,24 +190,24 @@ namespace Server
 
             if (playerData.PocketInventory.AddItem(item, quantity))
             {
-                //if (RPGInventoryManager.HasInventoryOpen(this.Client))
-                //{
-                //    var rpg = RPGInventoryManager.GetRPGInventory(this.Client);
-                //    if (rpg != null)
-                //        RPGInventoryManager.Refresh(this.Client, rpg);
-                //}
+                if (RPGInventoryManager.HasInventoryOpen(client))
+                {
+                    var rpg = RPGInventoryManager.GetRPGInventory(client);
+                    if (rpg != null)
+                        RPGInventoryManager.Refresh(client, rpg);
+                }
 
                 //item.OnPlayerGetItem(client);
                 return true;
             }
             else if (playerData.BagInventory != null && playerData.BagInventory.AddItem(item, quantity))
             {
-                //if (RPGInventoryManager.HasInventoryOpen(client))
-                //{
-                //    var rpg = RPGInventoryManager.GetRPGInventory(this.Client);
-                //    if (rpg != null)
-                //        RPGInventoryManager.Refresh(this.Client, rpg);
-                //}
+                if (RPGInventoryManager.HasInventoryOpen(client))
+                {
+                    var rpg = RPGInventoryManager.GetRPGInventory(client);
+                    if (rpg != null)
+                        RPGInventoryManager.Refresh(client, rpg);
+                }
 
                 //item.OnPlayerGetItem(this.Client);
                 return true;

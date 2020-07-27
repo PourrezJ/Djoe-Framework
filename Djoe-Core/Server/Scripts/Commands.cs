@@ -10,10 +10,7 @@ namespace Server.Scripts
     {
         public Commands()
         {
-            API.RegisterCommand("coords", new Action<int, List<object>, string>((source, args, raw) =>
-            {
 
-            }), false);
         }
     }
 }

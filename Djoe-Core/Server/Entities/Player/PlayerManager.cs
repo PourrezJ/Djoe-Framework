@@ -32,6 +32,8 @@ namespace Server
 
             // Start the thread.
             InstanceCaller.Start();
+
+            PlayerCommands.Init();
         }
 
         private static async void PlayerUpdateLoop()
@@ -243,10 +245,9 @@ namespace Server
             JObject postUi = new JObject();
             postUi.Add("type", "ui");
             postUi.Add("action", "update");
-            postUi.Add("moneyquanty", pData.Money);
-            postUi.Add("serverId", player.Handle);
-            postUi.Add("water", pData.Thirst);
-            postUi.Add("food", pData.Hunger);
+            postUi.Add("moneyvalue", pData.Money);
+            postUi.Add("thirstvalue", pData.Thirst);
+            postUi.Add("hungervalue", pData.Hunger);
 
             player.TriggerEvent("djoe:updateUi", postUi.ToString());
         }

@@ -76,8 +76,7 @@ namespace Server.Stores
             {
                 if (playerData.PocketInventory.AddItem(item, listItem.SelectedItem, false))
                 {
-                    client.SendTipRightNotification($"Vous venez d'acheter  ~e~{((listItem.SelectedItem == 1) ? "un(e)" : listItem.SelectedItem.ToString())} " + item.Name 
-                       + $"\n~q~pour la somme de ~e~${totalPrice}");
+                    client.SendTipRightNotification($"Vous venez d'acheter ~e~{((listItem.SelectedItem == 1) ? "un(e)" : listItem.SelectedItem.ToString())} {item.Name} ~q~pour ~e~${totalPrice}");
                 }
                 else
                 {

@@ -26,6 +26,7 @@ namespace Shared
         public string SteamID;
         public Identite identity;
        
+        // Use PlayerExtension for add money if you want show update in UI
         public double Money;
         public bool IsDead;
         public StaffRank StaffRank = StaffRank.Citoyen;

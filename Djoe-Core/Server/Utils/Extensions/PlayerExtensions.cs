@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Newtonsoft.Json.Linq;
 using Shared;
 using System;
 using System.Collections.Concurrent;
@@ -65,9 +66,13 @@ namespace Server.Utils.Extensions
                 return null;
 
             var sid = player.Identifiers["steam"];
-            if (PlayerManager.Characters.ContainsKey(sid))
+            lock (PlayerManager.Characters)
             {
-                return PlayerManager.Characters[sid];
+                if (PlayerManager.Characters.ContainsKey(sid))
+                {
+                    return PlayerManager.Characters[sid];
+                }
+
             }
 
             return null;
@@ -165,9 +170,39 @@ namespace Server.Utils.Extensions
             if (playerData.Money >= money)
             {
                 playerData.Money -= money;
+
+                if (playerData.Client != null)
+                {
+                    var client = playerData.Client as Player;
+
+                    JObject postUi = new JObject();
+                    postUi.Add("type", "removeMoney");
+                    postUi.Add("moneyvalue", playerData.Money);
+
+                    client?.TriggerEvent("djoe:removeMoneyUi", postUi.ToString());
+                }
+
                 return true;
             }
             return false;
+        }
+
+        public static void AddMoney(this PlayerData playerData, double money)
+        {
+            playerData.Money += money;
+
+            if (playerData.Client != null)
+            {
+                var client = playerData.Client as Player;
+
+                JObject postUi = new JObject();
+                postUi.Add("type", "addMoney");
+                postUi.Add("moneyvalue", playerData.Money);
+
+                Console.WriteLine("add money " + money);
+
+                client?.TriggerEvent("djoe:addMoneyUi", postUi.ToString());
+            }
         }
         #endregion
     }

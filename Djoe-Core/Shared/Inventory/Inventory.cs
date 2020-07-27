@@ -112,6 +112,7 @@ namespace Shared
             {
                 ItemStack itemStack = InventoryList.First(x => x?.Item.Id == item.Id);
                 itemStack.Quantity += quantity;
+
             }
             else
             {

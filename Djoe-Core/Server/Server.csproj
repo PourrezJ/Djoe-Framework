@@ -18,7 +18,7 @@
     <DebugType>embedded</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\FxServerREDm\resources\[Djoe]\Djoe_core\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -80,6 +80,7 @@
     <Compile Include="Controllers\BlipsManager.cs" />
     <Compile Include="Database\MongoDB.cs" />
     <Compile Include="Entities\PedsManager.cs" />
+    <Compile Include="Entities\Player\PlayerCommands.cs" />
     <Compile Include="Entities\Player\PlayerKeyHandler.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Globals.cs" />

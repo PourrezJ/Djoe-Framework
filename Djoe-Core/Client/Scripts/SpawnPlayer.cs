@@ -107,11 +107,13 @@ namespace Client.Scripts
             JObject postUi = new JObject();
             postUi.Add("type", "ui");
             postUi.Add("action", "update");
-            postUi.Add("moneyquanty", PlayerData.Money);
-            postUi.Add("water", PlayerData.Thirst);
-            postUi.Add("food", PlayerData.Hunger);
+            postUi.Add("moneyvalue", PlayerData.Money);
+            postUi.Add("thirstvalue", PlayerData.Thirst);
+            postUi.Add("hungervalue", PlayerData.Hunger);
 
             Hud.UpdateUI(postUi.ToString());
+
+            
 
             API.ShutdownLoadingScreen();
             API.DoScreenFadeIn(500);
@@ -121,7 +123,7 @@ namespace Client.Scripts
                 await Delay(0);
             }
 
-            //Hud.ShowUI(true);
+            Hud.ShowUI(true);
             API.DisplayRadar(true);
             API.DisplayHud(true);
 

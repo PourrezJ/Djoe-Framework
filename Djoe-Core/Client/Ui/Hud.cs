@@ -22,16 +22,20 @@ namespace Client.Ui
         {
             GameMode.RegisterEventHandler("djoe:updateUi", new Action<string>(UpdateUI));
             GameMode.RegisterEventHandler("djoe:showUi", new Action<bool>(ShowUI));
+            GameMode.RegisterEventHandler("djoe:addMoneyUi", new Action<string>(AddMoneyUi));
+            GameMode.RegisterEventHandler("djoe:removeMoneyUi", new Action<string>(RemoveMoneyUi));
 
-            GameMode.RegisterTickHandler(OnTick);
             ShowUI(false);
         }
 
-        private static Task OnTick()
+        private static void RemoveMoneyUi(string stringJson)
         {
-            
+            API.SendNuiMessage(stringJson);
+        }
 
-            return Task.FromResult(0);
+        private static void AddMoneyUi(string stringJson)
+        {
+            API.SendNuiMessage(stringJson);
         }
 
         public static void UpdateUI(string stringJson)

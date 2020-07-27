@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
+using Newtonsoft.Json;
+using Shared;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +9,7 @@ namespace Client.Menus
 {
     public class GeneralStore
     {
-        private Dictionary<int, double> prices = new Dictionary<int, double>();
+        private static List<Item> Items;
 
         public static void Init()
         {
@@ -52,7 +54,7 @@ namespace Client.Menus
 
             Debug.WriteLine("OnOpenMenuCallback");
 
+            Items = JsonConvert.DeserializeObject<List<Item>>(customData);
         }
-
     }
 }

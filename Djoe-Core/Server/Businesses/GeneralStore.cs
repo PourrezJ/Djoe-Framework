@@ -51,7 +51,7 @@ namespace Server.Stores
                 menu.Add(listItem);
             }
 
-            menu.OpenMenu(client);
+            menu.OpenMenu(client, Newtonsoft.Json.JsonConvert.SerializeObject(ItemList));
         }
 
         private void OnItemSelectCallBack(Player client, Menu menu, IMenuItem menuItem, int itemIndex)

@@ -30,6 +30,40 @@ namespace Client
                 BaseScript.TriggerServerEvent("RegisterCoords", coordName, pPosX, pPosY, pPosZ, playerRotGet.ToString());
                 Debug.WriteLine("Your position is: ~y~" + playerPosGet + "~w~Your rotation is: ~y~" + playerRotGet);
             }), false);
+
+            API.RegisterCommand("displayComp", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                if (args.Count == 0)
+                {
+                    Debug.WriteLine("Utilisation : hash comp");
+                    return;
+                }
+
+                Function.Call((Hash)0x4CC5F2FC1332577F, (int)args[0]);
+            }), false);
+
+            API.RegisterCommand("displayComp2", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                if (args.Count == 0)
+                {
+                    Debug.WriteLine("Utilisation : hash comp");
+                    return;
+                }
+
+                Function.Call((Hash)0x4CC5F2FC1332577F, Game.GenerateHash((string)args[0]));
+            }), false);
+
+            API.RegisterCommand("hideComp", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                if (args.Count == 0)
+                {
+                    Debug.WriteLine("Utilisation : hash comp");
+                    return;
+                }
+
+
+                Function.Call((Hash)0x8BC7C1F929D07BF3, (int)args[0]);
+            }), false);
         }
     }
 }

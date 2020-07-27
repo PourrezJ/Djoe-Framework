@@ -85,8 +85,6 @@ namespace Client.Scripts
 
             Function.Call(Hash._NETWORK_CLOCK_TIME_OVERRIDE, dateTime.Hour, dateTime.Minute, dateTime.Second);
 
-            Function.Call(Hash.NETWORK_SET_FRIENDLY_FIRE_OPTION, true);
-
             World.CurrentWeather = (WeatherType)weatherType;
 
             // https://discordapp.com/channels/192358910387159041/643437867044962304/730164095331991562
@@ -113,7 +111,10 @@ namespace Client.Scripts
 
             Hud.UpdateUI(postUi.ToString());
 
-            
+            Function.Call((Hash)0xBC3422DC91667621, PlayerData.Money);
+            Game.PlayerMoney = (int)PlayerData.Money;
+
+
 
             API.ShutdownLoadingScreen();
             API.DoScreenFadeIn(500);
@@ -135,7 +136,8 @@ namespace Client.Scripts
         public static void SetPVP()
         {
             Function.Call(Hash.NETWORK_SET_FRIENDLY_FIRE_OPTION, true);
-            Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups(Game.PlayerPed.RelationshipGroup, Relationship.Hate, true);
+            Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups("Player", (Relationship)6, true);
+            Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups("", (Relationship)6, true);
         }
 
         private static DateTime _lastupdate = DateTime.Now;

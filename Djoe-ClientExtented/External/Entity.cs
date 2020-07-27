@@ -231,6 +231,11 @@ namespace ClientExtended.External
             return FromHandle(Function.Call<int>(Hash.GET_ENTITY_ATTACHED_TO, Handle));
         }
 
+        public float GetCurrentTemperatureAtThisPos()
+        {
+            return API.GetTemperatureAtCoords(Position.X, Position.Y, Position.Z);
+        }
+
         public void ResetOpacity()
         {
             Function.Call(Hash.RESET_ENTITY_ALPHA, Handle);

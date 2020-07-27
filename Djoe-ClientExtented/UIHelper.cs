@@ -28,6 +28,12 @@ namespace ClientExtended
 
     public static class UIHelper
     {
+        public enum MarkerHash
+        {
+            Box = 1857541051,
+            Cylinder = -1795314153
+        }
+
         public static void DrawTexture(string textureStreamed, string textureName, float x, float y, float width, float height, float rotation, Color color)
         {
             if (!Function.Call<bool>(Hash.HAS_STREAMED_TEXTURE_DICT_LOADED, textureStreamed))
@@ -80,6 +86,19 @@ namespace ClientExtended
             scale = scale * fov;
 
             UIHelper.DrawText(text, screenX, screenY, scale, scale, Color.FromArgb(255, 255, 255), false, false, font);
+        }
+
+        public static void DrawMarker(MarkerHash hash, Vector3 position, Vector3 direction, Vector3 rotation, Vector3 scale, Color color, bool bolUpAndDown, bool faceCamera, int unk, bool rotate, string textureDict, string textureName, bool drawOnEnt)
+        {
+            Function.Call((Hash)0x2A32FAA57B937173,
+                hash,
+                position.X, position.Y, position.Z,
+                direction.X, direction.Y, direction.Z,
+                rotation.X, rotation.Y, rotation.Z,
+                scale.X, scale.Y, scale.Z,
+                color.R, color.G, color.B, color.A,
+                bolUpAndDown, faceCamera, 0, false, "", "", drawOnEnt
+                );
         }
 
         public static void LoadingScreenText(string texthaut, string textmilieu, string textbas)

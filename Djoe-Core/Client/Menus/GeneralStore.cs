@@ -52,9 +52,9 @@ namespace Client.Menus
             if (menu.Id != "ID_GeneralStoreMenu")
                 return;
 
-            Debug.WriteLine("OnOpenMenuCallback");
+            Debug.WriteLine("OnOpenMenuCallback : " + customData);
 
-            Items = JsonConvert.DeserializeObject<List<Item>>(customData);
+            //Items = JsonConvert.DeserializeObject<List<Item>>(customData);
         }
     }
 }

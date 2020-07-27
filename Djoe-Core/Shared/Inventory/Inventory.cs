@@ -108,7 +108,7 @@ namespace Shared
             if (CurrentSize() + (item.Weight * quantity) > MaxSize)
                 return false;
 
-            if (InventoryList.Any(x => x?.Item.Id == item.Id) && item.IsStackable)
+            if (item.IsStackable && InventoryList.Any(x => x?.Item.Id == item.Id && item.Name == x.Item.Name))
             {
                 ItemStack itemStack = InventoryList.First(x => x?.Item.Id == item.Id);
                 itemStack.Quantity += quantity;

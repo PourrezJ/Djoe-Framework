@@ -29,7 +29,7 @@ namespace Client
         #endregion
 
         #region Delegates
-        public delegate void MenuOpenedDelegate(UIMenu uimenu, Menu menu);
+        public delegate void MenuOpenedDelegate(UIMenu uimenu, Menu menu, string customData);
         public delegate void ItemCallBackDelegate(Menu menu, UIMenu uimenu, MenuItem menuItem, MenuAPI.MenuItem uiMenuItem, string input = "");
         public delegate void ListIndexChangeDelegate(Menu menu, UIMenu uimenu, MenuAPI.MenuListItem listItem, int oldSelectionIndex, int newSelectionIndex, int itemIndex);
         public delegate void CheckBoxChangeDelegate(Menu menu, UIMenu uimenu, MenuAPI.MenuCheckboxItem menuItem, int itemIndex, bool newCheckedState);
@@ -40,13 +40,13 @@ namespace Client
         #region Constructor
         public MenuManager()
         {
-            EventHandlers["MenuManager_OpenMenu"] += new Action<string>(OpenMenuManager);
+            EventHandlers["MenuManager_OpenMenu"] += new Action<string, string>(OpenMenuManager);
             EventHandlers["MenuManager_CloseMenu"] += new Action(CloseMenu);
         }
         #endregion
 
         #region Menu
-        private static void OpenMenuManager(string data)
+        private static void OpenMenuManager(string data, string customData)
         {
             Debug.WriteLine("OpenMenuManager");
             menuData = JsonConvert.DeserializeObject<Menu>(data, new MenuConverter(typeof(Menu)));
@@ -62,7 +62,7 @@ namespace Client
 
             uiMenu = new UIMenu(!string.IsNullOrEmpty(menuData.Title) ? menuData.Title : " ", menuData.SubTitle);
 
-            OpenMenuCallback?.Invoke(uiMenu, menuData);
+            OpenMenuCallback?.Invoke(uiMenu, menuData, customData);
 
             if (menuData.BannerSprite != null)
                 uiMenu.HeaderTexture = new KeyValuePair<string, string>(menuData.BannerSprite.Dict, menuData.BannerSprite.Name);

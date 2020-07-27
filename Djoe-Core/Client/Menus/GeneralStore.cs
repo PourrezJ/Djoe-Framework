@@ -45,7 +45,7 @@ namespace Client.Menus
             Debug.WriteLine("OnItemCallBack");
         }
 
-        private static void OnOpenMenuCallback(MenuAPI.Menu uimenu, Shared.MenuManager.Menu menu)
+        private static void OnOpenMenuCallback(MenuAPI.Menu uimenu, Shared.MenuManager.Menu menu, string customData)
         {
             if (menu.Id != "ID_GeneralStoreMenu")
                 return;

@@ -45,13 +45,17 @@ namespace Server.Stores
             menu.ItemSelectCallback += OnItemSelectCallBack;
             menu.ListItemChangeCallback += OnListItemChangeCallback;
 
-            foreach (var item in ItemList)
+            double[] prices = new double[ItemList.Count];
+
+            for(int a = 0; a < ItemList.Count; a++)
             {
+                var item = ItemList[a];
+                prices[a] = item.ItemPrice;
                 var listItem = new ListItem(item.Name + $" ${item.ItemPrice}/${item.ItemPrice}", item.Description, item.Name, 99, 0, true);
                 menu.Add(listItem);
             }
 
-            menu.OpenMenu(client, Newtonsoft.Json.JsonConvert.SerializeObject(ItemList));
+            menu.OpenMenu(client, Newtonsoft.Json.JsonConvert.SerializeObject(prices));
         }
 
         private void OnItemSelectCallBack(Player client, Menu menu, IMenuItem menuItem, int itemIndex)

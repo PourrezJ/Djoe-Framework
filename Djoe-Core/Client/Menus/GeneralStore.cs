@@ -9,7 +9,7 @@ namespace Client.Menus
 {
     public class GeneralStore
     {
-        private static List<Item> Items;
+        private static double[] itemsPrice;
 
         public static void Init()
         {
@@ -23,18 +23,14 @@ namespace Client.Menus
             if (menu.Id != "ID_GeneralStoreMenu")
                 return;
 
-            Debug.WriteLine("OnListIndexChangeCallBack");
             var item = menu.Items[itemIndex];
             if (item.Text.Contains("$"))
             {
                 var a = item.Text.Split('$');
 
                 string itemName = a[0];
-                double itemPrice = Math.Round(double.Parse(a[1].Replace("/", " ")), 2);
 
-                Debug.WriteLine($"name: {itemName} price: {itemPrice} total: {itemPrice * newSelectionIndex}");
-
-                var str = itemName + $" ${(itemPrice * newSelectionIndex)}/${itemPrice}";
+                var str = itemName + $" ${(Math.Round(itemsPrice[itemIndex] * newSelectionIndex, 2))}/${itemsPrice[itemIndex]}";
                 listItem.Text = str;
             }
         }
@@ -52,9 +48,7 @@ namespace Client.Menus
             if (menu.Id != "ID_GeneralStoreMenu")
                 return;
 
-            Debug.WriteLine("OnOpenMenuCallback : " + customData);
-
-            //Items = JsonConvert.DeserializeObject<List<Item>>(customData);
+            itemsPrice = JsonConvert.DeserializeObject<double[]>(customData);
         }
     }
 }

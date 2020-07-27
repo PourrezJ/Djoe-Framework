@@ -39,7 +39,7 @@ namespace Server.Menus
 
                 var onlinePlayer = PlayerManager.GetPlayerOnline();
                 for (int a = 0; a < onlinePlayer.Count; a++)
-                    players.Add(onlinePlayer[a].identity.ToString());
+                    players.Add(onlinePlayer[a].Identity.ToString());
 
                 Menu.Add(new ListItem("Choix Joueur", "Sélection du joueur destinataire", "Id_ChoisePlayer", players, 0, true));
 

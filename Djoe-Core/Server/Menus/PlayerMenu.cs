@@ -23,7 +23,7 @@ namespace Server.Menus
             Player = player;
             var data = player.GetPlayerDatabase();
 
-            Menu = new Menu("ID_Personnal", data.identity.ToString(), "Menu Personnel");
+            Menu = new Menu("ID_Personnal", data.Identity.ToString(), "Menu Personnel");
 
             if (data.StaffRank >= Shared.StaffRank.Animateur)
                 Menu.Add(new MenuItem("Administration", "", "Id_AdminMenu"));

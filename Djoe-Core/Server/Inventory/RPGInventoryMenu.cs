@@ -27,10 +27,6 @@ namespace Server
 
     public class RPGInventoryMenu
     {
-        #region Private fields
-        private Dictionary<string, object> _data = new Dictionary<string, object>();
-        #endregion
-
         #region Public properties
         public string Id { get; set; }
         public bool Give { get; set; }
@@ -40,7 +36,8 @@ namespace Server
         public RPGInventory DistantItems;
         public RPGInventoryOutfit OutfitItems = new RPGInventoryOutfit();
 
-        public Player DistantPlayer { get; set; }
+        [JsonIgnore]
+        public Player DistantPlayer;
         [JsonIgnore]
         public Inventory Inventory;
         [JsonIgnore]
@@ -81,10 +78,13 @@ namespace Server
                 PocketsItems.MaxSize = inventory.MaxSize;
                 PocketsItems.Slots = inventory.MaxSlot;
 
+
                 for (int i = 0; i < inventory.InventoryList.Length; i++)
                 {
                     if (inventory.InventoryList[i] != null && inventory.InventoryList[i].Item != null)
+                    {
                         PocketsItems.RPGInventoryItems.Add(new RPGInventoryItem(inventory.InventoryList[i], InventoryTypes.Pocket, i));
+                    }
                 }
 
                 if (Bag != null)

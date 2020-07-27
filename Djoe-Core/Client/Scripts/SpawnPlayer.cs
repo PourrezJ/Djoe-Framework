@@ -74,7 +74,7 @@ namespace Client.Scripts
 
             Function.Call(Hash.NETWORK_RESURRECT_LOCAL_PLAYER, pos.X, pos.Y, pos.Z, coords.Heading, true, true, false);
 
-            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", $"Chargement du personnage {PlayerData.identity.FirstName} {PlayerData.identity.LastName}.");
+            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", $"Chargement du personnage {PlayerData.Identity.FirstName} {PlayerData.Identity.LastName}.");
             await LoadPlayer.LoadAllComps(PlayerData.SkinPlayer, PlayerData.Clothes);
 
             Game.PlayerPed.PositionNoOffset = new Vector3(pos.X, pos.Y, pos.Z);
@@ -110,9 +110,6 @@ namespace Client.Scripts
             postUi.Add("hungervalue", PlayerData.Hunger);
 
             Hud.UpdateUI(postUi.ToString());
-
-            Function.Call((Hash)0xBC3422DC91667621, PlayerData.Money);
-            Game.PlayerMoney = (int)PlayerData.Money;
 
             API.ShutdownLoadingScreen();
             API.DoScreenFadeIn(500);

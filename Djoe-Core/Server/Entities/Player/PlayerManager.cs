@@ -91,7 +91,7 @@ namespace Server
                     var pData = new PlayerData()
                     {
                         SteamID = sid,
-                        identity = identityPlayer,
+                        Identity = identityPlayer,
                         LastCoord = pos,
                         Money = Config.Get<double>("StartingMoney"),
                         Clothes = componentsPlayer,
@@ -157,7 +157,13 @@ namespace Server
                 BlipsManager.OnPlayerConnected(source);
                 PedsManager.OnPlayerConnected(source);
 
-                source.TriggerEvent("djoe:initPlayer", JsonConvert.SerializeObject(playerData), GameMode.WorldData.WorldTime.ToString(), (uint)GameMode.WorldData.WeatherActual);
+               //source.TriggerEvent("djoe:initPlayer", JsonConvert.SerializeObject(playerData), GameMode.WorldData.WorldTime.ToString(), (uint)GameMode.WorldData.WeatherActual);
+                
+                source.TriggerEvent("djoe:initPlayer",
+                JsonConvert.SerializeObject(new { LastCoord = playerData.LastCoord, Money = playerData.Money, Thirst = playerData.Thirst, Hunger = playerData.Hunger, Identity = playerData.Identity, SkinPlayer = playerData.SkinPlayer, Clothes = playerData.Clothes }),
+                GameMode.WorldData.WorldTime.ToString(),
+                (uint)GameMode.WorldData.WeatherActual);
+    
             }
         }
 

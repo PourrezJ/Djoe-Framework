@@ -24,7 +24,7 @@ namespace Shared
         public bool NeedUpdate;
 
         public string SteamID;
-        public Identite identity;
+        public Identite Identity;
        
         // Use PlayerExtension for add money if you want show update in UI
         public double Money;
@@ -35,16 +35,12 @@ namespace Shared
         public int Hunger = 100;
         public int Thirst = 100;
 
-        [JsonIgnore]
         public BankAccount BankAccount;
 
-        [JsonIgnore]
         public Inventory PocketInventory;
 
-        [JsonIgnore]
         public Inventory BagInventory;
 
-        [JsonIgnore]
         public OutfitInventory OutfitInventory;
 
         public PlayerData()

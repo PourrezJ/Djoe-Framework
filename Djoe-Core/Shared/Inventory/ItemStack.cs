@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Shared
 {
@@ -8,6 +9,7 @@ namespace Shared
         public int Quantity { get; set; }
         public int Price { get; set; }
 
+        [JsonIgnore]
         public Dictionary<string, dynamic> Variables = new Dictionary<string, dynamic>();
 
         public ItemStack(Item item, int quantity, int price = 0)

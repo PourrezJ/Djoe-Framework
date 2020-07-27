@@ -70,7 +70,7 @@ namespace Server
 
             if (_clientMenus.TryAdd(client, menu))
             {
-                Logger.Debug(JsonConvert.SerializeObject(menu.PocketsItems));
+                //Logger.Debug(JsonConvert.SerializeObject(menu.PocketsItems));
 
                 client.TriggerEvent("InventoryManager_OpenMenu",
                     JsonConvert.SerializeObject(menu.PocketsItems),
@@ -724,7 +724,9 @@ namespace Server
             for (int i = 0; i < menu.Inventory.InventoryList.Length; i++)
             {
                 if (menu.Inventory.InventoryList[i] != null && menu.Inventory.InventoryList[i].Item != null)
+                {
                     menu.PocketsItems.RPGInventoryItems.Add(new RPGInventoryItem(menu.Inventory.InventoryList[i], InventoryTypes.Pocket, i));
+                }
             }
 
             if (menu.Bag != null)

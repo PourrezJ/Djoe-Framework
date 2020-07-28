@@ -23,6 +23,7 @@ namespace Server
         public Character SkinPlayer;
         public int Hunger = 100;
         public int Thirst = 100;
+        public VIP Vip;
 
         public BankAccount BankAccount;
 

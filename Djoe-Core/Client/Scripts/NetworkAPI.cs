@@ -2,6 +2,8 @@
 using CitizenFX.Core.Native;
 using Client.Utils.Extensions;
 using ClientExtended.External;
+using Newtonsoft.Json;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,14 @@ namespace Client.Scripts
             EventHandlers["API_SetInvincible"] += new Action<bool>(SetInvincible);
             EventHandlers["API_SetInvisible"] += new Action<bool>(SetInvisible);
             EventHandlers["API_GiveWeapon"] += new Action<string, int, bool, int, bool, float>(GiveWeapon);
+            EventHandlers["API_PlayAnimation"] += new Action<string>(PlayAnimation);
+        }
+
+        private void PlayAnimation(string animData)
+        {
+            var anim = JsonConvert.DeserializeObject<AnimationsSync>(animData);
+
+            Game.PlayerPed.Tasks.PlayAnimation(anim.AnimDict, anim.AnimName, anim.BlendInSpeed, anim.Duraction, anim.Flag);
         }
 
         private void SetInvisible(bool obj)

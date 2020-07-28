@@ -111,6 +111,7 @@
     <Compile Include="Scripts\Commands.cs" />
     <Compile Include="Entities\Player\PlayerManager.cs" />
     <Compile Include="Scripts\Survival.cs" />
+    <Compile Include="Utils\Enums\AnimationFlags.cs" />
     <Compile Include="Utils\Enums\BlipSprite.cs" />
     <Compile Include="Utils\Enums\PedHash.cs" />
     <Compile Include="Utils\Enums\WeaponHash.cs" />

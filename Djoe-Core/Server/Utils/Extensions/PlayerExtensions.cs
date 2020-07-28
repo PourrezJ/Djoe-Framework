@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Server.Utils.Enums;
 using Shared;
 using System;
 using System.Collections.Concurrent;
@@ -206,6 +208,22 @@ namespace Server.Utils.Extensions
         public static void UpdateUI(this PlayerData playerData)
         {
             PlayerManager.UpdateUI(playerData);
+        }
+
+        public static void PlayAnimation(this Player client, string animDict, string animName, float blendInSpeed = 8f, float blendOutSpeed = -8f, int duration = -1, AnimationFlags flags = 0, float playbackRate = 0f)
+        {
+            var animsync = new AnimationsSync()
+            {
+                AnimName = animName,
+                AnimDict = animDict,
+                BlendInSpeed = blendInSpeed,
+                BlendOutSpeed = blendOutSpeed,
+                Duraction = duration,
+                Flag = (int)flags,
+                PlaybackRate = playbackRate
+            };
+
+            client.TriggerEvent("API_PlayAnimation", JsonConvert.SerializeObject(animsync));
         }
         #endregion
     }

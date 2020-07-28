@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationsSync.cs" />
     <Compile Include="BankAccount.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Clothes.cs" />

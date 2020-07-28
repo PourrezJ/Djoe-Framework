@@ -64,6 +64,24 @@ namespace Client
 
                 Function.Call((Hash)0x8BC7C1F929D07BF3, (int)args[0]);
             }), false);
+
+            API.RegisterCommand("playScenario", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                if (args.Count == 0)
+                {
+                    Debug.WriteLine("Utilisation : scenario name");
+                    return;
+                }
+
+                Game.PlayerPed.Tasks.StartScenarioInPlace(args[0].ToString());
+                
+            }), false);
+
+            API.RegisterCommand("stopTask", new Action<int, List<object>, string>((source, args, raw) =>
+            {
+                Game.PlayerPed.Tasks.ClearAllImmediately();
+
+            }), false);
         }
     }
 }

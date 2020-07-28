@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Server.Utils.Extensions;
 using Shared;
+using System.Threading.Tasks;
 
 namespace Server.ItemsClass
 {
@@ -45,6 +46,14 @@ namespace Server.ItemsClass
 
                 pData.Update();
                 pData.UpdateUI();
+
+                client.PlayScenario(Animation);
+
+                Task.Run(async () =>
+                {
+                    await BaseScript.Delay(5000);
+                    client.ClearSecondaryTask();
+                });
             }
         }
     }

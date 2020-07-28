@@ -23,6 +23,18 @@ namespace Client.Scripts
             EventHandlers["API_SetInvisible"] += new Action<bool>(SetInvisible);
             EventHandlers["API_GiveWeapon"] += new Action<string, int, bool, int, bool, float>(GiveWeapon);
             EventHandlers["API_PlayAnimation"] += new Action<string>(PlayAnimation);
+            EventHandlers["API_PlayScenario"] += new Action<string>(PlayScenario);
+            EventHandlers["API_ClearSecondary"] += new Action(ClearSecondary);
+        }
+
+        private void ClearSecondary()
+        {
+            Game.PlayerPed.Tasks.ClearSecondary();
+        }
+
+        private void PlayScenario(string anim)
+        {
+            Game.PlayerPed.Tasks.StartScenarioInPlace(anim);
         }
 
         private void PlayAnimation(string animData)

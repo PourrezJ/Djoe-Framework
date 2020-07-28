@@ -50,6 +50,7 @@
     <Compile Include="External\Controls.cs" />
     <Compile Include="External\Element.cs" />
     <Compile Include="External\Entity.cs" />
+    <Compile Include="External\EntityBone.cs" />
     <Compile Include="External\Game.cs" />
     <Compile Include="External\Interfaces.cs" />
     <Compile Include="External\Model.cs" />

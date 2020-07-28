@@ -78,10 +78,11 @@ namespace Server.Utils.Extensions
             return null;
         }
 
-        public static void SetPosition(this Player client, Vector3 position, int fadedelay = 0)
+        public static void UpdateUI(this PlayerData playerData)
         {
-            client.TriggerEvent("SetPlayerPosition", position.X, position.Y, position.Z, fadedelay);
+            PlayerManager.UpdateUI(playerData);
         }
+   
         #endregion
 
         #region Save
@@ -204,10 +205,12 @@ namespace Server.Utils.Extensions
                 client?.TriggerEvent("djoe:addMoneyUi", postUi.ToString());
             }
         }
+        #endregion
 
-        public static void UpdateUI(this PlayerData playerData)
+        #region API
+        public static void SetPosition(this Player client, Vector3 position, int fadedelay = 0)
         {
-            PlayerManager.UpdateUI(playerData);
+            client.TriggerEvent("SetPlayerPosition", position.X, position.Y, position.Z, fadedelay);
         }
 
         public static void PlayAnimation(this Player client, string animDict, string animName, float blendInSpeed = 8f, float blendOutSpeed = -8f, int duration = -1, AnimationFlags flags = 0, float playbackRate = 0f)
@@ -224,6 +227,16 @@ namespace Server.Utils.Extensions
             };
 
             client.TriggerEvent("API_PlayAnimation", JsonConvert.SerializeObject(animsync));
+        }
+
+        public static void PlayScenario(this Player client, string name)
+        {
+            client.TriggerEvent("API_PlayScenario", name);
+        }
+
+        public static void ClearSecondaryTask(this Player client)
+        {
+            client.TriggerEvent("API_ClearSecondary");
         }
         #endregion
     }

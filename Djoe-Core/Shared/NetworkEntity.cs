@@ -2,7 +2,7 @@
 
 namespace Shared
 {
-    public class Entity
+    public class NetworkEntity
     {
         public int NetworkID;
         public UCoords LastCoord;
@@ -11,12 +11,12 @@ namespace Shared
 
     }
 
-    public class VehicleNetwork : Entity
+    public class VehicleNetwork : NetworkEntity
     {
 
     }
 
-    public class PedNetwork : Entity
+    public class PedNetwork : NetworkEntity
     {
         public int PedHandle; // Seulement utilisable par le client, il est différent pour chaque client.
         public bool IsPositionFrozen;

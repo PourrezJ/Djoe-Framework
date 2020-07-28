@@ -2,6 +2,7 @@
 using CitizenFX.Core.Native;
 using Client.Utils.Extensions;
 using ClientExtended.External;
+using ClientExtented.External;
 using Shared;
 using System;
 using System.Threading.Tasks;
@@ -11,18 +12,70 @@ namespace Client.Scripts
 {
     internal class Interactions : BaseScript
     {
-        private static async void InventoryUseItem(dynamic itemID, dynamic Quantity)
-        {
-
-        }
-
         public Interactions()
         {
-            GameMode.RegisterEventHandler("InventoryUseItem", new Action<dynamic, dynamic>(InventoryUseItem));
+            EventHandlers["InventoryUseItem"] += new Action<dynamic, dynamic>(InventoryUseItem);
+            EventHandlers["EatOrDrink"] += new Action<string, string>(EatOrDrink);
             Tick += OnTick;
         }
 
-        [Tick]
+        private async void EatOrDrink(string eatordrink, string prop)
+        {
+            Debug.WriteLine("EatOrDrink");
+            bool drink = (eatordrink == "drink");
+            Vector3 playerCoords = Game.PlayerPed.Position;
+
+            string dict = "mech_inventory@clothing@bandana";
+            string anim = "NECK_2_FACE_RH";
+            /*
+            if (drink)
+            {
+                dict = "amb_rest_drunk@world_human_drinking@male_a@idle_a";
+                anim = "idle_a";
+
+                if (!API.IsPedMale(Game.PlayerPed.Handle))
+                {
+                    dict = "amb_rest_drunk@world_human_drinking@female_a@idle_b";
+                    anim = "idle_b";
+                }
+            }*/
+
+             var worldProp = await World.CreateProp(new Model(prop), playerCoords + new Vector3(0,0,2), new Vector3(), true, false, true);
+
+             Debug.WriteLine("prop: " + worldProp.Handle);
+
+             int boneIndex = API.GetEntityBoneIndexByName(API.PlayerPedId(), "SKEL_R_Finger12");
+
+             Debug.WriteLine("boneIndex: " + boneIndex);
+             await Delay(1000);
+
+             Debug.WriteLine($"dict: {dict} | anim: {anim}");
+
+            API.RequestAnimDict(dict);
+            while (!API.HasAnimDictLoaded(dict))
+            {
+                await Delay(100);
+            }
+            //WORLD_HUMAN_COFFEE_DRINK
+            //WORLD_HUMAN_DRINKING biere
+            //Game.PlayerPed.Tasks.StartScenarioInPlace("WORLD_HUMAN_DRINKING");
+
+            //Game.PlayerPed.Tasks.PlayAnimation(dict, anim, 1f, 5000, AnimationFlags.Loop);
+
+            Function.Call(Hash.TASK_PLAY_ANIM, API.PlayerPedId(), dict, anim, 1.0f, 8.0f, 5000, 31, 0.0f, false, false, false);
+            //Function.Call(Hash.ATTACH_ENTITY_TO_ENTITY, prop, API.PlayerPedId(), boneIndex, 0.02f, 0.028f, 0.001f, 15.0f, 175.0f, 0.0f, true, true, false, true, 1, true);
+            
+            await Delay(6000);
+
+            worldProp.Delete();
+            Game.PlayerPed.Tasks.ClearSecondary();
+        }
+
+        private void InventoryUseItem(dynamic itemID, dynamic Quantity)
+        {
+
+        }
+
         private static Task OnTick()
         {
             Game.DisableControlThisFrame(0, Control.SelectItemWheel);

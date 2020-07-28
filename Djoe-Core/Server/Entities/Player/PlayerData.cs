@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using Server.Models;
 using Shared;
 
 namespace Server
 {
-    public class PlayerData : Entity
+    public class PlayerData : NetworkEntity
     {
         [JsonIgnore]
-        public dynamic Client;
+        public Player Client;
 
         public bool NeedUpdate;
 

@@ -47,13 +47,17 @@ namespace Server.ItemsClass
                 pData.Update();
                 pData.UpdateUI();
 
-                client.PlayScenario(Animation);
-
-                Task.Run(async () =>
+                if (!string.IsNullOrEmpty(Animation))
                 {
-                    await BaseScript.Delay(5000);
-                    client.ClearSecondaryTask();
-                });
+                    client.PlayScenario(Animation);
+
+                    Task.Run(async () =>
+                    {
+                        await BaseScript.Delay(5000);
+                        client.ClearSecondaryTask();
+                    });
+                }
+
             }
         }
     }

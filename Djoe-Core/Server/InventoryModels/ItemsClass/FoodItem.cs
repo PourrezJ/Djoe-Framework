@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Server.Utils.Extensions;
 using Shared;
 
 namespace Server.ItemsClass
@@ -24,7 +25,27 @@ namespace Server.ItemsClass
 
         public override void Use(Player client, string inventoryType, int slot, int quantity = 0)
         {
-            Debug.WriteLine("Item Used " + Name);
+            var pData = client.GetPlayerDatabase();
+
+            if (pData == null)
+                return;
+
+            if (pData.DeleteItem(slot, inventoryType, 1))
+            {
+                if (pData.Hunger + Hunger > 100)
+                    pData.Hunger = 100;
+                else
+                    pData.Hunger += Hunger;
+
+                if (pData.Thirst + Thirst > 100)
+                    pData.Thirst = 100;
+                else
+                    pData.Thirst += Thirst;
+
+
+                pData.Update();
+                pData.UpdateUI();
+            }
         }
     }
 }

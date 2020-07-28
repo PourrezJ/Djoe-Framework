@@ -202,6 +202,11 @@ namespace Server.Utils.Extensions
                 client?.TriggerEvent("djoe:addMoneyUi", postUi.ToString());
             }
         }
+
+        public static void UpdateUI(this PlayerData playerData)
+        {
+            PlayerManager.UpdateUI(playerData);
+        }
         #endregion
     }
 }

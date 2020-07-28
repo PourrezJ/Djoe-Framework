@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Client.Ui;
 using Newtonsoft.Json.Linq;
 using Client.Menus;
+using Client.Models;
 
 namespace Client.Scripts
 {

@@ -1,4 +1,4 @@
-﻿namespace Shared
+﻿namespace Server
 {
     public struct InventoryTypes
     {

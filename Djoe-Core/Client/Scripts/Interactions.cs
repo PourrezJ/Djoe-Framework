@@ -13,18 +13,7 @@ namespace Client.Scripts
     {
         private static async void InventoryUseItem(dynamic itemID, dynamic Quantity)
         {
-            ItemID item = (ItemID)itemID;
 
-            switch (item)
-            {
-                case ItemID.CampFire:
-                    Vector3 pos = Game.Player.Character.Position.Forward(Game.Player.Character.Heading, 3);
-                    await World.CreateProp(Game.GenerateHash("p_campfire02x"), pos, new Vector3(),true, true, true);
-
-
-
-                    break;
-            }
         }
 
         public Interactions()

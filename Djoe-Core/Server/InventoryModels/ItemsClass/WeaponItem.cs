@@ -1,4 +1,6 @@
-﻿namespace Shared.ItemsClass
+﻿using Shared;
+
+namespace Server.ItemsClass
 {
     public class WeaponItem : Item
     {

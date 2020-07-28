@@ -1,9 +1,8 @@
-﻿using Shared.ItemsClass;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Shared
+namespace Server
 {
     public partial class Inventory
     {

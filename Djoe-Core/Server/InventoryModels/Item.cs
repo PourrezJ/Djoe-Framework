@@ -1,9 +1,9 @@
 ﻿using CitizenFX.Core;
-using Shared.ItemsClass;
+using Server.ItemsClass;
 using System;
 using System.Collections.Generic;
 
-namespace Shared
+namespace Server
 {
     public class Item : ICloneable
     {

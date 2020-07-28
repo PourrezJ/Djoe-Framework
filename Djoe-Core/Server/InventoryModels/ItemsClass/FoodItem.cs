@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CitizenFX.Core;
+using Shared;
 
-namespace Shared.ItemsClass
+namespace Server.ItemsClass
 {
     public class FoodItem : Item
     {
@@ -23,6 +20,11 @@ namespace Shared.ItemsClass
 
         public FoodItem(ItemID id, string name, string description, double weight = 0, bool isGiven = false, bool isUsable = false, bool isStackable = true, bool isDropable = true, double itemPrice = 0, string icon = "unknown-item") : base(id, name, description, weight, isGiven, isUsable, isStackable, isDropable, itemPrice, icon)
         {
+        }
+
+        public override void Use(Player client, string inventoryType, int slot, int quantity = 0)
+        {
+            Debug.WriteLine("Item Used " + Name);
         }
     }
 }

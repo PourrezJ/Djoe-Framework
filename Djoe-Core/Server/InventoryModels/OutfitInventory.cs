@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Shared
+namespace Server
 {
 
     public class OutfitSlots

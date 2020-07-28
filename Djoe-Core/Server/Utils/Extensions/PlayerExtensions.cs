@@ -1,10 +1,8 @@
 ﻿using CitizenFX.Core;
-using CitizenFX.Core.Native;
 using Newtonsoft.Json.Linq;
 using Shared;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Server.Utils.Extensions

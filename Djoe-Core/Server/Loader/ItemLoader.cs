@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using Server.Utils;
-using Shared;
-using Shared.ItemsClass;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Server.Loader

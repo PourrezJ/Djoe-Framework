@@ -215,31 +215,34 @@ namespace Server
             Debug.WriteLine("RPGInventory_UseItem");
             RPGInventoryMenu menu = null;
 
-            if (_clientMenus.TryGetValue(client, out menu))
+            lock (_clientMenus)
             {
-                ItemStack itemStack = null;
-
-                switch (targetInventory)
+                if (_clientMenus.TryGetValue(client, out menu))
                 {
-                    case InventoryTypes.Pocket:
-                        itemStack = menu.Inventory.InventoryList[itemSlot];
-                        break;
+                    ItemStack itemStack = null;
 
-                    case InventoryTypes.Bag:
-                        itemStack = menu.Bag.InventoryList[itemSlot];
-                        break;
+                    switch (targetInventory)
+                    {
+                        case InventoryTypes.Pocket:
+                            itemStack = menu.Inventory.InventoryList[itemSlot];
+                            break;
 
-                    case InventoryTypes.Distant:
-                        itemStack = menu.Distant.InventoryList[itemSlot];
-                        break;
+                        case InventoryTypes.Bag:
+                            itemStack = menu.Bag.InventoryList[itemSlot];
+                            break;
+
+                        case InventoryTypes.Distant:
+                            itemStack = menu.Distant.InventoryList[itemSlot];
+                            break;
+                    }
+
+                    if (itemStack != null && itemStack.Item != null)
+                    {
+                        itemStack.Item.Use(client, targetInventory, itemSlot);
+                    }
+
+                    Refresh(client, menu);
                 }
-
-                if (itemStack != null && itemStack.Item != null)
-                {
-                    itemStack.Item.Use(client, targetInventory, itemSlot);
-                }
-
-                Refresh(client, menu);
             }
         }
         #endregion

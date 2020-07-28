@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Shared;
-using Shared.ItemsClass;
-using System;
+using Server.ItemsClass;
 
 namespace Server
 {

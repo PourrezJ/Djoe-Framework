@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Shared
+namespace Server
 {
     public class ItemStack
     {

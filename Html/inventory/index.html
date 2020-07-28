@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Inventory Management</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/js/jquery-ui.min.js"></script>
+    <script src="lib/js/angular.min.js"></script>
+    <script src="lib/js/angular-confirm.min.js"></script>
+    <script src="lib/js/angular-dragdrop.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="lib/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="lib/css/angular-confirm.min.css" rel="stylesheet" />
+</head>
+
+<body ng-app="DjoeInventory" ng-controller="InventoryCtrl">
+
+    <!-- <div id="playerInventory-outfit">
+        <div class="playerInventory slotWeapons ng-cloak" ng-show="showSlotWeapons">
+            <div class="holster slot" jqyoui-droppable="{stack:false,containment:'position'}" data-drop="true" data-jqyoui-options="{tolerence:'fit',accept:'.weapon.gun'}"></div>
+            <div class="inback slot" jqyoui-droppable="{stack:false,containment:'position'}" data-drop="true" data-jqyoui-options="{tolerence:'fit',accept:'.weapon.heavy'}"></div>
+        </div>
+
+        <div class="playerInventory outfit ng-cloak" data-jqyoui-options="{hoverClass:'hover'}">
+            <div class="slot" ng-class="slot.class" jqyoui-droppable="{stack:false,containment:'position',onDrop:'onSlotDrop(slot)',beforeDrop:'onbeforeDrop(slot)'}" data-drop="true" data-jqyoui-options="{tolerance:'fit'}" ng-repeat="slot in outfitSlots">
+                <div ng-if="slot.item != null" ng-class="slot.item.class" class="item" jqyoui-draggable="{onStart:'onDragStart(slot.item)'}" data-drag="true" data-jqyoui-options="{revert:'invalid',snap:'.slot',snapMode:'inner', zIndex: 100}" ng-right-click="openCtxMenu(slot.item, $event)">
+                    <div class="name">{{slot.item.name}}</div>
+                    <img ng-src="img/icons/{{slot.item.icon}}.png" width="32px" height="32px" />
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div id="inventoryDistant">
+        <div class="playerInventory distant ng-cloak" ng-show="itemsDistant != null" data-jqyoui-options="{hoverClass:'hover'}">
+            <div class="slot" ng-class="'slot'+slot.index" jqyoui-droppable="{stack:false,containment:'position',onDrop:'onSlotDrop(slot)', beforeDrop :'onbeforeDrop(slot)'}" data-drop="getSlotAcceptation(slot)" data-jqyoui-options="{tolerance:'fit', hoverClass:true}" ng-repeat="slot in distantSlots">
+                <div ng-if="slot.item != null" ng-class="slot.item.class" ng-show="slot.item.quantity > 0" class="item" jqyoui-draggable="{onStart:'onDragStart(slot.item)'}" data-drag="true" data-jqyoui-options="{revert: 'invalid',snap:'.slot',snapMode:'inner', zIndex: 100}" ng-right-click="openCtxMenu(slot.item, $event)">
+                    <div class="name">{{slot.item.name}}</div>
+                    <img ng-src="img/icons/{{slot.item.icon}}.png" width="32px" height="32px" />
+                    <span ng-if="slot.item.quantity > 1" class="count">x{{slot.item.quantity}}</span>
+                </div>
+            </div>
+            <div class="weight">
+                <div class="distantBar">
+                    <span></span>
+                </div>
+                <div class="number">
+                    <span>{{itemsDistant.CurrentSize}}KG</span>/{{itemsDistant.MaxSize}}KG
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="playerInventory-global">
+
+        <div id="mainAction" ng-show="showMainAction">
+        </div>
+
+        <div class="title-categories">
+            <div>Sacoche</div>
+        </div>
+
+        <div class="playerInventory inventory pocket ng-cloak" ng-show="displayInventory == 'pocket'">
+            <div class="slot" ng-class="'slot'+slot.index" jqyoui-droppable="{stack:false,containment:'position',onDrop:'onSlotDrop(slot)',beforeDrop :'onbeforeDrop(slot)'}" data-drop="getSlotAcceptation(slot)" data-jqyoui-options="{tolerance:'fit'}" ng-repeat="slot in pocketSlots">
+                <div ng-if="slot.item != null" ng-class="slot.item.class" ng-show="slot.item.quantity > 0" class="item" jqyoui-draggable="{onStart:'onDragStart(slot.item)', beforeDrop :'onbeforeDrop(slot)'}" data-drag="true" data-jqyoui-options="{revert: 'invalid',snap:'.slot',snapMode:'inner', zIndex: 100}" ng-right-click="openCtxMenu(slot.item, $event)">
+                    <div class="name">{{slot.item.name}}</div>
+                    <img ng-src="img/icons/{{slot.item.icon}}.png" width="32px" height="32px" />
+                    <span ng-if="slot.item.quantity > 1" class="count">x{{slot.item.quantity}}</span>
+                </div>
+            </div>
+            <div class="weight">
+                <div class="bar">
+                    <span></span>
+                </div>
+                <div class="number">
+                    <!-- <span>{{itemsPocket.CurrentSize}}KG</span>/{{itemsPocket.MaxSize}}KG -->
+                    <span>0.5KG</span>/{{itemsPocket.MaxSize}}KG
+                </div>
+            </div>
+            <div class="description">Vieux fromage coulant et puant.</div>
+        </div>
+<!--         
+        <div class="playerInventory inventory bag ng-cloak" ng-show="displayInventory == 'bag'">
+            <div class="slot" ng-class="'slot'+slot.index" jqyoui-droppable="{stack:false,containment:'position',onDrop:'onSlotDrop(slot)',beforeDrop :'onbeforeDrop(slot)'}" data-drop="getSlotAcceptation(slot)" data-jqyoui-options="{tolerance:'fit'}" ng-repeat="slot in bagSlots">
+                <div ng-if="slot.item != null" ng-class="slot.item.class" ng-show="slot.item.quantity > 0" class="item" jqyoui-draggable="{onStart:'onDragStart(slot.item)', beforeDrop :'onbeforeDrop(slot)'}" data-drag="true" data-jqyoui-options="{revert: 'invalid',snap:'.slot',snapMode:'inner', zIndex: 100}" ng-right-click="openCtxMenu(slot.item, $event)">
+                    <div class="name">{{slot.item.name}}</div>
+                    <img ng-src="img/icons/{{slot.item.icon}}.png" width="32px" height="32px" />
+                    <span ng-if="slot.item.quantity > 1" class="count">x{{slot.item.quantity}}</span>
+                </div>
+            </div>
+            <div class="weight">
+                <div class="bagbar">
+                    <span></span>
+                </div>
+                <div class="number">
+                    <span>{{itemsBag.CurrentSize}}KG</span>/{{itemsBag.MaxSize}}KG
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div id="contextMenu">
+        <ul>
+            <li ng-show="selectedItem.usable" ng-click="useItem()">
+                <a href="#">Utiliser</a>
+            </li>
+            <!--<li ng-show="selectedItem.equipable" ng-click="equipItem()">
+                <a href="#">Équiper</a>
+            </li>-->
+
+            <li ng-show="itemGive" ng-click="giveItem()">
+                <a href="#">Donner</a>
+            </li>
+            <li ng-show="selectedItem.dropable" ng-click="dropItem()">
+                <a href="#">Jeter</a>
+            </li>
+            <!--<li ng-show="selectedItem.quantity > 1 && selectedItem.stackable && selectedItem.splittable" ng-click="splitItem()">-->
+            <li ng-show="selectedItem.quantity > 1 && selectedItem.stackable" ng-click="splitItem()">
+                <a href="#">Split</a>
+            </li>
+            <li ng-show="itemsDistant.IsMarket && selectedItem.inventoryType == 'distantSlots'" ng-click="changeItemPrice()">
+                <a href="#">Définir un prix</a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

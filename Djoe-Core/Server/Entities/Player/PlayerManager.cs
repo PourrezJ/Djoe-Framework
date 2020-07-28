@@ -251,7 +251,7 @@ namespace Server
             JObject postUi = new JObject();
             postUi.Add("type", "ui");
             postUi.Add("action", "update");
-            postUi.Add("moneyvalue", pData.Money);
+            postUi.Add("moneyvalue", Math.Round(pData.Money, 2));
             postUi.Add("thirstvalue", pData.Thirst);
             postUi.Add("hungervalue", pData.Hunger);
 

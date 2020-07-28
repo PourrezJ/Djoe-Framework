@@ -105,7 +105,7 @@ namespace Client.Scripts
             JObject postUi = new JObject();
             postUi.Add("type", "ui");
             postUi.Add("action", "update");
-            postUi.Add("moneyvalue", PlayerData.Money);
+            postUi.Add("moneyvalue", Math.Round(PlayerData.Money, 2));
             postUi.Add("thirstvalue", PlayerData.Thirst);
             postUi.Add("hungervalue", PlayerData.Hunger);
 

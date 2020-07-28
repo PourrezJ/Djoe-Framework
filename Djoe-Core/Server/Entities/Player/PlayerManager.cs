@@ -149,10 +149,11 @@ namespace Server
                 var playerData = Characters[sid];
                 playerData.Client = source;
                 // Reset temporaire de l'inventaire
+                /*
                 playerData.PocketInventory = new Inventory(30, 16);
                 playerData.OutfitInventory = new OutfitInventory();
 
-                playerData.PocketInventory.AddItem(new Item(ItemID.Fromage, "Fromage", "", 0.1, true, true, true));
+                playerData.PocketInventory.AddItem(new Item(ItemID.Fromage, "Fromage", "", 0.1, true, true, true));*/
 
                 BlipsManager.OnPlayerConnected(source);
                 PedsManager.OnPlayerConnected(source);

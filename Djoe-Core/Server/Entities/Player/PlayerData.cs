@@ -36,6 +36,8 @@ namespace Server
 
         public OutfitInventory OutfitInventory;
 
+        public XPTable XPTable;
+
         public PlayerData()
         {
 

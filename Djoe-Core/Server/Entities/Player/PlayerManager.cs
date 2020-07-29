@@ -97,7 +97,8 @@ namespace Server
                         SkinPlayer = skinPlayer,
                         PocketInventory = new Inventory(30, 16),
                         OutfitInventory = new OutfitInventory(),
-                        BankAccount = new Models.BankAccount(Models.AccountType.Personal, BankAccount.GenerateNewAccountNumber(), Config.Get<double>("StartingBankMoney"))
+                        BankAccount = new BankAccount(Models.AccountType.Personal, BankAccount.GenerateNewAccountNumber(), Config.Get<double>("StartingBankMoney")),
+                        XPTable = new XPTable()
                     };
 
                     Characters.TryAdd(sid, pData);
@@ -153,6 +154,9 @@ namespace Server
                 playerData.OutfitInventory = new OutfitInventory();
 
                 playerData.PocketInventory.AddItem(new Item(ItemID.Fromage, "Fromage", "", 0.1, true, true, true));*/
+
+                if (playerData.XPTable == null)
+                    playerData.XPTable = new XPTable();
 
                 BlipsManager.OnPlayerConnected(source);
                 PedsManager.OnPlayerConnected(source);

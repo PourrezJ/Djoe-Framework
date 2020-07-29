@@ -103,6 +103,7 @@
     <Compile Include="MenuManager\MenuManager.cs" />
     <Compile Include="Menus\AdminMenu.cs" />
     <Compile Include="Menus\PlayerMenu.cs" />
+    <Compile Include="Menus\XPTableMenu.cs" />
     <Compile Include="Models\BanData.cs" />
     <Compile Include="Entities\Player\PlayerData.cs" />
     <Compile Include="Models\WorldData.cs" />

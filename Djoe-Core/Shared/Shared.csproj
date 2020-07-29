@@ -76,6 +76,7 @@
     <Compile Include="StaffRank.cs" />
     <Compile Include="UCoords.cs" />
     <Compile Include="VIP.cs" />
+    <Compile Include="XPTable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -139,7 +139,6 @@ namespace Server.Menus
 
         public static Menu OpenMenu(Player player)
         {
-            Debug.WriteLine("Admin menu open");
             return new AdminMenu(player).Menu;
         }
         #endregion

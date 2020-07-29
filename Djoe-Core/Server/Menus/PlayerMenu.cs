@@ -25,6 +25,8 @@ namespace Server.Menus
 
             Menu = new Menu("ID_Personnal", data.Identity.ToString(), "Menu Personnel");
 
+            Menu.Add(new MenuItem("Table d'XP", "", "ID_XPTable")); ;
+
             if (data.StaffRank >= Shared.StaffRank.Animateur)
                 Menu.Add(new MenuItem("Administration", "", "Id_AdminMenu"));
 
@@ -42,6 +44,10 @@ namespace Server.Menus
             {
                 case "Id_AdminMenu":
                     AdminMenu.OpenMenu(client);
+                    break;
+
+                case "ID_XPTable":
+                    XPTableMenu.OpenMenu(client);
                     break;
             }
         }

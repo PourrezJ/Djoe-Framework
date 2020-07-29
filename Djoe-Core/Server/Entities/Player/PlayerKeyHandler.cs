@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Server.Menus;
+using Server.Utils.Extensions;
 using System;
 
 namespace Server.Entities
@@ -16,6 +17,11 @@ namespace Server.Entities
             uint control = uint.Parse(dyncontrol);
             Console.WriteLine(player.Name + " " + control.ToString());
 
+            var playerData = player.GetPlayerDatabase();
+
+            if (playerData == null)
+                return;
+
             switch (control)
             {
                 case (uint)Control.Loot: // E
@@ -27,7 +33,7 @@ namespace Server.Entities
                     break;
 
                 case (uint)Control.QuickUseItem: // I
-                    PlayerManager.OpenInventory(player);
+                    playerData.OpenInventory(player);
                     break;
 
                 case (uint)Control.SelectItemWheel: // F4

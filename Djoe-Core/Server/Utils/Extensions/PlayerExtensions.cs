@@ -77,11 +77,6 @@ namespace Server.Utils.Extensions
 
             return null;
         }
-
-        public static void UpdateUI(this PlayerData playerData)
-        {
-            PlayerManager.UpdateUI(playerData);
-        }
    
         #endregion
 

@@ -29,7 +29,7 @@ namespace Server.Scripts
                         //await AltAsync.Do(() => ph.SetHealth((ushort)(ph.Client.Health - 25)));
                     }
                     else
-                        PlayerManager.UpdateUI(ph.Value);
+                        ph.Value.UpdateUI();
                 }
             }, 1000 * 60 * 3 / 2);
         }

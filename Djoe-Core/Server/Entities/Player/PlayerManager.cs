@@ -1,6 +1,5 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using Shared;
@@ -166,97 +165,6 @@ namespace Server
                 (uint)GameMode.WorldData.WeatherActual);
     
             }
-        }
-
-        public static void OpenInventory(Player player)
-        {
-            Logger.Debug("Open Inventory");
-
-           // Inventory distant = null; // Todo besoin de connaitre quel inventaire distant ouvrir si besoin
-
-            var ph = player.GetPlayerDatabase();
-
-            if (ph == null)
-                return;
-
-            new RPGInventoryMenu(ph.PocketInventory, ph.OutfitInventory, ph.BagInventory).OpenMenu(player);
-        }
-
-        public static bool AddItem(Player client, Item item, int quantity = 1)
-        {
-            PlayerData playerData = client.GetPlayerDatabase();
-
-            if (playerData == null)
-                return false;
-
-            if (playerData.PocketInventory.AddItem(item, quantity))
-            {
-                if (RPGInventoryManager.HasInventoryOpen(client))
-                {
-                    var rpg = RPGInventoryManager.GetRPGInventory(client);
-                    if (rpg != null)
-                        RPGInventoryManager.Refresh(client, rpg);
-                }
-
-                //item.OnPlayerGetItem(client);
-                return true;
-            }
-            else if (playerData.BagInventory != null && playerData.BagInventory.AddItem(item, quantity))
-            {
-                if (RPGInventoryManager.HasInventoryOpen(client))
-                {
-                    var rpg = RPGInventoryManager.GetRPGInventory(client);
-                    if (rpg != null)
-                        RPGInventoryManager.Refresh(client, rpg);
-                }
-
-                //item.OnPlayerGetItem(this.Client);
-                return true;
-            }
-            else
-                return false;
-        }
-
-        private static void UpdateInventory([FromSource]Player client, string pocketStr, string bagStr)
-        {
-            Logger.Info("Update Inventory");
-            PlayerData playerData = client.GetPlayerDatabase();
-
-            if (playerData == null)
-                return;
-
-            Inventory pocketinventory = Newtonsoft.Json.JsonConvert.DeserializeObject<Inventory>(pocketStr);
-            playerData.PocketInventory = pocketinventory;
-
-            Inventory baginventory = null;
-
-            if (string.IsNullOrEmpty(bagStr))
-            {
-                baginventory = Newtonsoft.Json.JsonConvert.DeserializeObject<Inventory>(bagStr);
-                playerData.BagInventory = baginventory;
-            }
-
-            playerData.Update();
-        }
-
-        public static void UpdateUI(PlayerData pData)
-        {
-            if (pData.Client == null)
-                return;
-
-            var player = pData.Client as Player;
-
-            if (!Characters.ContainsKey(player.Identifiers["steam"]))
-                return;
-
-            JObject postUi = new JObject();
-            postUi.Add("type", "ui");
-            postUi.Add("action", "update");
-            postUi.Add("moneyvalue", Math.Round(pData.Money, 2));
-            postUi.Add("thirstvalue", pData.Thirst);
-            postUi.Add("hungervalue", pData.Hunger);
-
-            player.TriggerEvent("djoe:updateUi", postUi.ToString());
         }
 
         public static List<PlayerData> GetPlayerOnline()

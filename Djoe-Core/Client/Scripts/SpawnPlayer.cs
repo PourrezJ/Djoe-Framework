@@ -23,6 +23,8 @@ namespace Client.Scripts
             EventHandlers["djoe:initPlayer"] += new Action<string, string, uint>(InitPlayer);
             EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
 
+            Tick += HardCapTick;
+
             UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Initialisation.");
         }
 
@@ -42,18 +44,7 @@ namespace Client.Scripts
 
             TriggerServerEvent("djoe:playerSpawn");
         }
-        /*
-        private async void InitTpPlayer(object spawnInfo)
-        {
-            if (firstSpawn)
-            {
-                Debug.WriteLine("VORP INIT_PLAYER");
-                await Delay(4000);
-                TriggerServerEvent("djoe:playerSpawn");
-                firstSpawn = false;
-            }
-        }
-        */
+
         private async void InitPlayer(string dataStr, string currentTime, uint weatherType)
         {
             UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Information reçu par le serveur.");
@@ -171,46 +162,13 @@ namespace Client.Scripts
             return Task.FromResult(0);
         }
 
-        [Tick]
-        private Task OnTick()
+        private Task HardCapTick()
         {
-
-
-
-
-
-
-
-
-            /* What is this shit?
-            int pped = API.PlayerPedId();
-            uint playerHash = (uint)Util.GetHashKey("PLAYER");
-
-            if (API.IsControlPressed(0, (uint)0xCEFD9220))
+            if (API.NetworkIsSessionStarted())
             {
-                Function.Call((Hash)0xBF25EB89375A37AD, 1, playerHash, playerHash);
-                active = true;
-                await Delay(4000);
+                TriggerServerEvent("HardCap.PlayerActivated");
+                Tick -= HardCapTick;
             }
-            if (!API.IsPedOnMount(pped) && !API.IsPedInAnyVehicle(pped, false) && active == true)
-            {
-                Function.Call((Hash)0xBF25EB89375A37AD, 5, playerHash, playerHash);
-                active = false;
-
-            }
-            else if (active == true && (API.IsPedOnMount(pped) || API.IsPedInAnyVehicle(pped, false)))
-            {
-                if (API.IsPedInAnyVehicle(pped, false))
-                {
-
-                }
-                else if (API.GetPedInVehicleSeat(API.GetMount(pped), -1) == pped)
-                {
-                    Function.Call((Hash)0xBF25EB89375A37AD, 5, playerHash, playerHash);
-                    active = false;
-                }
-            }*/
-
             return Task.FromResult(0);
         }
     }

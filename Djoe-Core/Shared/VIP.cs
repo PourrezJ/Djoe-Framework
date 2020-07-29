@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 
 namespace Shared
 {
@@ -11,7 +12,8 @@ namespace Shared
 
     public class VIP
     {
-        public string SteamID;
+        public static ConcurrentDictionary<string, VIP> VIPS = new ConcurrentDictionary<string, VIP>();
+        
         public VIPLevel VIPLevel;
         public DateTime Souscription;
         public DateTime EndSouscription;

@@ -23,7 +23,7 @@ namespace Server
         public static void Init()
         {
             GameMode.RegisterEventHandler("djoe:playerSpawn", new Action<Player>(PlayerSpawnFunction));
-            GameMode.RegisterEventHandler("djoecharacter:SaveSkinDB", new Action<Player, string, string, string>(SaveSkinDB));
+            GameMode.RegisterEventHandler("djoe:SaveSkinDB", new Action<Player, string, string, string>(SaveSkinDB));
             GameMode.RegisterEventHandler("djoe:update", new Action<Player, Vector3, float, float>(UpdatePlayer));
 
             Thread InstanceCaller = new Thread(
@@ -140,7 +140,7 @@ namespace Server
             if (!Characters.ContainsKey(sid))
             {
                 Logger.Info("Envoi du joueur" + sid + " dans le character creator.");
-                Characters[sid] = new PlayerData();
+                
                 source.TriggerEvent("djoe:createPlayer");
             }
             else

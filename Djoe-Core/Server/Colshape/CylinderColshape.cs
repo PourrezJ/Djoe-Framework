@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using Server.Utils.Extensions;
 using System;
 using System.Runtime.ExceptionServices;
@@ -23,15 +24,23 @@ namespace Server.Colshape
         [HandleProcessCorruptedStateExceptions, SecurityCritical]
         public override bool IsEntityInside(Player entity)
         {
+            if (entity == null)
+            {
+                return false;
+            }
+
             lock (entity)
             {
                 /*
                 if (entity.Character == null) < -- can't work server side on RedM | FiveM without OneSync
                     return false;*/
 
-                var data = entity?.GetPlayerDatabase();
+                var data = entity.GetPlayerDatabase();
 
                 if (data == null)
+                    return false;
+
+                if (data.LastCoord == null)
                     return false;
 
                 if (data.LastCoord.Z < Position.Z || data.LastCoord.Z > Position.Z + Height)

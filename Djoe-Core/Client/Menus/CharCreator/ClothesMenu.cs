@@ -330,6 +330,11 @@ namespace Client.Menus
 
             clothesMenu.OnListIndexChange += (_menu, _listItem, _oldIndex, _newIndex, _itemIndex) =>
             {
+                Debug.WriteLine(_itemIndex.ToString());
+
+                if (_itemIndex >= 19 && CreatePlayer.model_selected == "mp_male")
+                    _itemIndex++;
+
                 switch (_itemIndex)
                 {
                     case 0:
@@ -393,6 +398,7 @@ namespace Client.Menus
                         CreatePlayer.SetPlayerComponent(_newIndex, 0xA0E3AB7F, "Skirt", SkinsUtils.SKIRTS_FEMALE, SkinsUtils.SKIRTS_FEMALE);
                         break;
                     case 20:
+                        Debug.WriteLine("Chap");
                         CreatePlayer.SetPlayerComponent(_newIndex, 0x3107499B, "Chap", SkinsUtils.CHAPS_MALE, SkinsUtils.CHAPS_FEMALE);
                         break;
                     case 21:

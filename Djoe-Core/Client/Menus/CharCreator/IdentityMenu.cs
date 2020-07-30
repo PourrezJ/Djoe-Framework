@@ -2,6 +2,8 @@
 using MenuAPI;
 using System;
 using ClientExtented;
+using Client.Ui;
+using Client.Scripts;
 
 namespace Client.Menus.CharCreator
 {
@@ -46,12 +48,25 @@ namespace Client.Menus.CharCreator
                     break;
 
                 case "Âge:":
+                    int age = Convert.ToInt32(await Inputbox.GetUserInput(CreatePlayer.Identity.Age.ToString()));
+
+                    if (age < 16)
+                    {
+                        Toast.AddToast("~e~Votre personnage doit avoir minimum 16ans! (Vous aussi!)", 7000);
+                        return;
+                    }    
+                    else if (age > 90)
+                    {
+                        Toast.AddToast("~e~Votre personnage doit avoir maximum 90 ans!", 7000);
+                        return;
+                    }
+
                     CreatePlayer.Identity.Age = Convert.ToInt32(await Inputbox.GetUserInput(CreatePlayer.Identity.Age.ToString()));
                     menuItem.Label = CreatePlayer.Identity.Age.ToString();
                     break;
 
                 case "Nationalité:":
-                    CreatePlayer.Identity.Nationality = await Inputbox.GetUserInput(CreatePlayer.Identity.Nationality);
+                    CreatePlayer.Identity.Nationality = (await Inputbox.GetUserInput(CreatePlayer.Identity.Nationality)).ToUpper();
                     menuItem.Label = CreatePlayer.Identity.Nationality;
                     break;
             }

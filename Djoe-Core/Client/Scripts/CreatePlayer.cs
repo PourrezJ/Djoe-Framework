@@ -197,6 +197,8 @@ namespace Client
 
         private async void StartCreation()
         {
+            Game.PlayerPed.IsPositionFrozen = true;
+
             var charCreatorPos = new Vector3(-563.1345f, -3775.811f, 237.60f);
 
             var intdataMale = new Interior(new Vector3(-561.8157f, -3780.966f, 239.0805f), "mp_char_male_mirror");
@@ -212,6 +214,7 @@ namespace Client
 
             Function.Call((Hash)0x1E5B70E53DB661E5, 1122662550, 347053089, 0, "Les hors la loi", "Chargement...", "Lancement de la création du personnage.");
 
+            await Delay(500);
 
             Function.Call(Hash._REQUEST_IMAP, 183712523);
             Function.Call(Hash._REQUEST_IMAP, -1699673416);
@@ -219,9 +222,13 @@ namespace Client
 
             await Delay(500);
 
+            CreateCams();
+
+            await Delay(100);
+
             await CreationSelectPeds();
 
-            CreateCams();
+            await Delay(500);
 
             API.ShutdownLoadingScreen();
             API.DoScreenFadeIn(500);
@@ -676,11 +683,17 @@ namespace Client
 
         private async Task CreationSelectPeds()
         {
-            PedFemale = await World.CreatePed(new Model(model_f), new Vector3(-558.43f, -3776.65f, 237.7f), 93.2f, false, true);
-            PedMale = await World.CreatePed(new Model(model_m), new Vector3(-558.52f, -3775.6f, 237.7f), 93.2f, false, true);
+            var pedFemaleModel = new Model(model_f);
+            var pedMaleModel = new Model(model_m);
 
-            //Function.Call((Hash)0x283978A15512B2FE, PedFemale.Handle, true);
-            //Function.Call((Hash)0x283978A15512B2FE, PedMale.Handle, true);
+            await pedFemaleModel.Request(1000);
+            await pedMaleModel.Request(1000);
+
+            PedFemale = await World.CreatePed(pedFemaleModel, new Vector3(-558.43f, -3776.65f, 237.7f), 93.2f, false, true);
+            PedMale = await World.CreatePed(pedMaleModel, new Vector3(-558.52f, -3775.6f, 237.7f), 93.2f, false, true);
+
+            Function.Call((Hash)0x283978A15512B2FE, PedFemale.Handle, true);
+            Function.Call((Hash)0x283978A15512B2FE, PedMale.Handle, true);
 
             API.SetPedOutfitPreset(PedFemale.Handle, 2, 0);
             API.SetPedOutfitPreset(PedMale.Handle, 4, 0);

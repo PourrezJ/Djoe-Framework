@@ -46,14 +46,19 @@ namespace Server.Colshape
 
         public static void OnPlayerDisconnect([FromSource]Player player, string reason)
         {
+            Logger.Debug($" {player.Identifiers["steam"]} {reason}");
+
             lock (Colshapes)
             {
                 foreach (IColshape colshape in Colshapes.Values)
                 {
-                    if (colshape.IsEntityIn(player))
+                    lock (colshape)
                     {
-                        colshape.RemoveEntity(player);
-                        OnPlayerLeaveColshape?.Invoke(colshape, player);
+                        if (colshape.IsEntityIn(player))
+                        {
+                            colshape.RemoveEntity(player);
+                            OnPlayerLeaveColshape?.Invoke(colshape, player);
+                        }
                     }
                 }
             }

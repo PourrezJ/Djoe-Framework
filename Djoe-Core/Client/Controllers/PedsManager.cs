@@ -55,8 +55,11 @@ namespace Client.Controllers
 
             ped.IsPositionFrozen = peddata.IsPositionFrozen;
             ped.IsInvincible = peddata.Invincible | peddata.IsPositionFrozen;
+            ped.BlockPermanentEvents = true;
+            ped.CanRagdoll = false;
+
             API.SetEntityCanBeDamaged(ped.Handle, false);
-            
+
             PedList.Add(ped, peddata);
 
             Debug.WriteLine("ped created: " + peddata.NetworkID);

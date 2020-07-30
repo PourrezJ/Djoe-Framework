@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Businesses\Stables.cs" />
     <Compile Include="Businesses\Store.cs" />
     <Compile Include="Businesses\GeneralStore.cs" />
     <Compile Include="Colshape\Colshape.cs" />

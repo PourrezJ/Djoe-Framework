@@ -171,7 +171,7 @@ namespace Server
             }
         }
 
-        public static List<PlayerData> GetPlayerOnline()
+        public static List<PlayerData> GetPlayersOnline()
         {
             return Characters.Values.ToList().FindAll(p => p.Client != null);
         }

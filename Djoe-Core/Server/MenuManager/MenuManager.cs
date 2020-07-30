@@ -158,7 +158,7 @@ namespace Server
             return _clientMenus.ContainsKey(client);
         }
 
-        public static bool OpenMenu(Player client, Menu menu, string customData = "")
+        public static bool OpenMenu(Player client, Menu menu, string customData)
         {
             if (menu.Items.Count == 0 || menu.Items == null)
                 return false;
@@ -175,6 +175,7 @@ namespace Server
                 if (_clientMenus.TryAdd(client, menu))
                 {
                     string json = JsonConvert.SerializeObject(menu, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                    Debug.WriteLine(customData);
                     client.TriggerEvent("MenuManager_OpenMenu", json, customData);
                     return true;
                 }

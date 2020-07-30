@@ -31,15 +31,6 @@ namespace Shared.MenuManager
         public MenuAnchor Anchor { get; set; } = MenuAnchor.MiddleRight;
         public bool NoExit { get; set; }
         public bool EnableBanner { get; set; }
-        public bool CallbackOnIndexChange
-        {
-            get 
-            {
-                if (IndexChangeCallback != null)
-                    return true;
-                return false;
-            }
-        }
         public MenuItemList Items { get; set; }
 
         public int SelectedIndex

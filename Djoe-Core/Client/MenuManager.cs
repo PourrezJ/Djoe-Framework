@@ -20,6 +20,8 @@ namespace Client
         private static Menu menuData;
         private static UIMenu uiMenu;
 
+
+        public static MenuBeforeOpenedDelegate BeforeOpenMenuCallback { get; set; }
         public static MenuOpenedDelegate OpenMenuCallback { get; set; }
         public static ItemCallBackDelegate ItemCallBack { get; set; }
         public static ListIndexChangeDelegate ListIndexChangeCallBack { get; set; }
@@ -29,6 +31,7 @@ namespace Client
         #endregion
 
         #region Delegates
+        public delegate void MenuBeforeOpenedDelegate(Menu menu, string customData);
         public delegate void MenuOpenedDelegate(UIMenu uimenu, Menu menu, string customData);
         public delegate void ItemCallBackDelegate(Menu menu, UIMenu uimenu, MenuItem menuItem, MenuAPI.MenuItem uiMenuItem, string input = "");
         public delegate void ListIndexChangeDelegate(Menu menu, UIMenu uimenu, MenuAPI.MenuListItem listItem, int oldSelectionIndex, int newSelectionIndex, int itemIndex);
@@ -48,17 +51,15 @@ namespace Client
         #region Menu
         private static void OpenMenuManager(string data, string customData)
         {
-            Debug.WriteLine("OpenMenuManager");
             menuData = JsonConvert.DeserializeObject<Menu>(data, new MenuConverter(typeof(Menu)));
-            
+
+            BeforeOpenMenuCallback?.Invoke(menuData, customData);
+
             if (uiMenu != null)
             {
-                Debug.WriteLine("CloseMenu");
                 uiMenu.CloseMenu();
                 uiMenu = null;
             }
-
-            Debug.WriteLine(JsonConvert.SerializeObject(menuData.Items));
 
             uiMenu = new UIMenu(!string.IsNullOrEmpty(menuData.Title) ? menuData.Title : " ", menuData.SubTitle);
 
@@ -150,8 +151,7 @@ namespace Client
             uiMenu.OnIndexChange += (MenuAPI.Menu menu, MenuAPI.MenuItem oldItem, MenuAPI.MenuItem newItem, int oldIndex, int newIndex) =>
             {
                 IndexChangeCallBack?.Invoke(menuData, menu, oldItem, newItem, oldIndex, newIndex);
-                if (menuData.CallbackOnIndexChange)
-                    TriggerServerEvent("MenuManager_IndexChanged", newIndex);
+                TriggerServerEvent("MenuManager_IndexChanged", newIndex);
             };
 
             //uiMenu.MouseControlsEnabled = false;

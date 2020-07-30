@@ -67,6 +67,7 @@
     <Compile Include="Menus\Admin.cs" />
     <Compile Include="Menus\CharCreator\IdentityMenu.cs" />
     <Compile Include="Menus\GeneralStore.cs" />
+    <Compile Include="Menus\Stables.cs" />
     <Compile Include="Models\PlayerData.cs" />
     <Compile Include="Scripts\CreatePlayer.cs" />
     <Compile Include="Scripts\Interactions.cs" />

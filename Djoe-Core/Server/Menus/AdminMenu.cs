@@ -37,7 +37,7 @@ namespace Server.Menus
             {
                 List<string> players = new List<string>();
 
-                var onlinePlayer = PlayerManager.GetPlayerOnline();
+                var onlinePlayer = PlayerManager.GetPlayersOnline();
                 for (int a = 0; a < onlinePlayer.Count; a++)
                     players.Add(onlinePlayer[a].Identity.ToString());
 

@@ -23,23 +23,11 @@ namespace Server.Stores
 
         public override void Init()
         {
-            var colshape = ColshapeManager.CreateCylinderColshape(Location.ToVector3(), 10, 3);
-            colshape.OnPlayerEnterColshape += OnPlayerEnterColshape;
-            colshape.OnPlayerLeaveColshape += OnPlayerLeaveColshape;
-            colshape.OnPlayerInteractInColshape += OnPlayerInteractInColshape;
-
             base.Init();
         }
 
         public override void OpenMenu(Player client, PedNetwork npc)
         {
-
-        }
-
-        private void OnPlayerInteractInColshape(IColshape colshape, Player client)
-        {
-            Console.WriteLine("OnPlayerInteractInColshape");
-
             Menu menu = new Menu("ID_GeneralStoreMenu", this.BusinnessName);
 
             menu.ItemSelectCallback += OnItemSelectCallBack;
@@ -47,7 +35,7 @@ namespace Server.Stores
 
             double[] prices = new double[ItemList.Count];
 
-            for(int a = 0; a < ItemList.Count; a++)
+            for (int a = 0; a < ItemList.Count; a++)
             {
                 var item = ItemList[a];
                 prices[a] = item.ItemPrice;
@@ -57,6 +45,7 @@ namespace Server.Stores
 
             menu.OpenMenu(client, Newtonsoft.Json.JsonConvert.SerializeObject(prices));
         }
+
 
         private void OnItemSelectCallBack(Player client, Menu menu, IMenuItem menuItem, int itemIndex)
         {
@@ -96,18 +85,7 @@ namespace Server.Stores
 
         private void OnListItemChangeCallback(Player client, Menu menu, IListItem listItem, int listIndex)
         {
-            Console.WriteLine(listIndex);
-        }
-
-        private void OnPlayerLeaveColshape(IColshape colshape, Player client)
-        {
-            Console.WriteLine("OnPlayerLeaveColshape");
-        }
-
-        private void OnPlayerEnterColshape(IColshape colshape, Player client)
-        {
-            client.SendTipNotification("Appuyez sur ~INPUT_CONTEXT~ pour intéragir");
-            Console.WriteLine("OnPlayerEnterColshape");
+           
         }
     }
 }

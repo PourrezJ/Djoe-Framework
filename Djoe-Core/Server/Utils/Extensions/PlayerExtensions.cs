@@ -202,6 +202,9 @@ namespace Server.Utils.Extensions
         }
         #endregion
 
+        #region Menu
+        #endregion
+
         #region API
         public static void SetPosition(this Player client, Vector3 position, int fadedelay = 0)
         {

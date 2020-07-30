@@ -1,11 +1,13 @@
 ﻿using CitizenFX.Core.Native;
 using Newtonsoft.Json.Linq;
+using Server.Businesses;
 using Server.Stores;
 using Server.Utils;
 using Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Server.Loader
 {
@@ -19,43 +21,61 @@ namespace Server.Loader
             if (!Directory.Exists(MakePath())) 
                 Directory.CreateDirectory(MakePath());
 
-            string[] files = Directory.GetFiles(MakePath(), "*.json");
+            string[] files = Directory.GetFiles(MakePath(), "*.json", SearchOption.AllDirectories);
             
             foreach (var file in files)
             {
                 var o = JObject.Parse(File.ReadAllText(file));
                 var jsonType = (int)o["StoreType"];
 
-                switch (jsonType)
+                try
                 {
-                    case (int)StoreType.GeneralStore:
-                        var gs = o.ToObject<GeneralStore>();
+                    switch (jsonType)
+                    {
+                        case (int)StoreType.GeneralStore:
+                            var gs = o.ToObject<GeneralStore>();
 
-                        var itemList = o["Items"];
+                            var itemList = o["Items"];
 
-                        foreach(var dynItem in itemList)
-                        {
-                            var itemID = (int)dynItem["Id"];
-
-                            if (ItemLoader.ItemList.ContainsKey(itemID))
+                            foreach (var dynItem in itemList)
                             {
-                                var item = ItemLoader.ItemList[itemID];
+                                var itemID = (int)dynItem["Id"];
 
-                                if (dynItem["Name"] != null)
-                                    item.Name = (string)dynItem["Name"];
+                                if (ItemLoader.ItemList.ContainsKey(itemID))
+                                {
+                                    var item = ItemLoader.ItemList[itemID];
 
-                                if (dynItem["Price"] != null)
-                                    item.ItemPrice = (double)dynItem["Price"];
+                                    if (dynItem["Name"] != null)
+                                        item.Name = (string)dynItem["Name"];
 
-                                if (dynItem["Description"] != null)
-                                    item.Description = (string)dynItem["Description"];
+                                    if (dynItem["Price"] != null)
+                                        item.ItemPrice = (double)dynItem["Price"];
 
-                                gs.ItemList.Add(item);
+                                    if (dynItem["Description"] != null)
+                                        item.Description = (string)dynItem["Description"];
+
+                                    gs.ItemList.Add(item);
+                                }
                             }
-                        }
 
-                        gs.Init();
-                    break;
+                            gs.Init();
+                            break;
+
+                        case (int)StoreType.Stables:
+                            var sb = o.ToObject<StableStore>();
+                            var spawnPos = o["SpawnPos"];
+
+                            sb.SpawnPos = spawnPos.ToObject<List<UCoords>>();
+
+                            sb.HorseList = o["Horses"].ToObject<List<StableHorse>>();
+
+                            sb.Init();
+                            break;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Logger.Exception(ex);
                 }
             }
 

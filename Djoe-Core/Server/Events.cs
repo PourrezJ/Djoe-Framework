@@ -23,7 +23,7 @@ namespace Server
             {
                 coordsFile = File.AppendText("SavedCoords.txt");
             }
-            var data = $"| {coordName} | pos: new Vector3({posx}f,{posy}f,{posz}f); rot: new Vector3(0,0,{heading}f);";
+            var data = $"| {coordName} | pos: new Vector3({posx}f,{posy}f,{posz}f); heading: {heading});";
             Logger.Info(data);
             coordsFile.WriteLine(data);
             coordsFile.Close();

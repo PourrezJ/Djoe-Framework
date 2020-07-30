@@ -34,6 +34,7 @@ namespace Client
 
             // Menus
             GeneralStore.Init();
+            Stables.Init();
 
             Tick += OnTick;
         }

@@ -124,7 +124,6 @@ namespace Client.Scripts
         {
             Function.Call(Hash.NETWORK_SET_FRIENDLY_FIRE_OPTION, true);
             Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups("Player", (Relationship)6, true);
-            Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups("", (Relationship)6, true);
         }
 
         private static DateTime _lastupdate = DateTime.Now;

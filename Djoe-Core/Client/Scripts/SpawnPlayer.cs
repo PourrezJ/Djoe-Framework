@@ -25,7 +25,7 @@ namespace Client.Scripts
 
             Tick += HardCapTick;
 
-            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Initialisation.");
+            UIHelper.LoadingScreenText("RDRP", "Chargement...", "Initialisation.");
         }
 
         private async void OnClientResourceStart(string resourceName)
@@ -33,21 +33,21 @@ namespace Client.Scripts
             if (API.GetCurrentResourceName() != resourceName)
                 return;
 
-            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Préparation du joueur.");
+            UIHelper.LoadingScreenText("RDRP", "Chargement...", "Préparation du joueur.");
 
             await new Model("MP_Male").Request(100);
             await new Model("MP_Female").Request(100);
 
             await Game.Player.ChangeModel("MP_Male");
 
-            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Demande d'information au serveur.");
+            UIHelper.LoadingScreenText("RDRP", "Chargement...", "Demande d'information au serveur.");
 
             TriggerServerEvent("djoe:playerSpawn");
         }
 
         private async void InitPlayer(string dataStr, string currentTime, uint weatherType)
         {
-            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Information reçu par le serveur.");
+            UIHelper.LoadingScreenText("RDRP", "Chargement...", "Information reçu par le serveur.");
 
             Debug.WriteLine(dataStr);
 
@@ -66,7 +66,7 @@ namespace Client.Scripts
 
             Function.Call(Hash.NETWORK_RESURRECT_LOCAL_PLAYER, pos.X, pos.Y, pos.Z, coords.Heading, true, true, false);
 
-            UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", $"Chargement du personnage {PlayerData.Identity.FirstName} {PlayerData.Identity.LastName}.");
+            UIHelper.LoadingScreenText("RDRP", "Chargement...", $"Chargement du personnage {PlayerData.Identity.FirstName} {PlayerData.Identity.LastName}.");
             await LoadPlayer.LoadAllComps(PlayerData.SkinPlayer, PlayerData.Clothes);
 
             Game.PlayerPed.PositionNoOffset = new Vector3(pos.X, pos.Y, pos.Z);

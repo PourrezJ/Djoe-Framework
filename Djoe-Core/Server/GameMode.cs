@@ -36,7 +36,7 @@ namespace Server
 
             PlayersList = Players;
 
-            API.SetMapName("Les Hors La Loi");
+            API.SetMapName("RDRP");
             API.SetGameType("roleplay");
 
             Config.LoadConfig("Config.json");

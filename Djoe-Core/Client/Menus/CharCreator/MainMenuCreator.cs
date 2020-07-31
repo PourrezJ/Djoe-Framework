@@ -122,7 +122,7 @@ namespace Client.Menus
                         return;
                     }
 
-                    UIHelper.LoadingScreenText("Les hors la loi", "Chargement...", "Envoi des informations au serveur");
+                    UIHelper.LoadingScreenText("RDRP", "Chargement...", "Envoi des informations au serveur");
                     CreatePlayer.SaveChanges();
                     mainMenu.CloseMenu();
                 }

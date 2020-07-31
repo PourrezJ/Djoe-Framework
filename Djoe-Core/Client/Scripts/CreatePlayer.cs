@@ -216,7 +216,7 @@ namespace Client
             intdataFemale.Active = true;
             intdataMale.Active = true;
             
-            Function.Call((Hash)0x1E5B70E53DB661E5, 1122662550, 347053089, 0, "Les hors la loi", "Chargement...", "Lancement de la création du personnage.");
+            Function.Call((Hash)0x1E5B70E53DB661E5, 1122662550, 347053089, 0, "RDRP", "Chargement...", "Lancement de la création du personnage.");
 
             await Delay(500);
 

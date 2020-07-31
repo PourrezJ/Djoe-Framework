@@ -92,7 +92,10 @@ namespace Server.Database
                 foreach (var horse in horses)
                 {
                     // Todo: ajouter un check nombre de temps sans avoir bouger?
-                    HorseManager.HorseDatas.TryAdd(horse.OwnerID, horse);
+                    if (HorseManager.HorseDatas.ContainsKey(horse.OwnerID))
+                        HorseManager.HorseDatas[horse.OwnerID].Add(horse);
+                    else
+                        HorseManager.HorseDatas.Add(horse.OwnerID, new System.Collections.Generic.List<HorseData>() { horse });
                 }
 
                 Logger.Info("MongoDB Started!");

@@ -74,7 +74,8 @@ namespace Server
                         ((CheckboxItem)menuItem).Checked = checkbox;
                     else if (menuItem.Type == MenuItemType.ListItem)
                         ((ListItem)menuItem).SelectedItem = itemListIndex;
-                    else if (menuItem.InputMaxLength > 0)
+
+                    if (menuItem.InputMaxLength > 0)
                         menuItem.InputValue = input;
 
                     

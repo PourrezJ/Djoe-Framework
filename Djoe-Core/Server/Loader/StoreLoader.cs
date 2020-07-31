@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core.Native;
+using MongoDB.Bson.IO;
 using Newtonsoft.Json.Linq;
 using Server.Businesses;
 using Server.Stores;
@@ -68,6 +69,7 @@ namespace Server.Loader
                             sb.SpawnPos = spawnPos.ToObject<List<UCoords>>();
 
                             sb.HorseList = o["Horses"].ToObject<List<StableHorse>>();
+                            sb.CompomentList = o["Complements"].ToObject<List<CompomentHorse>>();
 
                             sb.Init();
                             break;

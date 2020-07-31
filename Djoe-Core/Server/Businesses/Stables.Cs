@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Server.Entities;
 using Server.Stores;
-using Server.Utils;
 using Server.Utils.Enums;
 using Server.Utils.Extensions;
 using Shared;
@@ -10,17 +9,15 @@ using Shared.MenuManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.Businesses
 {
 
     public class StableStore : Store
     {
-
         public List<UCoords> SpawnPos = new List<UCoords>();
         public List<StableHorse> HorseList = new List<StableHorse>();
+        public List<CompomentHorse> CompomentList = new List<CompomentHorse>();
         public StableHorse StableHorse;
         public UCoords SpawnSelected;
 
@@ -71,6 +68,19 @@ namespace Server.Businesses
             menu.OpenMenu(client, JsonConvert.SerializeObject(new { Horses = HorseList[0], Spawn = SpawnSelected }));
         }
 
+        private void OpenCompomentDealer(Player player)
+        {
+            Menu menu = new Menu("ID_CompomentDealer", "Écurie", backCloseMenu: true);
+
+            foreach(var comp in CompomentList)
+            {
+                var listItem = new ListItem(comp.Name, "", "ID_Comp", comp.Variations.Keys.ToList<string>(), 0, true);
+                menu.Add(listItem);
+            }
+
+            menu.OpenMenu(player);
+        }
+
         private void OnIndexChange(Player client, Menu menu, int itemIndex, IMenuItem menuItem)
         {
             if (itemIndex <= HorseList.Count)
@@ -91,6 +101,23 @@ namespace Server.Businesses
 
                 case "Id_Management":
 
+                    if (HorseManager.HorseDatas.ContainsKey(client.Identifiers["steam"]))
+                    {
+                        menu.ClearItems();
+                        var myHorses = HorseManager.HorseDatas[client.Identifiers["steam"]];
+
+                        foreach (HorseData myhorse in myHorses)
+                        {
+                            menu.Add(new MenuItem(myhorse.Name, "", "Id_MyHorse"));
+                        }
+
+                        menu.OpenMenu(client);
+                    }
+                    else
+                    {
+                        client.SendTipRightNotification("~e~Vous ne possedez pas de chevaux.");
+                        //MenuManager.CloseMenu(client);
+                    }
                     break;
 
                 case "Id_Horse":
@@ -116,16 +143,29 @@ namespace Server.Businesses
                 var hash = Utils.Misc.GetHashKey(horseHash);
                 PedsManager.CreatePed(client, (PedHash)hash, SpawnSelected, false, PedType.Horse);
 
+                var clientID = client.Identifiers["steam"];
+
                 var hData = new HorseData()
                 {
                     Name = name,
                     Hash = hash,
                     LastCoords = SpawnSelected,
-                    OwnerID = client.Identifiers["steam"],
+                    OwnerID = clientID,
                     Inventory = new Inventory(invheight, 40)
                 };
 
                 await Database.MongoDB.InsertAsync<HorseData>("horses", hData, "BuyHorse");
+
+                if (HorseManager.HorseDatas.ContainsKey(clientID))
+                {
+                    HorseManager.HorseDatas[clientID].Add(hData);
+                }
+                else
+                {
+                    HorseManager.HorseDatas.Add(clientID, new List<HorseData>() { hData });
+                }
+
+                client.SendTipRightNotification($"Vous venez d'acheter {name} pour le prix de ${price}");
             }
         }
 

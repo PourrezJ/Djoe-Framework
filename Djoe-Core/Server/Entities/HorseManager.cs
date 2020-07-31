@@ -11,33 +11,33 @@ namespace Server.Entities
 {
     public class HorseManager
     {
-        public static ConcurrentDictionary<string, HorseData> HorseDatas = new ConcurrentDictionary<string, HorseData>();
+        public static Dictionary<string, List<HorseData>> HorseDatas = new Dictionary<string, List<HorseData>>();
 
         public static void Init()
-        {
+        {/*
             Thread InstanceCaller = new Thread(new ThreadStart(HorsesUpdateLoop));
 
             // Start the thread.
-            InstanceCaller.Start();
+            InstanceCaller.Start();*/
         }
-
+        /*
         private static async void HorsesUpdateLoop()
         {
             while (true)
             {
                 foreach (var horse in HorseDatas)
                 {
-                    if (horse.Value.NeedUpdate)
+                    if (horse.Value.)
                     {
-                        await horse.Value.UpdateAsync();
-                        horse.Value.NeedUpdate = false;
+                        await horse.UpdateAsync();
+                        horse.NeedUpdate = false;
                     }
 
                     Thread.Sleep(50);
                 }
-
+                horseDatas.Clear();
                 Thread.Sleep(100);
             }
-        }
+        }*/
     }
 }

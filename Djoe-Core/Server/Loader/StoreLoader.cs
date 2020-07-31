@@ -75,6 +75,7 @@ namespace Server.Loader
                 }
                 catch(Exception ex)
                 {
+                    Logger.Debug(file);
                     Logger.Exception(ex);
                 }
             }

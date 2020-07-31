@@ -27,6 +27,9 @@ namespace ClientExtended.External
         public bool IsOnMount => Function.Call<bool>(Hash.IS_PED_ON_MOUNT, Handle);
         public bool IsAttachedToAnyPed => Function.Call<bool>(Hash.IS_ENTITY_ATTACHED_TO_ANY_PED, Handle);
 
+        public bool IsSittingInVehicle() => Function.Call<bool>(Hash.IS_PED_SITTING_IN_ANY_VEHICLE, Handle);
+        public bool IsSittingInVehicle(Vehicle vehicle) => Function.Call<bool>(Hash.IS_PED_SITTING_IN_VEHICLE, Handle, vehicle.Handle);
+
         public Ped GetMount => (Ped)FromHandle(Function.Call<int>(Hash.GET_MOUNT, Handle));
         public Vehicle CurrentVehicle => (Vehicle)FromHandle(Function.Call<int>(Hash.GET_VEHICLE_PED_IS_IN, Handle, false));
         public Vehicle LastVehicle => (Vehicle)FromHandle(Function.Call<int>(Hash.GET_VEHICLE_PED_IS_IN, Handle, true));
@@ -136,14 +139,6 @@ namespace ClientExtended.External
             }
         }
 
-        public bool IsSittingInVehicle()
-        {
-            return Function.Call<bool>(Hash.IS_PED_SITTING_IN_ANY_VEHICLE, Handle);
-        }
-        public bool IsSittingInVehicle(Vehicle vehicle)
-        {
-            return Function.Call<bool>(Hash.IS_PED_SITTING_IN_VEHICLE, Handle, vehicle.Handle);
-        }
         public void SetIntoVehicle(Vehicle vehicle, VehicleSeat seat)
         {
             Function.Call(Hash.SET_PED_INTO_VEHICLE, Handle, vehicle.Handle, seat);

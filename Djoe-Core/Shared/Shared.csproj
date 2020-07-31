@@ -72,6 +72,7 @@
     <Compile Include="MenuManager\MenuItem.cs" />
     <Compile Include="MenuManager\MenuItemList.cs" />
     <Compile Include="NetworkEntity.cs" />
+    <Compile Include="PedType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StableHorse.cs" />
     <Compile Include="StaffRank.cs" />

@@ -49,8 +49,10 @@ namespace Client
         #endregion
 
         #region Menu
-        private static void OpenMenuManager(string data, string customData)
+        private static void OpenMenuManager(string data, string customData = "")
         {
+            Debug.WriteLine(data);
+
             menuData = JsonConvert.DeserializeObject<Menu>(data, new MenuConverter(typeof(Menu)));
 
             BeforeOpenMenuCallback?.Invoke(menuData, customData);
@@ -70,10 +72,12 @@ namespace Client
             
             uiMenu.OnMenuClose += (uimenu) =>
             {
+                Debug.WriteLine("OnMenuClose event called");
+                MenuClosedCallBack?.Invoke(menuData, uiMenu);
+
                 if (menuData != null)
                     return;
 
-                Debug.WriteLine("OnMenuClose event called");
                 if (!menuData.BackCloseMenu)
                 {
                     //uiMenu.Visible = true;
@@ -83,7 +87,6 @@ namespace Client
                 else if (CanClose())
                 {
                     CloseMenu();
-                    MenuClosedCallBack?.Invoke(menuData, uiMenu);
                 }
             };
 
@@ -172,13 +175,12 @@ namespace Client
 
             try
             {
-                if (menuItem.IsInput())
+                if (menuItem.InputMaxLength > 0)
                 {
                     Task.Factory.StartNew(async () =>
                     {
                         var input = await Inputbox.GetUserInput(menuItem.InputValue, menuItem.InputMaxLength.GetValueOrDefault(22));
                         bool valid = false;
-                        Debug.WriteLine(input);
                         if (menuItem.InputType == InputType.Number && long.TryParse(input, out long intValue))
                             valid = true;
                         else if (menuItem.InputType == InputType.UNumber && ulong.TryParse(input, out ulong uintValue))
@@ -212,18 +214,19 @@ namespace Client
                         if (!valid)
                             return;
 
-                        //int itemIndex, bool forced, bool checkbox, string input, int itemListIndex
 
                         ItemCallBack?.Invoke(menuData, uiMenu, menuItem, uiitem, input);
 
                         TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, input, selectedIndex);
                     });
                 }
+                else
+                {
+                    TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, "", selectedIndex);
 
-                TriggerServerEvent("MenuManager_ExecuteCallback", index, false, false, "", selectedIndex);
-
-                if (!menuItem.IsInput())
                     ItemCallBack?.Invoke(menuData, uiMenu, menuItem, uiitem);
+                }
+
             }
             catch (Exception ex)
             {

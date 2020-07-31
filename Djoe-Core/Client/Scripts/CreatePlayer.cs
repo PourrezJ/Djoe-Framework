@@ -197,9 +197,18 @@ namespace Client
 
         private async void StartCreation()
         {
-            Game.PlayerPed.IsPositionFrozen = true;
+            API.NetworkStartSoloTutorialSession();
 
             var charCreatorPos = new Vector3(-563.1345f, -3775.811f, 237.60f);
+            API.RequestCollisionAtCoord(charCreatorPos.X, charCreatorPos.Y, charCreatorPos.Z);
+
+            await Delay(500);
+
+            Game.PlayerPed.PositionNoOffset = charCreatorPos;
+
+            await Delay(100);
+
+            Game.PlayerPed.IsPositionFrozen = true;
 
             var intdataMale = new Interior(new Vector3(-561.8157f, -3780.966f, 239.0805f), "mp_char_male_mirror");
             var intdataFemale = new Interior(new Vector3(-561.8157f, -3780.966f, 239.0805f), "mp_char_female_mirror");
@@ -207,11 +216,6 @@ namespace Client
             intdataFemale.Active = true;
             intdataMale.Active = true;
             
-            API.NetworkStartSoloTutorialSession();
-
-            API.RequestCollisionAtCoord(charCreatorPos.X, charCreatorPos.Y, charCreatorPos.Z);
-            Game.PlayerPed.PositionNoOffset = charCreatorPos;
-
             Function.Call((Hash)0x1E5B70E53DB661E5, 1122662550, 347053089, 0, "Les hors la loi", "Chargement...", "Lancement de la création du personnage.");
 
             await Delay(500);
@@ -850,7 +854,18 @@ namespace Client
 
             if (isSelectSexActive)
             {
-                UIHelper.DrawText("Appuyez [<-] ou [->] pour sélectionner votre sexe", 0.5f, 0.9f, 0.7f, 0.7f, Color.FromArgb(255, 255, 255, 255), true, false, Font.Unk1);
+
+                if (API.IsCamActive(Camera_Male))
+                {
+                    UIHelper.DrawText("~e~Homme", 0.5f, 0.9f, 0.7f, 0.7f, Color.FromArgb(255, 255, 255, 255), true, false, Font.Unk1);
+                }
+                else if (API.IsCamActive(Camera_Female))
+                {
+                    UIHelper.DrawText("~e~Femme", 0.5f, 0.9f, 0.7f, 0.7f, Color.FromArgb(255, 255, 255, 255), true, false, Font.Unk1);
+                }
+                else
+                    UIHelper.DrawText("Appuyez [<-] ou [->] pour sélectionner votre sexe", 0.5f, 0.9f, 0.7f, 0.7f, Color.FromArgb(255, 255, 255, 255), true, false, Font.Unk1);
+
             }
 
             if (isInCharCreation) //Fix Run Ped
@@ -885,12 +900,17 @@ namespace Client
                 {
                     DressHeading += 1.0f;
                     Game.PlayerPed.Heading = DressHeading;
+
+                    Debug.WriteLine($"test {Game.PlayerPed.Heading}");
+
                 }
 
                 if (Game.IsControlPressed(0, ClientExtended.External.Control.MoveRightOnly))
                 {
                     DressHeading -= 1.0f;
                     Game.PlayerPed.Heading = DressHeading;
+
+                    Debug.WriteLine($"test {Game.PlayerPed.Heading}");
                 }
             }
 

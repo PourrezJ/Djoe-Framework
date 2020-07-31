@@ -50,7 +50,7 @@ namespace ClientExtended.External
         public float Heading
         {
             get => Function.Call<float>(Hash.GET_ENTITY_HEADING, Handle);
-            set => Function.Call(Hash.SET_ENTITY_ROTATION, Handle, value);
+            set => Function.Call(Hash.SET_ENTITY_HEADING, Handle, value);
         }
 
         public Vector3 ForwardVector => Function.Call<Vector3>(Hash.GET_ENTITY_FORWARD_VECTOR, Handle);

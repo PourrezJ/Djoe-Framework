@@ -10,11 +10,12 @@ namespace Server
 {
     public class NetworkAPI
     {
+        /*
         public static void CreatePed(Player player, string model, Vector3 position, float heading = 0, bool isNet = true)
         {
             player.TriggerEvent("API_CreatePed", model.ToString(), position, heading, isNet);
         }
-
+        */
         public static void CreateVehicle(Player player, string model, Vector3 position, float heading = 0, bool isNet = true)
         {
             player.TriggerEvent("API_CreateVehicle", model.ToString(), position, heading, isNet);

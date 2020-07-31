@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Server.Entities;
 using Server.Utils.Enums;
 using Server.Utils.Extensions;
 using Shared;
@@ -109,7 +110,7 @@ namespace Server.Menus
                     break;
 
                 case "Id_SpawnHorse":
-                    NetworkAPI.CreatePed(PlayerSelected, menuItem.InputValue, playerData.LastCoord.ToVector3(), playerData.LastCoord.Heading, true);
+                    PedsManager.CreatePed(PlayerSelected, (PedHash)Utils.Misc.GetHashKey(menuItem.InputValue), playerData.LastCoord, false, PedType.Horse);
                     break;
 
                 case "Id_SpawnVehicle":

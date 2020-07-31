@@ -23,6 +23,7 @@ namespace Shared
         public bool Networked;
         public bool TaskWanderStandard;
         public bool Invincible;
+        public PedType PedType;
     }
 
     public class HorseNetwork : PedNetwork

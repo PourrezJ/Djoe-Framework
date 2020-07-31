@@ -72,9 +72,9 @@ namespace ClientExtended.External
             set => Function.Call(Hash.SET_CAM_FOV, Handle, value);
         }
 
-        public void PointAt(int entityHandle, Vector3 offset = default)
+        public void PointAt(Entity entity, Vector3 offset = default)
         {
-            Function.Call(Hash.POINT_CAM_AT_ENTITY, Handle, entityHandle, offset.X, offset.Y, offset.Z, true);
+            Function.Call(Hash.POINT_CAM_AT_ENTITY, Handle, entity.Handle, offset.X, offset.Y, offset.Z, true);
         }
 
         public void PointAt(Vector3 target)

@@ -80,6 +80,8 @@
     <Compile Include="Colshape\SphereColshape.cs" />
     <Compile Include="Controllers\BlipsManager.cs" />
     <Compile Include="Database\MongoDB.cs" />
+    <Compile Include="Entities\HorseData.cs" />
+    <Compile Include="Entities\HorseManager.cs" />
     <Compile Include="Entities\PedsManager.cs" />
     <Compile Include="Entities\Player\PlayerCommands.cs" />
     <Compile Include="Entities\Player\PlayerKeyHandler.cs" />

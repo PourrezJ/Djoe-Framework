@@ -49,6 +49,27 @@ namespace Server.Entities
             }
         }
 
+        public static PedNetwork CreatePed(Player client, PedHash pedHash, UCoords position, bool isFrozen, PedType pedType = PedType.Pedestrial)
+        {
+            lock (PedsList)
+            {
+                var ped = new PedNetwork()
+                {
+                    Model = (int)pedHash,
+                    LastCoord = position,
+                    Networked = true,
+                    IsPositionFrozen = isFrozen,
+                    NetworkID = PedsList.Count + 1,
+                    PedType = pedType
+                };
+
+                PedsList.Add(ped);
+
+                client.TriggerEvent("CreatePedFromSrv", JsonConvert.SerializeObject(ped));
+                return ped;
+            }
+        }
+
         public static void OnPlayerConnected(Player player)
         {
             if (PedsList.Count > 0)

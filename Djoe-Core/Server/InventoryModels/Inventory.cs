@@ -8,13 +8,13 @@ namespace Server
     {
         #region Variables
         public ItemStack[] InventoryList;
-        public int MaxSize { get; set; }
+        public double MaxSize { get; set; }
         public int MaxSlot { get; set; }
         public bool Locked { get; set; }
         #endregion
 
         #region Constructor
-        public Inventory(int maxSize, int maxSlot)
+        public Inventory(double maxSize, int maxSlot)
         {
             InventoryList = new ItemStack[maxSlot];
             MaxSize = maxSize;

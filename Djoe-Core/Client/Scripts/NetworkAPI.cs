@@ -52,7 +52,7 @@ namespace Client.Scripts
 
         private async void CreatePed(string pedHash, Vector3 position, float heading, bool isNet)
         {
-            await World.CreatePed(pedHash, Game.PlayerPed.Position.Forward(0, 2), Game.PlayerPed.Heading);
+            await World.CreatePed(pedHash, position, heading);
         }
 
         private async void CreateVehicle(string model, Vector3 position, float heading, bool isNet)

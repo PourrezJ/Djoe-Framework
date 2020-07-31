@@ -75,6 +75,7 @@ namespace Server
                 Delay(100);
 
             PlayerManager.Init();
+            HorseManager.Init();
             Survival.Init();
             PlayerKeyHandler.Init();
             RPGInventoryManager.Init();

@@ -29,6 +29,8 @@ namespace Client
         {
             if (API.GetCurrentResourceName() != resourceName) return;
 
+            Function.Call(Hash.SET_THIS_SCRIPT_CAN_REMOVE_BLIPS_CREATED_BY_ANY_SCRIPT, true);
+
             Hud.UiCoreInit();
             Commands.Init();
 

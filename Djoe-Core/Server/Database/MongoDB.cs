@@ -10,6 +10,7 @@ using Shared;
 using Server.Scripts;
 using System.Linq;
 using Shared.Utils;
+using Server.Entities;
 
 namespace Server.Database
 {
@@ -66,7 +67,15 @@ namespace Server.Database
                     cm.UnmapField("NeedUpdate");
                 });
 
-                var players = Database.MongoDB.GetCollectionSafe<PlayerData>("players").AsQueryable();
+                BsonClassMap.RegisterClassMap<HorseData>(cm =>
+                {
+                    cm.AutoMap();
+                    cm.MapIdMember(p => p.OwnerID);
+                    cm.SetIgnoreExtraElements(true);
+                    cm.UnmapField("NeedUpdate");
+                });
+
+                var players = GetCollectionSafe<PlayerData>("players").AsQueryable();
 
                 Logger.Info("Mise en cache des " + players.Count() + " joueurs");
 
@@ -74,6 +83,16 @@ namespace Server.Database
                 {
                     // Todo: ajouter un check nombre de temps sans avoir jouer?
                     PlayerManager.Characters.TryAdd(player.SteamID, player);
+                }
+
+                var horses = GetCollectionSafe<HorseData>("horses").AsQueryable();
+
+                Logger.Info("Mise en cache des " + horses.Count() + " chevaux");
+
+                foreach (var horse in horses)
+                {
+                    // Todo: ajouter un check nombre de temps sans avoir bouger?
+                    HorseManager.HorseDatas.TryAdd(horse.OwnerID, horse);
                 }
 
                 Logger.Info("MongoDB Started!");

@@ -104,7 +104,7 @@ namespace Server.Businesses
             }
         }
 
-        private void BuyHorse(Player client, string horseHash, double price, double invheight, string name)
+        private async void BuyHorse(Player client, string horseHash, double price, double invheight, string name)
         {
             var pData = client.GetPlayerDatabase();
 
@@ -116,7 +116,7 @@ namespace Server.Businesses
                 var hash = Utils.Misc.GetHashKey(horseHash);
                 PedsManager.CreatePed(client, (PedHash)hash, SpawnSelected, false, PedType.Horse);
 
-                new HorseData()
+                var hData = new HorseData()
                 {
                     Name = name,
                     Hash = hash,
@@ -125,7 +125,7 @@ namespace Server.Businesses
                     Inventory = new Inventory(invheight, 40)
                 };
 
-
+                await Database.MongoDB.InsertAsync<HorseData>("horses", hData, "BuyHorse");
             }
         }
 

@@ -17,7 +17,7 @@ namespace Server.Stores
         Stables
     }
 
-    public class Store
+    public class Store : BaseScript
     {
         #region Fields
         public StoreType StoreType { get; private set; }

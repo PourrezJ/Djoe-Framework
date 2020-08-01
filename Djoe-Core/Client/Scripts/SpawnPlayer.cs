@@ -1,9 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ClientExtended.External;
+using ClientExtented.External;
 using System;
 using System.Threading.Tasks;
-using ClientExtended;
+using ClientExtented;
 using Shared;
 using Newtonsoft.Json;
 using Client.Ui;
@@ -155,8 +155,8 @@ namespace Client.Scripts
         [Tick]
         public Task DisableHud()
         {
-            Game.DisableControlThisFrame(0, ClientExtended.External.Control.HudSpecial);
-            Game.DisableControlThisFrame(0, ClientExtended.External.Control.RevealHud);
+            Game.DisableControlThisFrame(0, ClientExtented.External.Control.HudSpecial);
+            Game.DisableControlThisFrame(0, ClientExtented.External.Control.RevealHud);
 
             return Task.FromResult(0);
         }

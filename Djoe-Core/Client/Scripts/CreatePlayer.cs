@@ -8,8 +8,8 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using ClientExtended;
-using ClientExtended.External;
+using ClientExtented;
+using ClientExtented.External;
 using ClientExtented;
 using Shared;
 using Client.Utils;
@@ -799,7 +799,7 @@ namespace Client
         #region Ticks
         private Task OnTick()
         {     
-            if (Game.IsControlJustPressed(0, ClientExtended.External.Control.FrontendRight) && isSelectSexActive) {
+            if (Game.IsControlJustPressed(0, ClientExtented.External.Control.FrontendRight) && isSelectSexActive) {
 
                 if (API.IsCamActive(Camera))
                 {
@@ -818,7 +818,7 @@ namespace Client
                 }
             }
 
-            if (Game.IsControlJustPressed(2, ClientExtended.External.Control.FrontendLeft) && isSelectSexActive)
+            if (Game.IsControlJustPressed(2, ClientExtented.External.Control.FrontendLeft) && isSelectSexActive)
             {
 
                 if (API.IsCamActive(Camera))
@@ -838,7 +838,7 @@ namespace Client
                 }
             }
 
-            if (Game.IsControlJustPressed(0, ClientExtended.External.Control.FrontendAccept) && isSelectSexActive)
+            if (Game.IsControlJustPressed(0, ClientExtented.External.Control.FrontendAccept) && isSelectSexActive)
             {         
                 if (API.IsCamActive(Camera_Male))
                 {
@@ -875,7 +875,7 @@ namespace Client
                 Game.PlayerPed.Tasks.ClearAll();
                 API.DrawLightWithRange(-560.1646f, -3782.066f, 238.5975f, 255, 255, 255, 7.0f, 150.0f);
 
-                if (Game.IsControlJustPressed(0, ClientExtended.External.Control.MoveUpOnly))
+                if (Game.IsControlJustPressed(0, ClientExtented.External.Control.MoveUpOnly))
                 {
                     indexCamera += 1;
                     if (indexCamera > 4)
@@ -885,7 +885,7 @@ namespace Client
 
                     SwapCameras(indexCamera);
                 }
-                if (Game.IsControlJustPressed(0, ClientExtended.External.Control.MoveDownOnly))
+                if (Game.IsControlJustPressed(0, ClientExtented.External.Control.MoveDownOnly))
                 {
                     indexCamera -= 1;
                     if (indexCamera < 0)
@@ -896,7 +896,7 @@ namespace Client
                     SwapCameras(indexCamera);
                 }
 
-                if (Game.IsControlPressed(0, ClientExtended.External.Control.MoveLeftOnly))
+                if (Game.IsControlPressed(0, ClientExtented.External.Control.MoveLeftOnly))
                 {
                     DressHeading += 1.0f;
                     Game.PlayerPed.Heading = DressHeading;
@@ -905,7 +905,7 @@ namespace Client
 
                 }
 
-                if (Game.IsControlPressed(0, ClientExtended.External.Control.MoveRightOnly))
+                if (Game.IsControlPressed(0, ClientExtented.External.Control.MoveRightOnly))
                 {
                     DressHeading -= 1.0f;
                     Game.PlayerPed.Heading = DressHeading;

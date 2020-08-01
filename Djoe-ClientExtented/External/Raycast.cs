@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public struct RaycastResult
     {

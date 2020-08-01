@@ -4,7 +4,7 @@ using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
 #pragma warning disable 4014
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public sealed class Tasks
     {

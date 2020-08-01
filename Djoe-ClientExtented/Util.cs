@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientExtended
+namespace ClientExtented
 {
     public static class Util
     {

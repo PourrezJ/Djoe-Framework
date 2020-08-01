@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public class Model : INativeValue, IEquatable<Model>
     {

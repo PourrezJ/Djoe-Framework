@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
-using ClientExtended;
-using ClientExtended.External;
+using ClientExtented;
+using ClientExtented.External;
 
 namespace Client
 {

@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ClientExtended.External;
+using ClientExtented.External;
 using System;
 using System.Drawing;
 
-namespace ClientExtended
+namespace ClientExtented
 {
     /*Colors: 
     ~e~Red 

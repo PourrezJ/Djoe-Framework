@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json.Linq;
-using ClientExtended.External;
+using ClientExtented.External;
 using System;
 using System.Threading.Tasks;
-using Control = ClientExtended.External.Control;
+using Control = ClientExtented.External.Control;
 
 namespace Client.Scripts
 {
@@ -91,7 +91,7 @@ namespace Client.Scripts
             API.AnimpostfxStop("DeathFailMP01");
             Game.PlayerPed.SetEntityCoordsAndHeading(new Vector3(-353.08f, 752.11f, 116.0f), 321.76f);
 
-            ClientExtended.Util.Delay(100, () =>
+            ClientExtented.Util.Delay(100, () =>
             {
                 API.DoScreenFadeIn(1000);
                 TriggerServerEvent("djoe:ImDead", false);
@@ -111,7 +111,7 @@ namespace Client.Scripts
             TriggerServerEvent("djoe:ImDead", false);
             setDead = false;
 
-            ClientExtended.Util.Delay(100, () =>
+            ClientExtented.Util.Delay(100, () =>
             {
                 API.NetworkSetInSpectatorMode(false, API.PlayerPedId());
                 API.DisplayHud(true);

@@ -37,6 +37,16 @@ namespace Server.Businesses
             menu.Add(new MenuItem("Acheter un cheval", "", "Id_BuyHorse"));
             menu.Add(new MenuItem("Gestion des chevaux", "", "Id_Management"));
 
+            if (HorseManager.HorseDatas.ContainsKey(client.Identifiers["steam"]))
+            {
+                var horse = HorseManager.HorseDatas["steam"].Find(p => p.LastCoords.ToVector3().DistanceToSquared(Location.ToVector3()) < 5f);
+
+                if (horse != null)
+                {
+                    menu.Add(new MenuItem($"Ranger {horse.Name}", "", "Id_BuyHorse"));
+                }
+            }
+
             menu.ItemSelectCallback += OnItemSelect;
 
             menu.OpenMenu(client);
@@ -127,6 +137,29 @@ namespace Server.Businesses
                     var listItem = menuItem.CastToListItem();
                     var horse = StableHorse.Variation.ElementAt(listItem.SelectedItem).Key;
                     BuyHorse(client, horse, StableHorse.Price, StableHorse.InvWeight, menuItem.InputValue);
+                    break;
+
+                case "Id_MyHorse":
+
+                    menu.ClearItems();
+
+                    menu.SetData("MyHorse", HorseManager.HorseDatas[client.Identifiers["steam"]][itemIndex]);
+
+                    menu.Add(new MenuItem("En faire votre cheval par défault", "", "ID_DefaultHorse"));
+
+                    menu.OpenMenu(client);
+
+                    break;
+
+                case "ID_DefaultHorse":
+
+                    HorseData mh = menu.GetData("MyHorse");
+
+                    if (mh == null)
+                        return;
+
+                    HorseManager.SetDefaultHorse(client, mh);
+                    client.SendTipRightNotification($"{mh.Name} est maintenant votre cheval par défault");
                     break;
             }
         }

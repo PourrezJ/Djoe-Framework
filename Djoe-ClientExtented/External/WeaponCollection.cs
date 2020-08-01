@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public sealed class WeaponCollection
     {

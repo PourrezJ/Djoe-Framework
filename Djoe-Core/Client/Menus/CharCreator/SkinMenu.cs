@@ -2,7 +2,7 @@
 using MenuAPI;
 using System.Collections.Generic;
 using System.Linq;
-using ClientExtended;
+using ClientExtented;
 using Client.Utils;
 
 namespace Client.Menus

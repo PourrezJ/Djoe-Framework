@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Newtonsoft.Json;
-using Inventory.Utils;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using ClientExtented;
 
 namespace Inventory
 {
@@ -70,7 +70,6 @@ namespace Inventory
 
             Nui data = new Nui()
             {
-                UIName = "Inventory",
                 Action = "ItemsLoaded",
                 Data = new
                 {
@@ -149,7 +148,6 @@ namespace Inventory
 
             var data = new Nui()
             {
-                UIName = "Inventory",
                 Action = "Activate",
                 Data = show
             };

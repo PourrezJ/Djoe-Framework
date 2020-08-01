@@ -1,4 +1,5 @@
-﻿using Server.Utils;
+﻿using CitizenFX.Core;
+using Server.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -39,5 +40,19 @@ namespace Server.Entities
                 Thread.Sleep(100);
             }
         }*/
+
+        public static void SetDefaultHorse(Player player, HorseData horseData)
+        {
+            if (HorseDatas.ContainsKey(player.Identifiers["steam"]))
+            {
+                foreach (var horse in HorseDatas[player.Identifiers["steam"]])
+                {
+                    if (horseData == horse)
+                        horse.IsDefault = true;
+                    else
+                        horseData.IsDefault = false;
+                }
+            }
+        }
     }
 }

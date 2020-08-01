@@ -1,4 +1,4 @@
-﻿namespace ClientExtended.External
+﻿namespace ClientExtented.External
 {
     public enum Control : uint
     {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public sealed class Player : INativeValue, IEquatable<Player>
     {

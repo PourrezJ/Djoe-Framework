@@ -1,12 +1,12 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Client.Utils.Extensions;
-using ClientExtended.External;
+using ClientExtented.External;
 using ClientExtented.External;
 using Shared;
 using System;
 using System.Threading.Tasks;
-using Control = ClientExtended.External.Control;
+using Control = ClientExtented.External.Control;
 
 namespace Client.Scripts
 {

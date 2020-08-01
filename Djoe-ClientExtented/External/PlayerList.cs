@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public sealed class PlayerList : IEnumerable<Player>
     {

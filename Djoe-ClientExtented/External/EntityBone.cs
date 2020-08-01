@@ -1,15 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ClientExtended.External;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientExtented.External
 {
-    public class EntityBone
+	public class EntityBone
 	{
 		#region Fields
 		protected readonly Entity _owner;
@@ -31,12 +25,12 @@ namespace ClientExtented.External
 		public int Index { get { return _index; } }
 
 		public Entity Owner { get { return _owner; } }
-
+		/*
 		public static implicit operator int(EntityBone bone)
 		{
 			return ReferenceEquals(bone, null) ? -1 : bone.Index;
 		}
-
+		*/
 		public Vector3 Position
 		{
 			get

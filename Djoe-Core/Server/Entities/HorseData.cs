@@ -12,6 +12,7 @@ namespace Server.Entities
         public UCoords LastCoords;
         public Inventory Inventory;
         public bool NeedUpdate;
+        public bool IsDefault;
 
         public async Task UpdateAsync()
         {

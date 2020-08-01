@@ -1,6 +1,6 @@
-﻿namespace ClientExtended.External
+﻿namespace ClientExtented.External
 {
-    public enum EntityBone
+    public enum Bone
     {
         SKEL_HEAD,
         SKEL_ROOT,

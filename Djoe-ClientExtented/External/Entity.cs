@@ -3,7 +3,7 @@ using System.Security;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public class Entity : PoolObject, IEquatable<Entity>, ISpatial
     {

@@ -1,6 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ClientExtended.External;
+using ClientExtented.External;
 using Newtonsoft.Json;
 using Shared;
 using System;

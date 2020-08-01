@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core.Native;
 using System;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
 	public class RelationshipGroup : INativeValue, IEquatable<RelationshipGroup>
 	{

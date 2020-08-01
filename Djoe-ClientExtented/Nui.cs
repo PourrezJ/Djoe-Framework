@@ -1,11 +1,10 @@
 ﻿using CitizenFX.Core.Native;
 using Newtonsoft.Json;
 
-namespace Inventory.Utils
+namespace ClientExtented
 {
     public class Nui
     {
-        public string UIName;
         public string Action;
         public dynamic Data;
 

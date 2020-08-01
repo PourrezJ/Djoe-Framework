@@ -126,6 +126,10 @@
     <Compile Include="Utils\Misc.cs" />
     <Compile Include="Utils\SaveCoordsDB.cs" />
     <Compile Include="GameMode.cs" />
+    <Compile Include="RadialManager\RadialMenu.cs" />
+    <Compile Include="RadialManager\RadialMenuItem.cs" />
+    <Compile Include="RadialManager\RadialItemIcons.cs" />
+    <Compile Include="RadialManager\RadialManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config.json">

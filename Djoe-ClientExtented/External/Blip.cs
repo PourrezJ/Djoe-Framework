@@ -2,7 +2,7 @@
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public sealed class Blip : PoolObject, IEquatable<Blip>
     {        //Function.Call((Hash)0x662D364ABF16DE2F, blip, 453264060); purple

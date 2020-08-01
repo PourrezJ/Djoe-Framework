@@ -6,7 +6,7 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using Client.Ui;
 using Shared.Utils;
-using ClientExtended;
+using ClientExtented;
 using Client.Menus;
 
 namespace Client

@@ -1,11 +1,11 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ClientExtended.External;
+using ClientExtented.External;
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
 
-namespace ClientExtended
+namespace ClientExtented
 {
     public static class Misc
     {

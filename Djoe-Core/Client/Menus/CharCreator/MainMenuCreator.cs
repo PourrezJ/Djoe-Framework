@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core;
 using MenuAPI;
 using System.Collections.Generic;
-using ClientExtended;
+using ClientExtented;
 using ClientExtented;
 using Client.Menus.CharCreator;
 using Client.Scripts;

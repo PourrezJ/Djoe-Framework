@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core.Native;
 using System.Collections.Generic;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public static class Game
     {

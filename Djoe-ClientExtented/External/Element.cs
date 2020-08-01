@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using CitizenFX.Core;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public interface IElement
     {

@@ -1,8 +1,8 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Client.Utils.Extensions;
-using ClientExtended;
-using ClientExtended.External;
+using ClientExtented;
+using ClientExtented.External;
 using MenuAPI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

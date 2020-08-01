@@ -1,15 +1,15 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Client.Scripts;
-using ClientExtended;
-using ClientExtended.External;
+using ClientExtented;
+using ClientExtented.External;
 using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Control = ClientExtended.External.Control;
+using Control = ClientExtented.External.Control;
 
 namespace Client.Menus
 {
@@ -60,7 +60,7 @@ namespace Client.Menus
                 var camDirection = Misc.GetCamDirection();
                 Function.Call(Hash.SET_ENTITY_VELOCITY, pedID, 0.0001f, 0.0001f, 0.0001f);
 
-                if (Game.IsControlPressed(0, ClientExtended.External.Control.Sprint))
+                if (Game.IsControlPressed(0, ClientExtented.External.Control.Sprint))
                     speed = 2.0f;
                 else if (Game.IsControlPressed(0, Control.Duck))
                     speed = 0.5f;

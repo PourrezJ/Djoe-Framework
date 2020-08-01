@@ -1,7 +1,7 @@
 ﻿using System;
 using CitizenFX.Core.Native;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public sealed class Prompt : PoolObject, IEquatable<Prompt>
     {

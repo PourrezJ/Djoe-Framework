@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using ClientExtended.External;
+using ClientExtented.External;
 
-namespace ClientExtended.External
+namespace ClientExtented.External
 {
     public static class World
     {

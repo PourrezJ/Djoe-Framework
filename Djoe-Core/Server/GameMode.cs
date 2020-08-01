@@ -74,6 +74,7 @@ namespace Server
             while (WorldData == null)
                 Delay(100);
 
+            RadialManager.Init();
             PlayerManager.Init();
             HorseManager.Init();
             Survival.Init();

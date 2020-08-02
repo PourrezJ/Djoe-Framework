@@ -26,11 +26,6 @@ namespace Shared
         public PedType PedType;
     }
 
-    public class HorseNetwork : PedNetwork
-    {
-
-    }
-
     public class BlipNetwork
     {
         public string Name;

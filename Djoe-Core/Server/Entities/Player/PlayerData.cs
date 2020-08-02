@@ -8,7 +8,7 @@ using System;
 
 namespace Server
 {
-    public class PlayerData : NetworkEntity
+    public class PlayerData
     {
         [JsonIgnore]
         public Player Client;
@@ -26,7 +26,10 @@ namespace Server
         public Character SkinPlayer;
         public int Hunger = 100;
         public int Thirst = 100;
+        public float Health = 100;
         public VIP Vip;
+        public UCoords LastCoord;
+
 
         public BankAccount BankAccount;
 

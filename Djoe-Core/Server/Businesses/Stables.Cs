@@ -174,7 +174,7 @@ namespace Server.Businesses
             if (pData.HasMoney(price))
             {
                 var hash = Utils.Misc.GetHashKey(horseHash);
-                PedsManager.CreatePed(client, (PedHash)hash, SpawnSelected, false, PedType.Horse);
+                var horse = PedsManager.CreatePed(client, (PedHash)hash, SpawnSelected, false, PedType.Horse);
 
                 var clientID = client.Identifiers["steam"];
 
@@ -184,7 +184,8 @@ namespace Server.Businesses
                     Hash = hash,
                     LastCoords = SpawnSelected,
                     OwnerID = clientID,
-                    Inventory = new Inventory(invheight, 40)
+                    Inventory = new Inventory(invheight, 40),
+                    PedNetwork = horse
                 };
 
                 await Database.MongoDB.InsertAsync<HorseData>("horses", hData, "BuyHorse");

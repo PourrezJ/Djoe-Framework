@@ -5,6 +5,7 @@ using Server.Utils;
 using Server.Utils.Extensions;
 using Shared;
 using System;
+using System.Linq;
 
 namespace Server.Entities
 {
@@ -15,7 +16,7 @@ namespace Server.Entities
             GameMode.RegisterEventHandler("OnKeyPress", new Action<Player, string, string>(OnKeyPress));
         }
 
-        public static void OnKeyPress([FromSource] Player player, string dyncontrol, string raycastStr)
+        public static void OnKeyPress([FromSource] Player player, string dyncontrol, string raycastStr = "")
         {
             uint control = uint.Parse(dyncontrol);
 
@@ -48,14 +49,19 @@ namespace Server.Entities
                     break;
 
                 case (uint)Control.SpecialAbilityAction: // Q / A
+
+                    if (rayResult == null)
+                        return;
+
                     if (rayResult.DidHitEntity)
                     {
                         if (rayResult.IsPed)
                         {
-                            Console.WriteLine("C'est un ped");
+                            var horse = PedsManager.GetHorseWithPos(rayResult.HitPosition);
+
+                            if (horse != null)
+                                HorseInteractionMenu.OpenMenu(player, horse);
                         }
-                        else
-                            Console.WriteLine("what is it?");
                     }
                     else
                         Console.WriteLine("nop");

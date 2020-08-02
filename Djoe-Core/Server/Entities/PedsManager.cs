@@ -75,5 +75,15 @@ namespace Server.Entities
             if (PedsList.Count > 0)
                 player.TriggerEvent("GetAllPeds", Newtonsoft.Json.JsonConvert.SerializeObject(PedsList));
         }
+
+        public static PedNetwork GetPedWithPos(Vector3 pos, float distance = 1.5f)
+        {
+            return PedsList.Find(p => p.LastCoord.ToVector3().DistanceToSquared(pos) < distance && p.PedType == PedType.Pedestrial);
+        }
+
+        public static PedNetwork GetHorseWithPos(Vector3 pos, float distance = 1.5f)
+        {
+            return PedsList.Find(p => p.LastCoord.ToVector3().DistanceToSquared(pos) < distance && p.PedType == PedType.Horse);
+        }
     }
 }

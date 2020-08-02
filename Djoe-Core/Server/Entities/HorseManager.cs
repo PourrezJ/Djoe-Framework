@@ -12,7 +12,7 @@ namespace Server.Entities
 {
     public class HorseManager
     {
-        public static Dictionary<string, List<HorseData>> HorseDatas = new Dictionary<string, List<HorseData>>();
+        public static Dictionary<string, List<HorseData>> HorseDatas = new Dictionary<string, List<HorseData>>(); // All horse in database
 
         public static void Init()
         {/*

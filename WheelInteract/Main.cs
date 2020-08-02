@@ -20,9 +20,6 @@ namespace WheelInteract
             EventHandlers["RadialManager_CloseMenu"] += new Action(RadialManager_CloseMenu);
 
             RegisterNUICallback("WheelInteract_Callback", WheelInteract_Callback);
-
-
-
         }
 
         private void RadialManager_OpenMenu(string menuData)

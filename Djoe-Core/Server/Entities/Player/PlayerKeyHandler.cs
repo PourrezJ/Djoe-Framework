@@ -1,6 +1,9 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using Server.Menus;
+using Server.Utils;
 using Server.Utils.Extensions;
+using Shared;
 using System;
 
 namespace Server.Entities
@@ -9,13 +12,17 @@ namespace Server.Entities
     {
         public static void Init()
         {
-            GameMode.RegisterEventHandler("OnKeyPress", new Action<Player, string>(OnKeyPress));
+            GameMode.RegisterEventHandler("OnKeyPress", new Action<Player, string, string>(OnKeyPress));
         }
 
-        public static void OnKeyPress([FromSource] Player player, string dyncontrol)
+        public static void OnKeyPress([FromSource] Player player, string dyncontrol, string raycastStr)
         {
             uint control = uint.Parse(dyncontrol);
+
             Console.WriteLine(player.Name + " " + control.ToString());
+
+
+            RayCastResult rayResult = ((string.IsNullOrEmpty(raycastStr)) ? null : JsonConvert.DeserializeObject<RayCastResult>(raycastStr));
 
             var playerData = player.GetPlayerDatabase();
 
@@ -38,6 +45,20 @@ namespace Server.Entities
 
                 case (uint)Control.SelectItemWheel: // F4
                     PlayerMenu.OpenMenu(player);
+                    break;
+
+                case (uint)Control.SpecialAbilityAction: // Q / A
+                    if (rayResult.DidHitEntity)
+                    {
+                        if (rayResult.IsPed)
+                        {
+                            Console.WriteLine("C'est un ped");
+                        }
+                        else
+                            Console.WriteLine("what is it?");
+                    }
+                    else
+                        Console.WriteLine("nop");
                     break;
             }
         }

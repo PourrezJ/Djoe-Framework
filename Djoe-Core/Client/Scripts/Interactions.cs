@@ -1,10 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using Client.Utils.Extensions;
 using ClientExtented.External;
-using ClientExtented.External;
+using Newtonsoft.Json;
 using Shared;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Control = ClientExtented.External.Control;
 
@@ -76,28 +76,50 @@ namespace Client.Scripts
 
         }
 
+        private static Control[] UsedControls =
+        {
+            Control.SelectItemWheel,
+            Control.Loot,
+            Control.Loot2,
+            Control.Loot3,
+            Control.QuickUseItem,
+            Control.SpecialAbilityAction
+        };
+
         private static Task OnTick()
         {
-            Game.DisableControlThisFrame(0, Control.SelectItemWheel);
-            Game.DisableControlThisFrame(0, Control.Loot);
-            Game.DisableControlThisFrame(0, Control.Loot2);
-            Game.DisableControlThisFrame(0, Control.Loot3);
-            Game.DisableControlThisFrame(0, Control.QuickUseItem);
-            Game.DisableControlThisFrame(0, Control.SelectItemWheel);
+            foreach (var control in UsedControls)
+            {
+                Game.DisableControlThisFrame(0, control);
+            }
 
             foreach (Control fi in (Control[])Enum.GetValues(typeof(Control)))
             {
                 if (Game.IsDisabledControlJustPressed(0, fi))
                 {
-                    switch (fi)
+                    RayCastResult sendResult = null;
+
+                    try
                     {
-                        case Control.Loot:
-                        case Control.Loot2:
-                        case Control.Loot3:
-                        case Control.QuickUseItem:
-                        case Control.SelectItemWheel:
-                            TriggerServerEvent("OnKeyPress", ((uint)fi).ToString());
-                            break;
+                        var result = World.CrosshairRaycast(7, IntersectOptions.Everything, Game.PlayerPed);
+
+                        sendResult = new RayCastResult()
+                        {
+                            DidHit = result.DitHit,
+                            DidHitEntity = result.DitHitEntity,
+                            HitPosition = result.HitPosition,
+                            SurfaceNormal = result.SurfaceNormal,
+                            Result = result.Result,
+                            IsPed = result.HitEntity.Model.IsPed
+                        };
+                    }
+                    catch { 
+                        // Native invocation error, what? idk 
+                    }
+                    finally
+                    {
+                        if (UsedControls.Contains(fi))
+                            TriggerServerEvent("OnKeyPress", ((uint)fi).ToString(), (sendResult != null) ? JsonConvert.SerializeObject(sendResult) : "");
                     }
                 }
             }

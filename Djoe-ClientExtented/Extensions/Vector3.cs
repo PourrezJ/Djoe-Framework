@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Client.Utils.Extensions
+namespace ClientExtented.Extensions
 {
     public static class Vector3Extensions
     {

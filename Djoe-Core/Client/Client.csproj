@@ -36,7 +36,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MenuAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MenuAPI.RedM.3.1.5\lib\net452\MenuAPI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MenuAPI.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -84,7 +85,6 @@
     <Compile Include="Scripts\Toast.cs" />
     <Compile Include="Ui\Notifications.cs" />
     <Compile Include="Ui\Hud.cs" />
-    <Compile Include="Utils\Extensions\Vector3.cs" />
     <Compile Include="Utils\Misc.cs" />
     <Compile Include="Utils\SkinUtils.cs" />
     <Compile Include="GameMode.cs" />
@@ -98,9 +98,6 @@
       <Project>{DB535E03-7E22-47D2-A3F5-19E593F54D13}</Project>
       <Name>Shared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

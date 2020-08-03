@@ -82,7 +82,7 @@ namespace ClientExtented.External
         public int Alpha
         {
             get => Function.Call<int>((Hash)0x1BB501624FAF2BEA, Handle);
-            set => Function.Call((Hash)0x0DF7692B1D9E7BA7, Handle, value);
+            set => Function.Call((Hash)0x0DF7692B1D9E7BA7, Handle, value, true);
         }
 
         public bool IsVisible

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Vector3.cs" />
     <Compile Include="External\Blip.cs" />
     <Compile Include="External\Bones.cs" />
     <Compile Include="External\Camera.cs" />

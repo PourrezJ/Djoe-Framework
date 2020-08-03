@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelInteract", "..\WheelIn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjoeDev", "..\DjoeDev\DjoeDev.csproj", "{D8C4E8F8-613F-4EBE-AB9A-D8CE6FBA4F29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MenuAPI", "..\MenuAPI\MenuAPI\MenuAPI.csproj", "{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug FiveM|Any CPU = Debug FiveM|Any CPU
@@ -203,30 +201,6 @@ Global
 		{D8C4E8F8-613F-4EBE-AB9A-D8CE6FBA4F29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8C4E8F8-613F-4EBE-AB9A-D8CE6FBA4F29}.Release|x64.ActiveCfg = Release|Any CPU
 		{D8C4E8F8-613F-4EBE-AB9A-D8CE6FBA4F29}.Release|x64.Build.0 = Release|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug FiveM|Any CPU.ActiveCfg = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug FiveM|Any CPU.Build.0 = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug FiveM|x64.ActiveCfg = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug FiveM|x64.Build.0 = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug RedM|Any CPU.ActiveCfg = Debug RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug RedM|Any CPU.Build.0 = Debug RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug RedM|x64.ActiveCfg = Debug RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug RedM|x64.Build.0 = Debug RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug|Any CPU.ActiveCfg = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug|Any CPU.Build.0 = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug|x64.ActiveCfg = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Debug|x64.Build.0 = Debug FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release FiveM|Any CPU.ActiveCfg = Release FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release FiveM|Any CPU.Build.0 = Release FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release FiveM|x64.ActiveCfg = Release FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release FiveM|x64.Build.0 = Release FiveM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release RedM|Any CPU.ActiveCfg = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release RedM|Any CPU.Build.0 = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release RedM|x64.ActiveCfg = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release RedM|x64.Build.0 = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release|Any CPU.ActiveCfg = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release|Any CPU.Build.0 = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release|x64.ActiveCfg = Release RedM|Any CPU
-		{DF7FBBB9-7D8B-4249-9F9F-C404DBB841BC}.Release|x64.Build.0 = Release RedM|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

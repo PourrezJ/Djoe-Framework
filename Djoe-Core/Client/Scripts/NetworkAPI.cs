@@ -1,14 +1,9 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using Client.Utils.Extensions;
 using ClientExtented.External;
 using Newtonsoft.Json;
 using Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client.Scripts
 {

@@ -69,7 +69,12 @@ namespace Client
 
             if (menuData.BannerSprite != null)
                 uiMenu.HeaderTexture = new KeyValuePair<string, string>(menuData.BannerSprite.Dict, menuData.BannerSprite.Name);
-            
+            else
+            {
+                uiMenu.HeaderTexture = new KeyValuePair<string, string>("generic_textures", "menu_header_1a");
+            }
+
+
             uiMenu.OnMenuClose += (uimenu) =>
             {
                 Debug.WriteLine("OnMenuClose event called");

@@ -1,17 +1,13 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
-using Client.Utils.Extensions;
-using ClientExtented;
+using ClientExtented.Extensions;
 using ClientExtented.External;
 using MenuAPI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Shared;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client.Menus
 {
@@ -123,7 +119,6 @@ namespace Client.Menus
                 Camera.PointAt(Spawn.ToVector3() + new Vector3(0,0,1));
                 Camera.IsActive = true;
                 API.RenderScriptCams(true, true, 200, true, true, 0);
-                Debug.WriteLine("Camera created");
             }
         }
     }

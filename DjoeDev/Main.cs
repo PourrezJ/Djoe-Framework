@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using ClientExtented.Extensions;
 using ClientExtented.External;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,38 @@ namespace DjoeDev
     {
         public Main()
         {
-            API.RegisterCommand("test", new Action<int, List<object>, string>((source, args, raw) =>
+
+            API.RegisterCommand("test", new Action<int, List<object>, string>(async (source, args, raw) => {
+
+                var ppos = Game.PlayerPed.Position;
+                var obj = API.GetClosestObjectOfType(ppos.X, ppos.Y, ppos.Z, 5f, (uint)Game.GenerateHash("P_REGISTER03X"), false, false, false);
+                
+                if (API.DoesEntityExist(obj))
+                {
+                    var pos = API.GetEntityCoords(obj, true, true);
+
+                    
+
+                    await World.CreateProp(new Model("P_REGISTER03X"), pos.Forward(90, 1), new Vector3(), true, false, true);
+                }
+
+                
+
+            }), false);
+
+
+            API.RegisterCommand("createObject", new Action<int, List<object>, string>(async (source, args, raw) =>
             {
+                if (args.Count == 0)
+                {
+                    Debug.WriteLine("Il manque le nom de l'objet a spawn");
+                    return;
+                }
+
+
+                await World.CreateProp(new Model(args[0].ToString()), Game.PlayerPed.Position, new Vector3(), true, true, true);
+
+
                 /*
                 sVar8 = "p_cs_catalogue01x_PH_R_HAND";
                 if (!bVar7)

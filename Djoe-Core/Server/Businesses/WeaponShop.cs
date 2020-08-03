@@ -13,7 +13,7 @@ namespace Server.Stores
     public class WeaponShop : Store
     {
         public List<WeaponItem> Weapons = new List<WeaponItem>();
-
+        public UCoords SpawnObjectStore;
         public WeaponShop(string businnessName, UCoords location, BlipSprite blipSprite, BlipType blipType, PedHash pedhash = 0) : base(businnessName, location, blipSprite, blipType, pedhash)
         {
         }
@@ -39,7 +39,7 @@ namespace Server.Stores
                 weaponsModels.Add(weapon.WeaponModel);
             }
 
-            menu.OpenMenu(client , Newtonsoft.Json.JsonConvert.SerializeObject(weaponsModels));
+            menu.OpenMenu(client , Newtonsoft.Json.JsonConvert.SerializeObject(new { WeaponModel = weaponsModels, SpawnObject = SpawnObjectStore }));
         }
 
         private void OnItemSelectCallBack(Player client, Menu menu, IMenuItem menuItem, int itemIndex)

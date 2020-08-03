@@ -44,6 +44,7 @@ namespace Client
 
         private Task OnTick()
         {
+
             Misc.ShowControlPressed();
             return Task.FromResult(0);
         }

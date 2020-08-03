@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory", "..\Djoe-Invent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelInteract", "..\WheelInteract\WheelInteract.csproj", "{A9ECEC5A-8353-40B0-ADDC-E1DC1D8C024E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjoeDev", "DjoeDev\DjoeDev.csproj", "{D8C4E8F8-613F-4EBE-AB9A-D8CE6FBA4F29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DjoeDev", "..\DjoeDev\DjoeDev.csproj", "{D8C4E8F8-613F-4EBE-AB9A-D8CE6FBA4F29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

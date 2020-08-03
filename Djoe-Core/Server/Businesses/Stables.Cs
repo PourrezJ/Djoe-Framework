@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Server.Businesses
+namespace Server.Stores
 {
 
     public class StableStore : Store

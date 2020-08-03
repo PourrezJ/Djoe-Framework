@@ -1,7 +1,7 @@
 ﻿using CitizenFX.Core.Native;
 using MongoDB.Bson.IO;
 using Newtonsoft.Json.Linq;
-using Server.Businesses;
+using Server.Stores;
 using Server.Stores;
 using Server.Utils;
 using Shared;
@@ -72,6 +72,13 @@ namespace Server.Loader
                             sb.CompomentList = o["Complements"].ToObject<List<CompomentHorse>>();
 
                             sb.Init();
+                            break;
+
+                        case (int)StoreType.WeaponShop:
+
+                            var ws = o.ToObject<WeaponShop>();
+
+                            ws.Init();
                             break;
                     }
                 }

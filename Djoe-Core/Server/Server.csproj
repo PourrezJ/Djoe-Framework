@@ -73,6 +73,7 @@
     <Compile Include="Businesses\Stables.cs" />
     <Compile Include="Businesses\Store.cs" />
     <Compile Include="Businesses\GeneralStore.cs" />
+    <Compile Include="Businesses\WeaponShop.cs" />
     <Compile Include="Colshape\Colshape.cs" />
     <Compile Include="Colshape\ColshapeManager.cs" />
     <Compile Include="Colshape\CylinderColshape.cs" />

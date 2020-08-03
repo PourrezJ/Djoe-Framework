@@ -20,8 +20,7 @@ namespace Server.Entities
         {
             uint control = uint.Parse(dyncontrol);
 
-            Console.WriteLine(player.Name + " " + control.ToString());
-
+            Console.WriteLine(raycastStr);
 
             RayCastResult rayResult = ((string.IsNullOrEmpty(raycastStr)) ? null : JsonConvert.DeserializeObject<RayCastResult>(raycastStr));
 

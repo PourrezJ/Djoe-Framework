@@ -14,7 +14,8 @@ namespace Server.Stores
     {
         Unknown = -1,
         GeneralStore = 0,
-        Stables
+        Stables,
+        WeaponShop
     }
 
     public class Store : BaseScript

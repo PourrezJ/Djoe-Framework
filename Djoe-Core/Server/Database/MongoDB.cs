@@ -70,7 +70,7 @@ namespace Server.Database
                 BsonClassMap.RegisterClassMap<HorseData>(cm =>
                 {
                     cm.AutoMap();
-                    cm.MapIdMember(p => p.OwnerID);
+                    //cm.MapIdMember(p => p.OwnerID);
                     cm.SetIgnoreExtraElements(true);
                     cm.UnmapField("NeedUpdate");
                 });

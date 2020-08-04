@@ -37,9 +37,11 @@ namespace Server.Stores
             menu.Add(new MenuItem("Acheter un cheval", "", "Id_BuyHorse"));
             menu.Add(new MenuItem("Gestion des chevaux", "", "Id_Management"));
 
-            if (HorseManager.HorseDatas.ContainsKey(client.Identifiers["steam"]))
+            var steamID = client.Identifiers["steam"];
+            if (HorseManager.HorseDatas.ContainsKey(steamID))
             {
-                var horse = HorseManager.HorseDatas["steam"].Find(p => p.LastCoords.ToVector3().DistanceToSquared(Location.ToVector3()) < 5f);
+ 
+                var horse = HorseManager.HorseDatas[steamID].FirstOrDefault(p => p.LastCoords.ToVector3().DistanceToSquared(Location.ToVector3()) < 5f);
 
                 if (horse != null)
                 {

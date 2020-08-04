@@ -115,6 +115,8 @@ namespace Client.Scripts
             API.DisplayRadar(true);
             API.DisplayHud(true);
 
+
+
             PlayerSpawned = true;
 
             Tick += PlayerUpdate;

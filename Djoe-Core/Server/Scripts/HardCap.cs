@@ -28,10 +28,18 @@ namespace Server.Scripts
             {
                 Debug.WriteLine($"Connecting: '{source.Name}' (steam: {source.Identifiers.Where(i => i.Contains("steam")).FirstOrDefault().ToString()} ip: {source.Identifiers.Where(i => i.Contains("ip")).FirstOrDefault().ToString()}) | Player count {ActivePlayers.Count}/{MaxClients}");
 
+                if (source.Identifiers["steam"] == null)
+                {
+                    DenyWithReason?.Invoke($"Steam identifiant introuvable. Est t-il démarrer?");
+                    API.CancelEvent();
+                    return;
+                }
+
                 if (ActivePlayers.Count >= MaxClients)
                 {
                     DenyWithReason?.Invoke($"The server is full with {PlayerCount}/{MaxClients} players on.");
                     API.CancelEvent();
+                    return;
                 }
                 BaseScript.TriggerClientEvent("playerConnecting", source.Handle, playerName);
             }

@@ -18,6 +18,7 @@ namespace Server.Entities
         public Inventory Inventory;
         public bool NeedUpdate;
         public bool IsDefault;
+        public int Health;
 
         [BsonIgnore]
         public PedNetwork PedNetwork;

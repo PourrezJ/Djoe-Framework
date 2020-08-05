@@ -20,7 +20,7 @@ namespace Server.Entities
         {
             uint control = uint.Parse(dyncontrol);
 
-            Console.WriteLine(raycastStr);
+            //Console.WriteLine(raycastStr);
 
             RayCastResult rayResult = ((string.IsNullOrEmpty(raycastStr)) ? null : JsonConvert.DeserializeObject<RayCastResult>(raycastStr));
 
@@ -56,10 +56,14 @@ namespace Server.Entities
                     {
                         if (rayResult.IsPed)
                         {
-                            var horse = PedsManager.GetHorseWithPos(rayResult.HitPosition);
+                            var horse = PedsManager.GetPedWithPos(rayResult.HitPosition, 3f, PedType.Horse);
 
                             if (horse != null)
                                 HorseInteractionMenu.OpenMenu(player, horse);
+                            else
+                            {
+                                Console.WriteLine("horse null");
+                            }
                         }
                     }
                     else

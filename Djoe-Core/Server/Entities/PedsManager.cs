@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Server.Utils.Enums;
 using Shared;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Server.Entities
@@ -79,19 +80,19 @@ namespace Server.Entities
             }
         }
 
-        public static PedNetwork GetPedWithPos(Vector3 pos, float distance = 1.5f)
+        public static PedNetwork GetPedWithPos(Vector3 pos, float distance = 1.5f, PedType pedType = PedType.Pedestrial)
         {
             lock (PedsList)
             {
-                return PedsList.Find(p => p.LastCoord.ToVector3().DistanceToSquared(pos) < distance && p.PedType == PedType.Pedestrial);
+                return PedsList.FirstOrDefault(p => p.LastCoord.DistanceTo(pos) < distance && p.PedType == PedType.Pedestrial);
             }
         }
 
-        public static PedNetwork GetHorseWithPos(Vector3 pos, float distance = 1.5f)
+        public static PedNetwork GetWithNetworkID(int id)
         {
             lock (PedsList)
             {
-                return PedsList.Find(p => p.LastCoord.ToVector3().DistanceToSquared(pos) < distance && p.PedType == PedType.Horse);
+                return PedsList.FirstOrDefault(p => p.NetworkID == id);
             }
         }
     }

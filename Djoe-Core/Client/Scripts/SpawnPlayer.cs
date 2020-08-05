@@ -10,6 +10,7 @@ using Client.Ui;
 using Newtonsoft.Json.Linq;
 using Client.Menus;
 using Client.Models;
+using Client.Controllers;
 
 namespace Client.Scripts
 {
@@ -131,7 +132,7 @@ namespace Client.Scripts
         private static DateTime _lastupdate = DateTime.Now;
         private Task PlayerUpdate()
         {
-            if ((DateTime.Now - _lastupdate).TotalMilliseconds < 150)
+            if ((DateTime.Now - _lastupdate).TotalMilliseconds < 150) // <-- Permet de mettre à jour la position pour les colshape! 
                 return Task.FromResult(0);
 
             _lastupdate = DateTime.Now;
@@ -144,10 +145,32 @@ namespace Client.Scripts
 
                 if (PlayerData.LastCoord.DistanceTo2D(pPos) > 1.5f || PlayerData.Health != health)
                 {
-                    TriggerServerEvent("djoe:update", pPos, heading, health);
+                    TriggerServerEvent("djoe:playerupdate", pPos, heading, health);
 
                     PlayerData.LastCoord.SetUcoord(pPos, heading);
                     PlayerData.Health = health;
+
+                    if (Game.PlayerPed.IsOnMount)
+                    {
+                        lock(PedsManager.PedList)
+                        {
+                            if (PedsManager.PedList.ContainsKey(Game.PlayerPed.GetMount))
+                            {
+                                var horse = Game.PlayerPed.GetMount;
+                                var hData = PedsManager.PedList[horse];
+
+                                var hPos = horse.Position;
+                                var hHeading = horse.Heading;
+                                var hHealth = horse.Health;
+  
+                                hData.Health = hHealth;
+                                hData.LastCoord.SetUcoord(hPos, hHeading);
+
+                                if (hData.LastCoord.DistanceTo2D(hPos) > 1.5f || hData.Health != hHealth)
+                                    TriggerServerEvent("djoe:updatehorse", hData.NetworkID, hPos, hHeading, hHealth);
+                            }
+                        }
+                    }
                 }
             }
 

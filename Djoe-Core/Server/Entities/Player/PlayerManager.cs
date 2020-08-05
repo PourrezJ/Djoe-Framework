@@ -24,7 +24,7 @@ namespace Server
         {
             GameMode.RegisterEventHandler("djoe:playerSpawn", new Action<Player>(PlayerSpawnFunction));
             GameMode.RegisterEventHandler("djoe:SaveSkinDB", new Action<Player, string, string, string>(SaveSkinDB));
-            GameMode.RegisterEventHandler("djoe:update", new Action<Player, Vector3, float, float>(UpdatePlayer));
+            GameMode.RegisterEventHandler("djoe:playerupdate", new Action<Player, Vector3, float, int>(UpdatePlayer));
 
             Thread InstanceCaller = new Thread(
             new ThreadStart(PlayerUpdateLoop));
@@ -54,7 +54,7 @@ namespace Server
             }
         }
 
-        private static void UpdatePlayer([FromSource]Player source, Vector3 position, float heading, float health)
+        private static void UpdatePlayer([FromSource]Player source, Vector3 position, float heading, int health)
         {
             lock (Characters)
             {

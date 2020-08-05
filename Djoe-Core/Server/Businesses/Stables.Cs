@@ -12,14 +12,13 @@ using System.Linq;
 
 namespace Server.Stores
 {
-
     public class StableStore : Store
     {
         public List<UCoords> SpawnPos = new List<UCoords>();
         public List<StableHorse> HorseList = new List<StableHorse>();
         public List<CompomentHorse> CompomentList = new List<CompomentHorse>();
         public StableHorse StableHorse;
-        public UCoords SpawnSelected;
+        public int ParkID; // -1 si il est sorti 
 
         public StableStore(string businnessName, UCoords location, BlipSprite blipSprite, BlipType blipType, PedHash pedhash = 0) : base(businnessName, location, blipSprite, blipType, pedhash)
         {
@@ -58,9 +57,11 @@ namespace Server.Stores
         {
             Menu menu = new Menu("ID_HorseDealer", "Écurie", backCloseMenu:true);
 
-            SpawnSelected = GetFreeBox();
+            var spawnSelected = GetFreeBox();
 
-            if (SpawnSelected == null)
+            menu.SetData("Spawn", spawnSelected);
+
+            if (spawnSelected == null)
             {
                 client.SendTipRightNotification("Aucun box n'est libre actuellement");
                 return;
@@ -77,7 +78,7 @@ namespace Server.Stores
             menu.IndexChangeCallback += OnIndexChange;
             menu.ItemSelectCallback += OnItemSelect;
 
-            menu.OpenMenu(client, JsonConvert.SerializeObject(new { Horses = HorseList[0], Spawn = SpawnSelected }));
+            menu.OpenMenu(client, JsonConvert.SerializeObject(new { Horses = HorseList[0], Spawn = spawnSelected }));
         }
 
         private void OpenCompomentDealer(Player player)
@@ -138,7 +139,7 @@ namespace Server.Stores
 
                     var listItem = menuItem.CastToListItem();
                     var horse = StableHorse.Variation.ElementAt(listItem.SelectedItem).Key;
-                    BuyHorse(client, horse, StableHorse.Price, StableHorse.InvWeight, menuItem.InputValue);
+                    BuyHorse(client, horse, StableHorse.Price, StableHorse.InvWeight, menuItem.InputValue, menu.GetData("Spawn"));
                     break;
 
                 case "Id_MyHorse":
@@ -166,7 +167,7 @@ namespace Server.Stores
             }
         }
 
-        private async void BuyHorse(Player client, string horseHash, double price, double invheight, string name)
+        private async void BuyHorse(Player client, string horseHash, double price, double invheight, string name, UCoords spawn)
         {
             var pData = client.GetPlayerDatabase();
 
@@ -176,7 +177,7 @@ namespace Server.Stores
             if (pData.HasMoney(price))
             {
                 var hash = Utils.Misc.GetHashKey(horseHash);
-                var horse = PedsManager.CreatePed(client, (PedHash)hash, SpawnSelected, false, PedType.Horse);
+                var horse = PedsManager.CreatePed(client, (PedHash)hash, spawn, false, PedType.Horse);
 
                 var clientID = client.Identifiers["steam"];
 
@@ -184,7 +185,7 @@ namespace Server.Stores
                 {
                     Name = name,
                     Hash = hash,
-                    LastCoords = SpawnSelected,
+                    LastCoords = spawn,
                     OwnerID = clientID,
                     Inventory = new Inventory(invheight, 40),
                     PedNetwork = horse
@@ -201,7 +202,7 @@ namespace Server.Stores
                     HorseManager.HorseDatas.Add(clientID, new List<HorseData>() { hData });
                 }
 
-                client.SendTipRightNotification($"Vous venez d'acheter {name} pour le prix de ${price}");
+                client.SendTipRightNotification($"Vous venez d'acheter ~e~{name} ~q~pour le prix de ~e~${price}");
             }
         }
 

@@ -9,6 +9,7 @@ using Shared.MenuManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Server.Stores
 {
@@ -19,6 +20,7 @@ namespace Server.Stores
         public List<CompomentHorse> CompomentList = new List<CompomentHorse>();
         public StableHorse StableHorse;
         public int ParkID; // -1 si il est sorti 
+        public double ParkingPrice = 0.5;
 
         public StableStore(string businnessName, UCoords location, BlipSprite blipSprite, BlipType blipType, PedHash pedhash = 0) : base(businnessName, location, blipSprite, blipType, pedhash)
         {
@@ -39,12 +41,13 @@ namespace Server.Stores
             var steamID = client.Identifiers["steam"];
             if (HorseManager.HorseDatas.ContainsKey(steamID))
             {
- 
-                var horse = HorseManager.HorseDatas[steamID].FirstOrDefault(p => p.LastCoords.ToVector3().DistanceToSquared(Location.ToVector3()) < 5f);
+                var horses = HorseManager.HorseDatas[steamID].ToList().FindAll(p => p.LastCoords.ToVector3().DistanceToSquared(Location.ToVector3()) < 5f);
 
-                if (horse != null)
+                foreach(var horse in horses)
                 {
-                    menu.Add(new MenuItem($"Ranger {horse.Name}", "", "Id_BuyHorse"));
+                    var menuItem = new MenuItem($"Ranger {horse.Name}", $"Ranger votre cheval pour le prix de ~e~${ParkingPrice}", "Id_StoreHorse");
+                    menuItem.SetData("Horse", horse);
+                    menu.Add(menuItem);
                 }
             }
 
@@ -163,6 +166,18 @@ namespace Server.Stores
 
                     HorseManager.SetDefaultHorse(client, mh);
                     client.SendTipRightNotification($"{mh.Name} est maintenant votre cheval par défault");
+                    break;
+
+                case "Id_StoreHorse":
+
+                    HorseData horseData = menuItem.GetData("Horse");
+
+                    if (horseData == null)
+                        return;
+
+                    horseData.ParkID = this.ParkID;
+
+                    Task.Run(()=> horseData.UpdateAsync());
                     break;
             }
         }

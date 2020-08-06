@@ -11,7 +11,6 @@ namespace Client.Scripts
     {
         public NetworkAPI()
         {
-            EventHandlers["API_CreatePed"] += new Action<string, Vector3, float, bool>(CreatePed);
             EventHandlers["API_CreateVehicle"] += new Action<string, Vector3, float, bool>(CreateVehicle);
             EventHandlers["API_SetEntityAlpha"] += new Action<int>(SetEntityAlpha);
             EventHandlers["API_SetInvincible"] += new Action<bool>(SetInvincible);
@@ -43,11 +42,6 @@ namespace Client.Scripts
         {
             Game.PlayerPed.IsVisible = false;
 
-        }
-
-        private async void CreatePed(string pedHash, Vector3 position, float heading, bool isNet)
-        {
-            await World.CreatePed(pedHash, position, heading);
         }
 
         private async void CreateVehicle(string model, Vector3 position, float heading, bool isNet)

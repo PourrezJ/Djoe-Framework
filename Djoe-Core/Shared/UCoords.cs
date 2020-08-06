@@ -43,5 +43,10 @@ namespace Shared
             Z = pos.Z;
             Heading = heading;
         }
+
+        public override string ToString()
+        {
+            return $"X:{X} Y:{Y} Z:{Z} Heading:{Heading}";
+        }
     }
 }

@@ -13,6 +13,7 @@ using Shared.Utils;
 using System.Threading;
 using Server.Models;
 using Server.Controllers;
+using Server.Scripts;
 
 namespace Server
 {
@@ -134,6 +135,8 @@ namespace Server
                 source.Drop("Erreur avec Steam, est t'il bien démarrer?");
                 return;
             }
+
+            HardCap.PlayerActivated(source);
 
             Logger.Info("Demande d'information du joueur: " + sid);
 

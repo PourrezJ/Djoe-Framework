@@ -41,9 +41,7 @@ namespace Client.Scripts
 
             await Game.Player.ChangeModel("MP_Male");
 
-            UIHelper.LoadingScreenText("RDRP", "Chargement...", "Demande d'information au serveur.");
-
-            TriggerServerEvent("djoe:playerSpawn");
+            UIHelper.LoadingScreenText("RDRP", "Chargement...", "En attente de l'hébergeur.");    
         }
 
         private async void InitPlayer(string dataStr, string currentTime, uint weatherType)
@@ -116,8 +114,6 @@ namespace Client.Scripts
             API.DisplayRadar(true);
             API.DisplayHud(true);
 
-
-
             PlayerSpawned = true;
 
             Tick += PlayerUpdate;
@@ -129,52 +125,43 @@ namespace Client.Scripts
             Game.PlayerPed.RelationshipGroup.SetRelationshipBetweenGroups("Player", (Relationship)6, true);
         }
 
-        private static DateTime _lastupdate = DateTime.Now;
-        private Task PlayerUpdate()
+        private async Task PlayerUpdate()
         {
-            if ((DateTime.Now - _lastupdate).TotalMilliseconds < 150) // <-- Permet de mettre à jour la position pour les colshape! 
-                return Task.FromResult(0);
+            var pPos = Game.PlayerPed.Position;
+            var health = Game.PlayerPed.Health;
+            var heading = Game.PlayerPed.Heading;
 
-            _lastupdate = DateTime.Now;
-
-            if (PlayerSpawned)
+            if (PlayerData.LastCoord.DistanceTo2D(pPos) > 1.5f || PlayerData.Health != health)
             {
-                var pPos = Game.PlayerPed.Position;
-                var health = Game.PlayerPed.Health;
-                var heading = Game.PlayerPed.Heading;
+                TriggerServerEvent("djoe:playerupdate", pPos, heading, health);
 
-                if (PlayerData.LastCoord.DistanceTo2D(pPos) > 1.5f || PlayerData.Health != health)
+                PlayerData.LastCoord.SetUcoord(pPos, heading);
+                PlayerData.Health = health;
+
+                if (Game.PlayerPed.IsOnMount)
                 {
-                    TriggerServerEvent("djoe:playerupdate", pPos, heading, health);
-
-                    PlayerData.LastCoord.SetUcoord(pPos, heading);
-                    PlayerData.Health = health;
-
-                    if (Game.PlayerPed.IsOnMount)
+                    lock (PedsManager.PedList)
                     {
-                        lock(PedsManager.PedList)
+                        if (PedsManager.PedList.ContainsKey(Game.PlayerPed.GetMount))
                         {
-                            if (PedsManager.PedList.ContainsKey(Game.PlayerPed.GetMount))
-                            {
-                                var horse = Game.PlayerPed.GetMount;
-                                var hData = PedsManager.PedList[horse];
+                            var horse = Game.PlayerPed.GetMount;
+                            var hData = PedsManager.PedList[horse];
 
-                                var hPos = horse.Position;
-                                var hHeading = horse.Heading;
-                                var hHealth = horse.Health;
-  
+                            var hPos = horse.Position;
+                            var hHeading = horse.Heading;
+                            var hHealth = horse.Health;
+
+                            if (hData.LastCoord.DistanceTo2D(hPos) > 1.5f || hData.Health != hHealth)
+                            {
                                 hData.Health = hHealth;
                                 hData.LastCoord.SetUcoord(hPos, hHeading);
-
-                                if (hData.LastCoord.DistanceTo2D(hPos) > 1.5f || hData.Health != hHealth)
-                                    TriggerServerEvent("djoe:updatehorse", hData.NetworkID, hPos, hHeading, hHealth);
+                                TriggerServerEvent("djoe:updatehorse", hData.NetworkID, hPos, hHeading, hHealth);
                             }
                         }
                     }
                 }
+                await Delay(150);
             }
-
-            return Task.FromResult(0);
         }
 
         [Tick]
@@ -188,10 +175,17 @@ namespace Client.Scripts
 
         private Task HardCapTick()
         {
-            if (API.NetworkIsSessionStarted())
+            //Debug.WriteLine($"Started {API.NetworkIsSessionStarted()} Active {API.NetworkIsSessionActive()}");
+            //Debug.WriteLine($"Host {API.NetworkIsHost()} Active {API.NetworkIsPlayerConnected(Game.Player.ServerId)}");
+
+            if (API.NetworkIsSessionActive())
             {
-                TriggerServerEvent("HardCap.PlayerActivated");
                 Tick -= HardCapTick;
+
+                Debug.WriteLine("====== Network Started =======");
+                UIHelper.LoadingScreenText("RDRP", "Chargement...", "Demande d'information au serveur.");
+
+                TriggerServerEvent("djoe:playerSpawn");
             }
             return Task.FromResult(0);
         }

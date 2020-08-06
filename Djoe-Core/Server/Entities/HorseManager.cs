@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
+using Newtonsoft.Json;
 using Server.Utils;
+using Server.Utils.Enums;
 using Shared;
 using System;
 using System.Collections.Concurrent;
@@ -19,12 +21,23 @@ namespace Server.Entities
         {
             GameMode.RegisterEventHandler("djoe:updatehorse", new Action<int, Vector3, float, int>(UpdateHorse));
             
-
-
             Thread InstanceCaller = new Thread(new ThreadStart(HorsesUpdateLoop));
 
             // Start the thread.
             InstanceCaller.Start();
+        }
+
+        public static void SpawnAllHorses(Player player)
+        {
+            foreach(var playerHorse in HorseDatas)
+            {
+                foreach(var horse in playerHorse.Value)
+                {
+                    /*
+                    if (horse.ParkID != -1)
+                        horse.PedNetwork = PedsManager.CreatePed((PedHash)horse.Hash, horse.LastCoords, true, false);*/
+                }
+            }
         }
 
         private static void UpdateHorse(int networkID, Vector3 pos, float heading, int health)
@@ -44,6 +57,7 @@ namespace Server.Entities
                 hData.LastCoords.SetUcoord(pos, heading);
                 hData.Health = health;
                 hData.NeedUpdate = true;
+                Console.WriteLine(hData.LastCoords.ToString());
             }
         }
 
@@ -62,6 +76,22 @@ namespace Server.Entities
             }
             return null;
         }
+
+        public static List<HorseData> GetAllHorseSpawned()
+        {
+            List<HorseData> spawned = new List<HorseData>();
+
+            lock (HorseDatas)
+            {
+                foreach (var hData in HorseDatas.Values)
+                {
+                    spawned.AddRange(hData.FindAll(p => p.ParkID == -1));         
+                }
+            }
+
+            return spawned;
+        }
+
         private static async void HorsesUpdateLoop()
         {
             while (true)
@@ -73,8 +103,9 @@ namespace Server.Entities
                     {
                         if (horse.NeedUpdate)
                         {
-                            await horse.UpdateAsync();
                             horse.NeedUpdate = false;
+
+                            await horse.UpdateAsync();
                         }
                     }
 

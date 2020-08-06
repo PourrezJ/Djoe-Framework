@@ -8,9 +8,6 @@ namespace Server.Entities
 {
     public class HorseData
     {
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        public string Id { get; set; }
-
         public string OwnerID;
         public int Hash;
         public string Name;
@@ -19,13 +16,14 @@ namespace Server.Entities
         public bool NeedUpdate;
         public bool IsDefault;
         public int Health;
+        public int ParkID;
 
         [BsonIgnore]
         public PedNetwork PedNetwork;
 
         public async Task UpdateAsync()
         {
-            var result = await Database.MongoDB.Update(this, "players", OwnerID);
+            var result = await Database.MongoDB.Update(this, "horses", OwnerID);
 
             if (result.MatchedCount == 0)
                 Logger.Warn($"Update error for horse {OwnerID} {Name}");

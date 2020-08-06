@@ -1,5 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using Server.Entities;
+using Server.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,6 @@ namespace Server.Scripts
             EventHandlers["playerDropped"] += new Action<Player, string>(PlayerDropped);
             EventHandlers["playerConnecting"] += new Action<Player, string, CallbackDelegate>(PlayerConnecting);
             EventHandlers["HardCap.PlayerActivated"] += new Action<Player>(PlayerActivated);
-
         }
 
         private static void PlayerConnecting([FromSource] Player source, string playerName, CallbackDelegate DenyWithReason)
@@ -63,11 +64,18 @@ namespace Server.Scripts
             }
         }
 
-        private static void PlayerActivated([FromSource] Player source)
+        public static void PlayerActivated(Player source)
         {
+            Console.WriteLine("==== PlayerActivated ====");
             int sessionId = int.Parse(source.Handle);
             if (!ActivePlayers.ContainsKey(sessionId))
             {
+                if (ActivePlayers.Count == 0)
+                {
+                    // Il va host la session
+                    Logger.Info($"Le joueur {source.Name} {source.Identifiers["steam"]} host la session.");
+                    HorseManager.SpawnAllHorses(source);
+                }
                 ActivePlayers.Add(sessionId, DateTime.UtcNow);
             }
         }

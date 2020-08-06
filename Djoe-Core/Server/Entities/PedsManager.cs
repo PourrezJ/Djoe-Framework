@@ -95,5 +95,18 @@ namespace Server.Entities
                 return PedsList.FirstOrDefault(p => p.NetworkID == id);
             }
         }
+
+        public static void Delete(PedNetwork ped)
+        {
+            lock (PedsList)
+            {
+                PedsList.Remove(ped);
+
+                foreach (var player in GameMode.PlayersList)
+                {
+                    player.TriggerEvent("DeletePed", ped.NetworkID);
+                }
+            }
+        }
     }
 }

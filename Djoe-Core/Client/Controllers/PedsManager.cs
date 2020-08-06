@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Shared;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Client.Controllers
 {
@@ -17,7 +18,7 @@ namespace Client.Controllers
             EventHandlers["GetAllPeds"] += new Action<string>(CreateAllPeds);
             EventHandlers["CreatePedFromSrv"] += new Action<string>(CreatePedFromSrv);
             EventHandlers["onResourceStop"] += new Action<string>(OnClientResourceStop);
-
+            EventHandlers["DeletePed"] += new Action<int>(DeletePed);
         }
 
         private void OnClientResourceStop(string resourceName)
@@ -33,6 +34,27 @@ namespace Client.Controllers
                     ped.Key?.Delete();
                 }
             }
+            PedList = null;
+        }
+
+        private static void DeletePed(int networkId)
+        {
+            try
+            {
+                var pedData = GetPedWithNetworkId(networkId);
+                if (pedData.Key != null)
+                {
+                    if (pedData.Key.Exists())
+                    {
+                        pedData.Key.Delete();
+                        lock (PedList)
+                        {
+                            PedList.Remove(pedData.Key);
+                        }
+                    }                   
+                }
+            }
+            catch { }
         }
 
         private static async void CreatePedFromSrv(string data)
@@ -60,9 +82,10 @@ namespace Client.Controllers
 
             API.SetEntityCanBeDamaged(ped.Handle, false);
 
-            PedList.Add(ped, peddata);
-
-            Debug.WriteLine("ped created: " + peddata.NetworkID);
+            lock (PedList)
+            {
+                PedList.Add(ped, peddata);
+            }
         }
 
         private static async void CreateAllPeds(string obj)
@@ -87,9 +110,18 @@ namespace Client.Controllers
 
                 ped.IsPositionFrozen = pednet.IsPositionFrozen;
 
-                PedList.Add(ped, pednet);
+                lock (PedList)
+                {
+                    PedList.Add(ped, pednet);
+                }
+            }
+        }
 
-                Debug.WriteLine("ped created: " + pednet.NetworkID);
+        public static KeyValuePair<Ped, PedNetwork> GetPedWithNetworkId(int id)
+        {
+            lock (PedList)
+            {
+                return PedList.FirstOrDefault(p => p.Value.NetworkID == id);
             }
         }
     }

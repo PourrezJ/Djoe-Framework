@@ -1,11 +1,9 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using Server.Menus;
-using Server.Utils;
 using Server.Utils.Extensions;
 using Shared;
 using System;
-using System.Linq;
 
 namespace Server.Entities
 {

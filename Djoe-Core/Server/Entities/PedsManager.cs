@@ -88,7 +88,7 @@ namespace Server.Entities
         {
             lock (PedsList)
             {
-                return PedsList.FirstOrDefault(p => p.LastCoord.DistanceTo(pos) < distance && p.PedType == PedType.Pedestrial);
+                return PedsList.FirstOrDefault(p => p.LastCoord.DistanceTo(pos) < distance && p.PedType == pedType);
             }
         }
 

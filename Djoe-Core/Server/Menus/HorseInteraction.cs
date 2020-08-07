@@ -14,7 +14,9 @@ namespace Server.Menus
     {
         public HorseInteractionMenu(Player player, PedNetwork horse)
         {
-            var hd = HorseManager.GetHorseDataWithPed(horse);
+            var hd = HorseManager.GetWithPedNetwork(horse);
+
+            Console.WriteLine((hd == null) ? "hd null" : "hd not null");
 
             if (hd == null)
                 return;
@@ -37,6 +39,7 @@ namespace Server.Menus
             switch (menuItem.Id)
             {
                 case "ID_HorseInventory":
+                    Console.WriteLine("Open Inventory");
                     new RPGInventoryMenu(playerData.PocketInventory, null, null, horseData.Inventory).OpenMenu(client);
                     break;
             }

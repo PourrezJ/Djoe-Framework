@@ -202,7 +202,7 @@ namespace Server.Stores
                     Hash = hash,
                     LastCoords = spawn,
                     OwnerID = clientID,
-                    Inventory = new Inventory(invheight, 40),
+                    Inventory = new Inventory(invheight, 24),
                     PedNetwork = horse
                 };
 

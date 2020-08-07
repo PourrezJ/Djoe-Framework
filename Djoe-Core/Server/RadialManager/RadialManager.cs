@@ -86,6 +86,9 @@ namespace Server
 
         public static void CloseMenu(Player client)
         {
+            if (!HasOpenMenu(client))
+                return;
+
             if (_clientMenus.TryRemove(client, out RadialMenu menu))
             {
                 menu.Finalizer?.Invoke(client, menu);

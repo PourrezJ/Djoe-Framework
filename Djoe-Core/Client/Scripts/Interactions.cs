@@ -83,7 +83,8 @@ namespace Client.Scripts
             Control.Loot2,
             Control.Loot3,
             Control.QuickUseItem,
-            Control.SpecialAbilityAction
+            Control.SpecialAbilityAction,
+            Control.FrontendCancel
         };
 
         private static Task OnTick()

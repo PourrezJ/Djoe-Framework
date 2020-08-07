@@ -29,6 +29,11 @@ namespace Server.Entities
 
             switch (control)
             {
+                case (uint)Control.FrontendCancel:
+                    MenuManager.CloseMenu(player);
+                    RadialManager.CloseMenu(player);
+                    break;
+
                 case (uint)Control.Loot: // E
                     if (Colshape.ColshapeManager.IsInColShape(player))
                     {

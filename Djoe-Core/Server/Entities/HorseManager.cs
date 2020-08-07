@@ -46,7 +46,7 @@ namespace Server.Entities
                                 Model = horse.Hash,
                                 Networked = true,
                                 NetworkID = PedsManager.PedsList.Count + 1,
-                                PedType = PedType.Horse
+                                PedType = PedType.Horse,
                             };
 
                             PedsManager.PedsList.Add(horse.PedNetwork);
@@ -143,11 +143,6 @@ namespace Server.Entities
                         horseData.IsDefault = false;
                 }
             }
-        }
-
-        public static HorseData GetHorseDataWithPed(PedNetwork ped)
-        {
-            return GetAllHorseSpawned()?.Find(p => p.PedNetwork == ped);
         }
     }
 }

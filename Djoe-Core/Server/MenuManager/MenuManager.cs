@@ -129,6 +129,9 @@ namespace Server
         #region Public static methods
         public static void CloseMenu(Player client)
         {
+            if (!HasOpenMenu(client))
+                return;
+
             lock (_clientMenus)
             {
                 if (_clientMenus.TryRemove(client, out Menu menu) && menu != null)

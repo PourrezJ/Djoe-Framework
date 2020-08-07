@@ -1,13 +1,10 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using ClientExtented;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WheelInteract
@@ -18,14 +15,23 @@ namespace WheelInteract
         {
             EventHandlers["RadialManager_OpenMenu"] += new Action<string>(RadialManager_OpenMenu); 
             EventHandlers["RadialManager_CloseMenu"] += new Action(RadialManager_CloseMenu);
+            EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
+           
+        }
 
-            RegisterNUICallback("WheelInteract_Callback", WheelInteract_Callback);
+        private void OnClientResourceStart(string name)
+        {
+            if (API.GetCurrentResourceName() != name)
+                return;
+
+            API.SetNuiFocus(false, false);
+
+            RegisterNUICallback("wheelinteract", WheelInteract_Callback);
+
         }
 
         private void RadialManager_OpenMenu(string menuData)
         {
-            Debug.WriteLine("djoe_radialMenu " + menuData);
-
             JObject dataObj = JObject.Parse(menuData);
 
             var data = new Nui()
@@ -34,17 +40,36 @@ namespace WheelInteract
                 Data = menuData
             };
             data.SendNuiMessage();
-            API.SetNuiFocus(true, true);
+            API.SetNuiFocus2(true, true);
+
+            Tick += OnTick;
+            //API.SetNuiFocusKeepInput(true);
         }
 
         private CallbackDelegate WheelInteract_Callback(IDictionary<string, object> datas, CallbackDelegate callback)
         {
+            Debug.WriteLine("WheelInteract " + datas["indexSelected"]);
+            TriggerServerEvent("XMenuManager_ExecuteCallback", datas["indexSelected"], "");
             return callback;
         }
 
         private void RadialManager_CloseMenu()
         {
-            
+            Tick -= OnTick;
+            var data = new Nui()
+            {
+                Action = "Activate",
+                Data = false
+            };
+            data.SendNuiMessage();
+            API.SetNuiFocus2(false, false);
+        }
+
+        private Task OnTick()
+        {
+            API.DisableAllControlActions(0);
+
+            return Task.FromResult(0);
         }
 
         public void RegisterNUICallback(string msg, Func<IDictionary<string, object>, CallbackDelegate, CallbackDelegate> callback)
@@ -55,10 +80,11 @@ namespace WheelInteract
             {
                 callback.Invoke(body, resultCallback);
             });
+            /*
             EventHandlers[msg] += new Action<ExpandoObject, CallbackDelegate>((body, resultCallback) =>
             {
                 callback.Invoke(body, resultCallback);
-            });
+            });*/
         }
     }
 }

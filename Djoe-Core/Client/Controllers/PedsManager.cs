@@ -61,7 +61,7 @@ namespace Client.Controllers
         {
             PedNetwork peddata = JsonConvert.DeserializeObject<PedNetwork>(data);
 
-            if (PedList.ContainsValue(peddata))
+            if (PedList.Values.Any(p=>p.NetworkID == peddata.NetworkID))
                 return;
 
             Ped ped = await World.CreatePed(new Model(peddata.Model), peddata.LastCoord.ToVector3(), peddata.LastCoord.Heading, peddata.Networked);

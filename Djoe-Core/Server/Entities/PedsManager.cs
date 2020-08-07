@@ -73,11 +73,15 @@ namespace Server.Entities
 
         public static void OnPlayerConnected(Player player)
         {
-            lock (PedsList)
+            Task.Run(async () =>
             {
-                if (PedsList.Count > 0)
-                    player.TriggerEvent("GetAllPeds", Newtonsoft.Json.JsonConvert.SerializeObject(PedsList));
-            }
+                await Task.Delay(15000);
+                lock (PedsList)
+                {
+                    if (PedsList.Count > 0)
+                        player.TriggerEvent("GetAllPeds", Newtonsoft.Json.JsonConvert.SerializeObject(PedsList));
+                }
+            });
         }
 
         public static PedNetwork GetPedWithPos(Vector3 pos, float distance = 1.5f, PedType pedType = PedType.Pedestrial)

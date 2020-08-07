@@ -33,9 +33,25 @@ namespace Server.Entities
             {
                 foreach(var horse in playerHorse.Value)
                 {
-                    /*
                     if (horse.ParkID != -1)
-                        horse.PedNetwork = PedsManager.CreatePed((PedHash)horse.Hash, horse.LastCoords, true, false);*/
+                    {
+                        lock (PedsManager.PedsList)
+                        {
+                            horse.PedNetwork = new PedNetwork()
+                            {
+                                Health = horse.Health,
+                                Invincible = false,
+                                IsPositionFrozen = false,
+                                LastCoord = horse.LastCoords,
+                                Model = horse.Hash,
+                                Networked = true,
+                                NetworkID = PedsManager.PedsList.Count + 1,
+                                PedType = PedType.Horse
+                            };
+
+                            PedsManager.PedsList.Add(horse.PedNetwork);
+                        }
+                    }
                 }
             }
         }
@@ -57,7 +73,6 @@ namespace Server.Entities
                 hData.LastCoords.SetUcoord(pos, heading);
                 hData.Health = health;
                 hData.NeedUpdate = true;
-                Console.WriteLine(hData.LastCoords.ToString());
             }
         }
 

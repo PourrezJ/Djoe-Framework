@@ -144,5 +144,10 @@ namespace Server.Entities
                 }
             }
         }
+
+        public static HorseData GetHorseDataWithPed(PedNetwork ped)
+        {
+            return GetAllHorseSpawned()?.Find(p => p.PedNetwork == ped);
+        }
     }
 }

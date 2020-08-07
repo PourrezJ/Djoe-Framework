@@ -58,10 +58,6 @@ namespace Server.Entities
 
                             if (horse != null)
                                 HorseInteractionMenu.OpenMenu(player, horse);
-                            else
-                            {
-                                Console.WriteLine("horse null");
-                            }
                         }
                     }
                     else

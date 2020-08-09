@@ -87,6 +87,8 @@
     <Compile Include="Entities\Player\PlayerCommands.cs" />
     <Compile Include="Entities\Player\PlayerKeyHandler.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="Farms\Farm.cs" />
+    <Compile Include="Farms\Miner.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="InventoryModels\Inventory.cs" />
     <Compile Include="InventoryModels\InventoryTypes.cs" />

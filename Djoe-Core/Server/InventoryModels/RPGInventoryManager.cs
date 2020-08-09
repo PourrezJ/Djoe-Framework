@@ -8,6 +8,7 @@ using Server.Utils.Extensions;
 using Shared;
 using Server.Utils;
 using Server.Entities;
+using Server.ItemsClass;
 
 namespace Server
 {
@@ -238,7 +239,20 @@ namespace Server
 
                     if (itemStack != null && itemStack.Item != null)
                     {
-                        itemStack.Item.Use(client, targetInventory, itemSlot);
+                        var item = itemStack.Item;
+
+                        if (item is WeaponItem && item.Id == ItemID.Weapon)
+                        {
+                            (item as WeaponItem).Use(client, targetInventory, itemSlot);
+                        }
+                        else if (item is FoodItem)
+                        {
+                            (item as FoodItem).Use(client, targetInventory, itemSlot);
+                        }
+                        else if (item is ClothesItem)
+                        {
+                            (item as ClothesItem).Use(client, targetInventory, itemSlot);
+                        }
                     }
 
                     Refresh(client, menu);

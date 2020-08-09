@@ -88,6 +88,8 @@ namespace Inventory
         #region NUI Callback
         private CallbackDelegate InventoryUseItem(IDictionary<string, object> data, CallbackDelegate callback)
         {
+            Debug.WriteLine("InventoryUseItem");
+
             if (CheckCallBack())
                 return callback;
 

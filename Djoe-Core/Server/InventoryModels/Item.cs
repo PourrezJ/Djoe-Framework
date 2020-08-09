@@ -1,10 +1,12 @@
 ﻿using CitizenFX.Core;
+using MongoDB.Bson.Serialization.Attributes;
 using Server.ItemsClass;
 using System;
 using System.Collections.Generic;
 
 namespace Server
 {
+    [BsonKnownTypes(typeof(ClothesItem), typeof(FoodItem), typeof(WeaponItem))]
     public class Item : ICloneable
     {
         public ItemID Id { get; set; }

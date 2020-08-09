@@ -17,14 +17,33 @@ namespace Server.Utils.Extensions
         public static bool GetData<T>(this Player player, string key, out T result)
         {
             object value;
-            bool res = _datas[player].TryGetValue(key, out value);
-            result = (T)value;
+
+            if (!_datas.ContainsKey(player))
+            {
+                result = default(T);
+                return false;
+            }
+
+            var data = _datas[player];
+
+            bool res = data.TryGetValue(key, out value);
+            result = res ? (T)value : default(T);
             return res;
         }
 
         public static void SetData(this Player player, string key, object value)
         {
-            _datas[player].AddOrUpdate(key, value, (k, oldValue) => value);
+            if (_datas.ContainsKey(player))
+            {
+                _datas[player].AddOrUpdate(key, value, (k, oldValue) => value);
+            }
+            else
+            {
+                var data = new ConcurrentDictionary<string, object>();
+                data.AddOrUpdate(key, value, (k, oldValue) => value);
+                _datas.TryAdd(player, data);
+                //_datas[player].AddOrUpdate(key, value, (k, oldValue) => value);
+            }
         }
         #endregion
 

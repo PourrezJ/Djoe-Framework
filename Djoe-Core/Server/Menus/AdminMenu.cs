@@ -64,9 +64,9 @@ namespace Server.Menus
                 weaponItem.SetInput("", 99, InputType.Text);
                 Menu.Add(weaponItem);
 
-                Menu.Add(new CheckboxItem("Invisible", "", "Id_Invisible", false));
-                Menu.Add(new CheckboxItem("GodMode", "", "Id_GodMode", false)); 
-                Menu.Add(new CheckboxItem("NoClip", "", "Id_NoClip", false));
+                Menu.Add(new CheckboxItem("Invisible", "", "Id_Invisible", PlayerSelected.GetData("Invisible", out bool result) ? result : false));
+                Menu.Add(new CheckboxItem("GodMode", "", "Id_GodMode", PlayerSelected.GetData("Invincible", out bool result1) ? result1 : false));
+                Menu.Add(new CheckboxItem("NoClip", "", "Id_NoClip", PlayerSelected.GetData("NoClip", out bool result2) ? result2 : false));
                 Menu.Add(new MenuItem("TP to Waypoint", "", "Id_Waypoint"));
                 Menu.Add(new MenuItem("TP to Player", "", "Id_TpToPlayer"));
                 Menu.Add(new MenuItem("TP Player to Me", "", "Id_TpPlayerToMe")); 
@@ -121,10 +121,12 @@ namespace Server.Menus
 
                 case "Id_Invisible":
                     NetworkAPI.SetAlpha(PlayerSelected, check ? 0 : 255);
+                    PlayerSelected.SetData("Invisible", check);
                     break;
 
                 case "Id_GodMode":
                     NetworkAPI.SetInvincible(PlayerSelected, check);
+                    PlayerSelected.SetData("Invincible", check);
                     break;
 
                 case "Id_Weapon":
@@ -133,6 +135,7 @@ namespace Server.Menus
 
                 case "Id_NoClip":
                     NetworkAPI.SetNoClip(PlayerSelected, check);
+                    PlayerSelected.SetData("NoClip", check);
                     break;
 
                 case "Id_Waypoint":

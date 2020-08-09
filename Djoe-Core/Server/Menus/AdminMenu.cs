@@ -67,7 +67,9 @@ namespace Server.Menus
                 Menu.Add(new CheckboxItem("Invisible", "", "Id_Invisible", false));
                 Menu.Add(new CheckboxItem("GodMode", "", "Id_GodMode", false)); 
                 Menu.Add(new CheckboxItem("NoClip", "", "Id_NoClip", false));
-                
+                Menu.Add(new MenuItem("TP to Waypoint", "", "Id_Waypoint"));
+                Menu.Add(new MenuItem("TP to Player", "", "Id_TpToPlayer"));
+                Menu.Add(new MenuItem("TP Player to Me", "", "Id_TpPlayerToMe")); 
             }
 
             Menu.ItemSelectCallback += OnItemSelect;
@@ -131,6 +133,18 @@ namespace Server.Menus
 
                 case "Id_NoClip":
                     NetworkAPI.SetNoClip(PlayerSelected, check);
+                    break;
+
+                case "Id_Waypoint":
+                    NetworkAPI.SetToWaypoint(PlayerSelected);
+                    break;
+
+                case "Id_TpToPlayer":
+                    NetworkAPI.SetPlayerPos(client, playerData.LastCoord);
+                    break;
+
+                case "Id_TpPlayerToMe":
+                    NetworkAPI.SetPlayerPos(PlayerSelected, client.GetPlayerDatabase().LastCoord);
                     break;
             }
         }

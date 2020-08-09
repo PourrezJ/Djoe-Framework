@@ -44,6 +44,9 @@ namespace ClientExtented
             float zcoord = 0.0f;
             var outArgb = new OutputArgument();
 
+            Function.Call(Hash.REQUEST_COLLISION_AT_COORD, v.X, v.Y, v.Z);
+
+            await BaseScript.Delay(50);
 
             float[] firstCheck = new float[] { 0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
 
@@ -61,8 +64,7 @@ namespace ClientExtented
                 for (int i = 0; i < firstCheck.Length; i++)
                 {
                     Function.Call(Hash.REQUEST_COLLISION_AT_COORD, v.X, v.Y, firstCheck[i]);
-                    await BaseScript.Delay(10);
-                    //await GameMode.Delay(10);
+                    await BaseScript.Delay(25);
                 }
 
                 if (Function.Call<bool>(Hash.GET_GROUND_Z_FOR_3D_COORD, v.X, v.Y, 1000f, outArgb))
@@ -74,8 +76,7 @@ namespace ClientExtented
                 for (int i = 0; i < secondCheck.Length; i++)
                 {
                     Function.Call(Hash.REQUEST_COLLISION_AT_COORD, v.X, v.Y, secondCheck[i]);
-                    await BaseScript.Delay(10);
-                    //await GameMode.Delay(10);
+                    await BaseScript.Delay(25);
                 }
 
                 if (Function.Call<bool>(Hash.GET_GROUND_Z_FOR_3D_COORD, v.X, v.Y, 1000f, outArgb))
@@ -87,15 +88,16 @@ namespace ClientExtented
                 for (int i = 0; i < thirdCheck.Length; i++)
                 {
                     Function.Call(Hash.REQUEST_COLLISION_AT_COORD, v.X, v.Y, thirdCheck[i]);
-                    await BaseScript.Delay(10);
-                    //await GameMode.Delay(0);
+                    await BaseScript.Delay(25);
                 }
 
                 if (Function.Call<bool>(Hash.GET_GROUND_Z_FOR_3D_COORD, v.X, v.Y, 1000f, outArgb))
                     zcoord = outArgb.GetResult<float>();
             }
 
-            return new Vector3(v.X, v.Y, zcoord);
+            v.Z = zcoord;
+
+            return v;
         }
     }
 }

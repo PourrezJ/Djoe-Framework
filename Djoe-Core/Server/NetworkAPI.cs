@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using Server.Utils.Enums;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,16 @@ namespace Server
         public static void SetNoClip(Player player, bool active)
         {
             player.TriggerEvent("API_SetNoClip", active);
+        }
+
+        public static void SetToWaypoint(Player player)
+        {
+            player.TriggerEvent("API_SetToWaypoint");
+        }
+
+        public static void SetPlayerPos(Player player, UCoords pos)
+        {
+            player.TriggerEvent("API_SetPlayerPos", pos.X, pos.Y, pos.Z, pos.Heading);
         }
     }
 }

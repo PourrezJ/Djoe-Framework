@@ -10,9 +10,6 @@ namespace Server.Farms
 
     public class Miner : Farm
     {
-        public Miner(string name, Vector3 blipPos) : base(name, blipPos)
-        {
-        }
 
         public override void Init()
         {

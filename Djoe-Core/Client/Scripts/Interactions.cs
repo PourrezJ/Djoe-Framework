@@ -84,18 +84,16 @@ namespace Client.Scripts
             Control.Loot3,
             Control.QuickUseItem,
             Control.SpecialAbilityAction,
-            Control.FrontendCancel
+            Control.FrontendCancel,
+            Control.CreatorMenuToggle,
+            Control.OpenWheelMenu
         };
 
         private static Task OnTick()
         {
-            foreach (var control in UsedControls)
+            foreach (Control fi in UsedControls)
             {
-                Game.DisableControlThisFrame(0, control);
-            }
-
-            foreach (Control fi in (Control[])Enum.GetValues(typeof(Control)))
-            {
+                Game.DisableControlThisFrame(0, fi);
                 if (Game.IsDisabledControlJustPressed(0, fi))
                 {
                     RayCastResult sendResult = null;

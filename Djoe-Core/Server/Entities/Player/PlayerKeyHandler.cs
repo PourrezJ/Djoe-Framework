@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Newtonsoft.Json;
 using Server.Menus;
+using Server.Utils;
 using Server.Utils.Extensions;
 using Shared;
 using System;
@@ -16,59 +17,70 @@ namespace Server.Entities
 
         public static void OnKeyPress([FromSource] Player player, string dyncontrol, string raycastStr = "")
         {
-            uint control = uint.Parse(dyncontrol);
-
-            //Console.WriteLine(raycastStr);
-
-            RayCastResult rayResult = ((string.IsNullOrEmpty(raycastStr)) ? null : JsonConvert.DeserializeObject<RayCastResult>(raycastStr));
-
-            var playerData = player.GetPlayerDatabase();
-
-            if (playerData == null)
-                return;
-
-            switch (control)
+            try
             {
-                case (uint)Control.FrontendCancel:
-                    MenuManager.CloseMenu(player);
-                    RadialManager.CloseMenu(player);
-                    break;
+                uint control = uint.Parse(dyncontrol);
 
-                case (uint)Control.Loot: // E
-                    if (Colshape.ColshapeManager.IsInColShape(player))
-                    {
-                        Colshape.ColshapeManager.OnEntityInteractInColshape(player);
-                        return;
-                    }
-                    break;
+                //Console.WriteLine(dyncontrol);
 
-                case (uint)Control.QuickUseItem: // I
-                    playerData.OpenInventory(player);
-                    break;
+                RayCastResult rayResult = ((string.IsNullOrEmpty(raycastStr)) ? null : JsonConvert.DeserializeObject<RayCastResult>(raycastStr));
 
-                case (uint)Control.SelectItemWheel: // F4
-                    PlayerMenu.OpenMenu(player);
-                    break;
+                var playerData = player.GetPlayerDatabase();
 
-                case (uint)Control.SpecialAbilityAction: // Q / A
+                if (playerData == null)
+                    return;
 
-                    if (rayResult == null)
-                        return;
+                switch (control)
+                {
+                    case (uint)Control.FrontendCancel:
+                        MenuManager.CloseMenu(player);
+                        RadialManager.CloseMenu(player);
+                        break;
 
-                    if (rayResult.DidHitEntity)
-                    {
-                        if (rayResult.IsPed)
+                    case (uint)Control.Loot: // E
+                        if (Colshape.ColshapeManager.IsInColShape(player))
                         {
-                            var horse = PedsManager.GetPedWithPos(rayResult.HitPosition, 3f, PedType.Horse);
-
-                            if (horse != null)
-                                HorseInteractionMenu.OpenMenu(player, horse);
+                            Colshape.ColshapeManager.OnEntityInteractInColshape(player);
+                            return;
                         }
-                    }
-                    else
-                        Console.WriteLine("nop");
-                    break;
+                        break;
+
+                    case (uint)Control.QuickUseItem: // I
+                        playerData.OpenInventory(player);
+                        break;
+
+                    case (uint)Control.SelectItemWheel: // F4
+                        PlayerMenu.OpenMenu(player);
+                        break;
+
+                    case (uint)Control.SpecialAbilityAction: // Q / A
+
+                        if (rayResult == null)
+                            return;
+
+                        if (rayResult.DidHitEntity)
+                        {
+                            if (rayResult.IsPed)
+                            {
+                                var horse = PedsManager.GetPedWithPos(rayResult.HitPosition, 3f, PedType.Horse);
+
+                                if (horse != null)
+                                    HorseInteractionMenu.OpenMenu(player, horse);
+                            }
+                        }
+                        else
+                            Console.WriteLine("nop");
+                        break;
+
+                    case (uint)Control.CreatorMenuToggle:
+                        WeaponWheelMenu.OpenMenu(player);
+                        break;
+                }
             }
+            catch(Exception ex)
+            {
+                Logger.Exception(ex);
+            }        
         }
     }
 

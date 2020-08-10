@@ -103,6 +103,7 @@
     <Compile Include="InventoryModels\RPGInventoryManager.cs" />
     <Compile Include="InventoryModels\RPGInventoryMenu.cs" />
     <Compile Include="InventoryModels\RPGInventoryOutfit.cs" />
+    <Compile Include="Loader\FarmLoader.cs" />
     <Compile Include="Loader\ItemLoader.cs" />
     <Compile Include="Loader\StoreLoader.cs" />
     <Compile Include="MenuManager\Menu.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Menus\AdminMenu.cs" />
     <Compile Include="Menus\HorseInteraction.cs" />
     <Compile Include="Menus\PlayerMenu.cs" />
+    <Compile Include="Menus\WeaponWheelMenu.cs" />
     <Compile Include="Menus\XPTableMenu.cs" />
     <Compile Include="Models\BanData.cs" />
     <Compile Include="Entities\Player\PlayerData.cs" />

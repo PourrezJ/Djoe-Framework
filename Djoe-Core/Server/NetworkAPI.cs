@@ -56,5 +56,10 @@ namespace Server
         {
             player.TriggerEvent("API_SetPlayerPos", pos.X, pos.Y, pos.Z, pos.Heading);
         }
+
+        public static void RemoveWeapon(Player player)
+        {
+            player.TriggerEvent("API_RemoveWeapon");
+        }
     }
 }

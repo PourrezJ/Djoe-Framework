@@ -83,7 +83,8 @@ namespace Server
             Events.Init();
             ItemLoader.Init();
             StoreLoader.Init();
-            
+           // FarmLoader.Init();
+
             ServerStarted = true;
         }
         #endregion

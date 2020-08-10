@@ -8,6 +8,7 @@ using Client.Ui;
 using Shared.Utils;
 using ClientExtented;
 using Client.Menus;
+using ClientExtented.External;
 
 namespace Client
 {
@@ -44,7 +45,6 @@ namespace Client
 
         private Task OnTick()
         {
-
             Misc.ShowControlPressed();
             return Task.FromResult(0);
         }

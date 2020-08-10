@@ -55,6 +55,7 @@ namespace WheelInteract
 
         private void RadialManager_CloseMenu()
         {
+            Debug.WriteLine("Close menu");
             Tick -= OnTick;
             var data = new Nui()
             {

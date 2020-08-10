@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using Server.Entities;
+using Server.Utils;
 using Server.Utils.Enums;
 using Server.Utils.Extensions;
 using Shared;
@@ -69,7 +70,11 @@ namespace Server.Menus
                 Menu.Add(new CheckboxItem("NoClip", "", "Id_NoClip", PlayerSelected.GetData("NoClip", out bool result2) ? result2 : false));
                 Menu.Add(new MenuItem("TP to Waypoint", "", "Id_Waypoint"));
                 Menu.Add(new MenuItem("TP to Player", "", "Id_TpToPlayer"));
-                Menu.Add(new MenuItem("TP Player to Me", "", "Id_TpPlayerToMe")); 
+                Menu.Add(new MenuItem("TP Player to Me", "", "Id_TpPlayerToMe"));
+                /*
+                var tpToItem = new MenuItem("Tp To", "", "Id_TpTo");
+                tpToItem.SetInput("", 99, InputType.Text);
+                Menu.Add(tpToItem);*/
             }
 
             Menu.ItemSelectCallback += OnItemSelect;
@@ -148,6 +153,28 @@ namespace Server.Menus
 
                 case "Id_TpPlayerToMe":
                     NetworkAPI.SetPlayerPos(PlayerSelected, client.GetPlayerDatabase().LastCoord);
+                    break;
+
+                case "Id_TpTo":
+
+                    try
+                    {
+                        var str = menuItem.InputValue;
+
+                        str.Replace('f', new char());
+                        var posStr = str.Split(',');
+
+                        float x = float.Parse(posStr[0]);
+                        float y = float.Parse(posStr[1]);
+                        float z = float.Parse(posStr[2]);
+
+                        NetworkAPI.SetPlayerPos(PlayerSelected, new UCoords(x, y, z, 0));
+                    }
+                    catch(Exception ex)
+                    {
+                        Logger.Exception(ex);
+                    }
+
                     break;
             }
         }

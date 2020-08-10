@@ -22,6 +22,12 @@ namespace Client.Scripts
             EventHandlers["API_ClearSecondary"] += new Action(ClearSecondary);
             EventHandlers["API_SetToWaypoint"] += new Action(SetToWaypoint);
             EventHandlers["API_SetPlayerPos"] += new Action<float, float, float, float>(SetPlayerPos);
+            EventHandlers["API_RemoveWeapon"] += new Action(RemoveWeapon);
+        }
+
+        private void RemoveWeapon()
+        {
+            Function.Call(Hash.REMOVE_ALL_PED_WEAPONS, true, true);
         }
 
         private void SetPlayerPos(float x, float y, float z, float heading)
@@ -82,7 +88,7 @@ namespace Client.Scripts
         private static void GiveWeapon(string weapName, int ammoCount, bool equip, int group, bool leftHanded, float condition)
         {
             Debug.WriteLine("Give Weapon");
-            Function.Call((Hash)0x5e3bddbcb83f3d84, Game.PlayerPed.Handle, Game.GetHashKey(weapName), ammoCount, equip, true, group, true, 0.5, 1.0, leftHanded, condition);
+            Function.Call(Hash._GIVE_WEAPON_TO_PED_2, Game.PlayerPed.Handle, Game.GetHashKey(weapName), ammoCount, equip, true, group, true, 0.5, 1.0, leftHanded, condition);
         }
     }
 }

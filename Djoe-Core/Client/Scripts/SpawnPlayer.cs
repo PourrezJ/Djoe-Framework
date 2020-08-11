@@ -68,8 +68,8 @@ namespace Client.Scripts
             UIHelper.LoadingScreenText("RDRP", "Chargement...", $"Chargement du personnage {PlayerData.Identity.FirstName} {PlayerData.Identity.LastName}.");
             await LoadPlayer.LoadAllComps(PlayerData.SkinPlayer, PlayerData.Clothes);
 
-            Game.PlayerPed.PositionNoOffset = new Vector3(pos.X, pos.Y, pos.Z);
-            Game.PlayerPed.Heading = coords.Heading;
+            Game.PlayerPed.SetEntityCoordsAndHeading(pos, coords.Heading);
+
             Game.PlayerPed.IsPositionFrozen = false;
 
             var dateTime = DateTime.Parse(currentTime);

@@ -15,13 +15,13 @@ namespace Server
         #region Constructor
         public static void Init()
         {
-            GameMode.RegisterEventHandler("XMenuManager_ExecuteCallback", new Action<Player, int, string>(XMenuManager_ExecuteCallback));
+            GameMode.RegisterEventHandler("RadialManager_ExecuteCallback", new Action<Player, int, string>(RadialManager_ExecuteCallback));
             GameMode.RegisterEventHandler("XMenuManager_ClosedMenu", new Action<Player>(XMenuManager_ClosedMenu));
         }
         #endregion
 
         #region Sync Callback
-        private static void XMenuManager_ExecuteCallback([FromSource] Player client, int menuIndex, string data)
+        private static void RadialManager_ExecuteCallback([FromSource] Player client, int menuIndex, string data)
         {/*
             if (!client.Exists)
                 return;
@@ -54,7 +54,7 @@ namespace Server
             if (menu != null)
             {
                 menu.Finalizer?.Invoke(client, menu);
-                client.TriggerEvent("XMenuManager_CloseMenu");
+                client.TriggerEvent("RadialManager_CloseMenu");
             }
             else if (menu != null)
                 _clientMenus.TryRemove(client, out menu);

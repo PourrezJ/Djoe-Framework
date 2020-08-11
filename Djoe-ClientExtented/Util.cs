@@ -1,5 +1,6 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
+using ClientExtented.External;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +82,42 @@ namespace ClientExtented
             var scriptID = API.StartNewScript(script, 1024);
             Function.Call(Hash.SET_SCRIPT_WITH_NAME_HASH_AS_NO_LONGER_NEEDED, script);
             return true;
+        }
+
+
+
+        public static void DisEnableControls()
+        {
+            Control[] controls =
+            {
+                Control.FrontendAccept,
+                Control.FrontendAxisX,
+                Control.FrontendAxisY,
+                Control.FrontendDown,
+                Control.FrontendUp,
+                Control.FrontendLeft,
+                Control.FrontendRight,
+                Control.FrontendCancel,
+                Control.FrontendSelect,
+                Control.CursorScrollDown,
+                Control.CursorScrollUp,
+                Control.CursorX,
+                Control.CursorY,
+                //Control.MoveUpDown,
+                //Control.MoveLeftRight,
+                Control.Sprint,
+                Control.Jump,
+                Control.Enter,
+                Control.LookDownOnly,
+                Control.LookUpOnly,
+                Control.LookUd,
+                Control.LookLr
+            };
+
+            foreach (Control fi in controls)
+            {
+                Game.DisableControlThisFrame(0, fi);
+            }
         }
     }
 }

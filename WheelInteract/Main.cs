@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using CitizenFX.Core.Native;
 using ClientExtented;
+using ClientExtented.External;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,13 @@ namespace WheelInteract
             EventHandlers["RadialManager_OpenMenu"] += new Action<string>(RadialManager_OpenMenu); 
             EventHandlers["RadialManager_CloseMenu"] += new Action(RadialManager_CloseMenu);
             EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
-           
+
+            RegisterNUICallback("closemenu", OnCloseMenu);
+        }
+
+        private CallbackDelegate OnCloseMenu(IDictionary<string, object> datas, CallbackDelegate callback)
+        {
+            return callback;
         }
 
         private void OnClientResourceStart(string name)
@@ -32,6 +39,7 @@ namespace WheelInteract
 
         private void RadialManager_OpenMenu(string menuData)
         {
+            Debug.WriteLine(menuData);
             JObject dataObj = JObject.Parse(menuData);
 
             var data = new Nui()
@@ -40,22 +48,20 @@ namespace WheelInteract
                 Data = menuData
             };
             data.SendNuiMessage();
-            API.SetNuiFocus2(true, true);
+            //API.SetNuiFocus2(false, true);
 
             Tick += OnTick;
-            //API.SetNuiFocusKeepInput(true);
+            API.SetNuiFocus(true, true);
         }
 
         private CallbackDelegate WheelInteract_Callback(IDictionary<string, object> datas, CallbackDelegate callback)
         {
-            Debug.WriteLine("WheelInteract " + datas["indexSelected"]);
-            TriggerServerEvent("XMenuManager_ExecuteCallback", datas["indexSelected"], "");
+            TriggerServerEvent("RadialManager_ExecuteCallback", datas["indexSelected"], "");
             return callback;
         }
 
         private void RadialManager_CloseMenu()
         {
-            Debug.WriteLine("Close menu");
             Tick -= OnTick;
             var data = new Nui()
             {
@@ -68,7 +74,11 @@ namespace WheelInteract
 
         private Task OnTick()
         {
-            API.DisableAllControlActions(0);
+            //API.DisableAllControlActions(0);
+
+            //Game.DisableControlThisFrame(0, Control.Attack);
+
+            Util.DisEnableControls();
 
             return Task.FromResult(0);
         }

@@ -111,7 +111,8 @@ namespace ClientExtented
                 Control.LookDownOnly,
                 Control.LookUpOnly,
                 Control.LookUd,
-                Control.LookLr
+                Control.LookLr,
+                Control.Attack,
             };
 
             foreach (Control fi in controls)

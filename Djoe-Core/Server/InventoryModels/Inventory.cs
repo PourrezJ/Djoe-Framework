@@ -1,16 +1,25 @@
-﻿using System;
-using System.Diagnostics;
+﻿using CitizenFX.Core;
+using Server.ItemsClass;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Server
 {
     public partial class Inventory
     {
+        public delegate void ItemAddedDelegate(Player client, ItemStack stack);
+        public delegate void ItemRemovedDelegate(Player client, ItemStack stack);
+
         #region Variables
         public ItemStack[] InventoryList;
         public double MaxSize { get; set; }
         public int MaxSlot { get; set; }
         public bool Locked { get; set; }
+
+        public ItemAddedDelegate OnItemAdded;
+        public ItemRemovedDelegate OnItemRemoved;
+
         #endregion
 
         #region Constructor
@@ -278,6 +287,26 @@ namespace Server
             }
 
             return -1;
+        }
+
+        public List<WeaponItem> GetWeaponItems()
+        {
+            List<WeaponItem> weapons = new List<WeaponItem>();
+            
+            for (int i = 0; i < InventoryList.Length; i++)
+            {
+                if (InventoryList[i] == null || InventoryList[i].Item == null)
+                    continue;
+
+                var item = InventoryList[i].Item;
+
+                if (item is WeaponItem)
+                {
+                    weapons.Add((item as WeaponItem));
+                }
+            }
+
+            return weapons;
         }
         #endregion
     }

@@ -14,6 +14,7 @@ using System.Threading;
 using Server.Models;
 using Server.Controllers;
 using Server.Scripts;
+using Server.ItemsClass;
 
 namespace Server
 {
@@ -166,8 +167,10 @@ namespace Server
 
                //source.TriggerEvent("djoe:initPlayer", JsonConvert.SerializeObject(playerData), GameMode.WorldData.WorldTime.ToString(), (uint)GameMode.WorldData.WeatherActual);
                 
+                
+
                 source.TriggerEvent("djoe:initPlayer",
-                JsonConvert.SerializeObject(new { LastCoord = playerData.LastCoord, Money = playerData.Money, Thirst = playerData.Thirst, Hunger = playerData.Hunger, Identity = playerData.Identity, SkinPlayer = playerData.SkinPlayer, Clothes = playerData.Clothes }),
+                JsonConvert.SerializeObject(new { LastCoord = playerData.LastCoord, Money = playerData.Money, Thirst = playerData.Thirst, Hunger = playerData.Hunger, Identity = playerData.Identity, SkinPlayer = playerData.SkinPlayer, Clothes = playerData.Clothes, Weapons = playerData.PocketInventory.GetWeaponItems() }),
                 GameMode.WorldData.WorldTime.ToString(),
                 (uint)GameMode.WorldData.WeatherActual);
     

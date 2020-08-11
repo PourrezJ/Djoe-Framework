@@ -171,6 +171,8 @@ namespace Client.Scripts
         {
             Game.DisableControlThisFrame(0, ClientExtented.External.Control.HudSpecial);
             Game.DisableControlThisFrame(0, ClientExtented.External.Control.RevealHud);
+            Game.DisableControlThisFrame(0, ClientExtented.External.Control.TwirlPistol);
+            Game.DisableControlThisFrame(0, ClientExtented.External.Control.ToggleHolster);
 
             return Task.FromResult(0);
         }

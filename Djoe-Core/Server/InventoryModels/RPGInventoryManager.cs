@@ -485,6 +485,7 @@ namespace Server
                         stack = oldInventory.InventoryList[oldslotID];
                         item = stack?.Item;
                     }
+                    oldInventory.OnItemRemoved(client, stack);
                 }
                 else
                 {
@@ -561,6 +562,7 @@ namespace Server
                                     {
                                         menu.Inventory.InventoryList[slotID] = stack;
                                     }
+                                    menu.Inventory?.OnItemAdded(client, menu.Inventory.InventoryList[slotID]);
                                 }
                                 else
                                 {
@@ -614,6 +616,7 @@ namespace Server
                                     {
                                         menu.Distant.InventoryList[slotID] = stack;
                                     }
+                                    menu.Distant?.OnItemAdded(client, menu.Distant.InventoryList[slotID]);
                                 }
                                 else
                                 {

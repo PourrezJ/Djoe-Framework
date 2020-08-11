@@ -34,12 +34,10 @@ namespace WheelInteract
             API.SetNuiFocus(false, false);
 
             RegisterNUICallback("wheelinteract", WheelInteract_Callback);
-
         }
 
         private void RadialManager_OpenMenu(string menuData)
         {
-            Debug.WriteLine(menuData);
             JObject dataObj = JObject.Parse(menuData);
 
             var data = new Nui()
@@ -48,10 +46,10 @@ namespace WheelInteract
                 Data = menuData
             };
             data.SendNuiMessage();
-            //API.SetNuiFocus2(false, true);
+            API.SetNuiFocus2(true, true);
 
             Tick += OnTick;
-            API.SetNuiFocus(true, true);
+            //API.SetNuiFocus(true, true);
         }
 
         private CallbackDelegate WheelInteract_Callback(IDictionary<string, object> datas, CallbackDelegate callback)
@@ -74,10 +72,6 @@ namespace WheelInteract
 
         private Task OnTick()
         {
-            //API.DisableAllControlActions(0);
-
-            //Game.DisableControlThisFrame(0, Control.Attack);
-
             Util.DisEnableControls();
 
             return Task.FromResult(0);

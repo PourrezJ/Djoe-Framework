@@ -119,11 +119,19 @@ namespace ClientExtented.External
         {
             Function.Call((Hash)0xc6258f41d86676e0, Handle, (int)core, MathUtil.Clamp(value, 0, 100));
         }
-
-        public void GiveWeapon(WeaponHash weapon, int ammoCount, bool equipNow = false, bool isLeftHanded = false, float condition = 0.0f)
+        //( int ped, Hash weapName, int ammoCount, BOOL equipNow, BOOL p4, int group, BOOL p6, int p7, int p8, BOOL leftHanded )
+        public async void GiveWeapon(WeaponHash weapon, int ammoCount, bool equipNow = false, bool isLeftHanded = false, float condition = 0.0f)
         {
-            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, (uint)weapon, ammoCount, equipNow, true, 1, false,
-                0.5f, 1f, 752097756, isLeftHanded, condition);
+            var model = new Model((int)weapon);
+
+            await model.Request(150);
+            /*
+            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, model.Hash, ammoCount, equipNow, true, 1, false,
+                0.5f, 1f, 752097756, isLeftHanded, condition);*/
+
+           
+
+            Function.Call(Hash._GIVE_WEAPON_TO_PED_2, Handle, model.Hash, 60, false, true, API.GetWeapontypeGroup((uint)model.Hash), true, 0.5, 1.0, 0, true, 0, 0);
         }
 
         public void GiveAllWeapons(int ammo = 200)

@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using Server.ItemsClass;
 using Server.Utils;
+using Server.Utils.Enums;
 using Server.Utils.Extensions;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,22 @@ namespace Server.Menus
                 if (weapon == null)
                     return;
 
-                NetworkAPI.GiveWeapon(client, weapon.WeaponModel, weapon.CurrentAmmo, true, 0, false, 0);
+                bool lefthanded;
+
+                WeaponHash weaponHash = (WeaponHash)Misc.GetHashKey(weapon.WeaponModel);
+
+                switch (weaponHash)
+                {
+                    case WeaponHash.Lasso:
+                        lefthanded = true;
+                        break;
+                    default:
+                        lefthanded = false;
+                        break;
+                }
+
+
+                NetworkAPI.GiveWeapon(client, weapon.WeaponModel, weapon.CurrentAmmo, true, 0, lefthanded, 0);
             }
         }
 

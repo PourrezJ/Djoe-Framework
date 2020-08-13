@@ -152,12 +152,6 @@ namespace Server
                 Logger.Info("Envoi des informations du joueur " + sid);
                 var playerData = Characters[sid];
                 playerData.Client = source;
-                // Reset temporaire de l'inventaire
-                /*
-                playerData.PocketInventory = new Inventory(30, 16);
-                playerData.OutfitInventory = new OutfitInventory();
-
-                playerData.PocketInventory.AddItem(new Item(ItemID.Fromage, "Fromage", "", 0.1, true, true, true));*/
 
                 if (playerData.XPTable == null)
                     playerData.XPTable = new XPTable();
@@ -165,14 +159,13 @@ namespace Server
                 BlipsManager.OnPlayerConnected(source);
                 PedsManager.OnPlayerConnected(source);
 
-               //source.TriggerEvent("djoe:initPlayer", JsonConvert.SerializeObject(playerData), GameMode.WorldData.WorldTime.ToString(), (uint)GameMode.WorldData.WeatherActual);
-                
-                
+                //source.TriggerEvent("djoe:initPlayer", JsonConvert.SerializeObject(playerData), GameMode.WorldData.WorldTime.ToString(), (uint)GameMode.WorldData.WeatherActual);
 
                 source.TriggerEvent("djoe:initPlayer",
-                JsonConvert.SerializeObject(new { LastCoord = playerData.LastCoord, Money = playerData.Money, Thirst = playerData.Thirst, Hunger = playerData.Hunger, Identity = playerData.Identity, SkinPlayer = playerData.SkinPlayer, Clothes = playerData.Clothes, Weapons = playerData.PocketInventory.GetWeaponItems() }),
+                JsonConvert.SerializeObject(new { LastCoord = playerData.LastCoord, Money = playerData.Money, Thirst = playerData.Thirst, Hunger = playerData.Hunger, Identity = playerData.Identity, SkinPlayer = playerData.SkinPlayer, Clothes = playerData.Clothes}),
                 GameMode.WorldData.WorldTime.ToString(),
-                (uint)GameMode.WorldData.WeatherActual);
+                (uint)GameMode.WorldData.WeatherActual,
+                JsonConvert.SerializeObject(playerData.PocketInventory.GetWeaponItems()));
     
             }
         }

@@ -125,13 +125,14 @@ namespace ClientExtented.External
             var model = new Model((int)weapon);
 
             await model.Request(150);
+            
+            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, model.Hash, ammoCount, equipNow, true, API.GetWeapontypeGroup((uint)model.Hash), false,
+                0.5f, 1f, 752097756, isLeftHanded, condition);
+               
+           // Function.Call(Hash._GIVE_WEAPON_TO_PED_2, Handle, model.Hash, 60, true, true, API.GetWeapontypeGroup((uint)model.Hash), true, 0.5, 1.0, 0, true, 0, 0);
             /*
-            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, model.Hash, ammoCount, equipNow, true, 1, false,
-                0.5f, 1f, 752097756, isLeftHanded, condition);*/
-
-           
-
-            Function.Call(Hash._GIVE_WEAPON_TO_PED_2, Handle, model.Hash, 60, false, true, API.GetWeapontypeGroup((uint)model.Hash), true, 0.5, 1.0, 0, true, 0, 0);
+            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, (uint)weapon, ammoCount, equipNow, true, 1, false,
+            1056964608, 1065353216, isLeftHanded, condition);*/
         }
 
         public void GiveAllWeapons(int ammo = 200)

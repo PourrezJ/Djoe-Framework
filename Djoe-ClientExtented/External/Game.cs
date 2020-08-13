@@ -70,7 +70,7 @@ namespace ClientExtented.External
 
         public static int GenerateHash(string name)
         {
-            return Function.Call<int>(Hash.GET_HASH_KEY, name);
+            return API.GetHashKey(name);
         }
 
         public static bool IsControlPressed(int index, Control control)

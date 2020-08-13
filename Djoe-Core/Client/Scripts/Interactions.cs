@@ -85,8 +85,8 @@ namespace Client.Scripts
             Control.QuickUseItem,
             Control.SpecialAbilityAction,
             Control.FrontendCancel,
-            Control.CreatorMenuToggle,
-            Control.OpenWheelMenu
+            //Control.CreatorMenuToggle,
+            //Control.OpenWheelMenu
         };
 
         private static Task OnTick()

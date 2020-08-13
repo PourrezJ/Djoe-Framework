@@ -71,6 +71,7 @@
     <Compile Include="Menus\Stables.cs" />
     <Compile Include="Menus\WeaponStore.cs" />
     <Compile Include="Models\PlayerData.cs" />
+    <Compile Include="Models\WeaponItem.cs" />
     <Compile Include="Scripts\CreatePlayer.cs" />
     <Compile Include="Scripts\DiscordRichPresence.cs" />
     <Compile Include="Scripts\Interactions.cs" />

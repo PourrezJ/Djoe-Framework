@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using Client.Menus;
 using Client.Models;
 using Client.Controllers;
+using System.Collections.Generic;
 
 namespace Client.Scripts
 {
@@ -21,7 +22,7 @@ namespace Client.Scripts
 
         public SpawnPlayer()
         {
-            EventHandlers["djoe:initPlayer"] += new Action<string, string, uint>(InitPlayer);
+            EventHandlers["djoe:initPlayer"] += new Action<string, string, uint, string>(InitPlayer);
             EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
 
             Tick += HardCapTick;
@@ -44,13 +45,14 @@ namespace Client.Scripts
             UIHelper.LoadingScreenText("RDRP", "Chargement...", "En attente de l'hébergeur.");    
         }
 
-        private async void InitPlayer(string dataStr, string currentTime, uint weatherType)
+        private async void InitPlayer(string dataStr, string currentTime, uint weatherType, string weaponStr)
         {
             UIHelper.LoadingScreenText("RDRP", "Chargement...", "Information reçu par le serveur.");
 
-            Debug.WriteLine(dataStr);
-
             PlayerData = JsonConvert.DeserializeObject<PlayerData>(dataStr);
+
+            var weapons = JsonConvert.DeserializeObject<List<WeaponItem>>(weaponStr);
+
 
             TriggerEvent("playerSpawned");
 
@@ -110,11 +112,22 @@ namespace Client.Scripts
                 await Delay(0);
             }
 
+            Function.Call((Hash)0xFCCC886EDE3C63EC, 2, true);
+
+            await Delay(1000);
+
+            foreach (var weapon in weapons)
+            {
+                Debug.WriteLine(weapon.HashName);
+                Game.PlayerPed.GiveWeapon((WeaponHash)Game.GenerateHash(weapon.WeaponModel), weapon.CurrentAmmo, false);
+
+                //API.GiveDelayedWeaponToPed(Game.PlayerPed.Handle, (uint)Game.GenerateHash(weapon.HashName), 0, true, 2);
+            }
+
+
             Hud.ShowUI(true);
             API.DisplayRadar(true);
             API.DisplayHud(true);
-
-            Function.Call((Hash)0xFCCC886EDE3C63EC, 2, true);
 
             PlayerSpawned = true;
 

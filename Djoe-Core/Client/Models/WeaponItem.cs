@@ -2,8 +2,7 @@
 {
     public class WeaponItem
     {
-
-        public string WeaponModel;
+        public string HashName;
 
         public int CurrentAmmo;
     }

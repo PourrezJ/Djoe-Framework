@@ -112,11 +112,11 @@ namespace Client.Scripts
                 await Delay(0);
             }
 
-            Function.Call((Hash)0xFCCC886EDE3C63EC, 2, true);
+            API.RemoveAllPedWeapons(Game.PlayerPed.Handle, true, true);
 
             foreach (var weapon in weapons)
             {
-                Game.PlayerPed.GiveWeapon((WeaponHash)Game.GenerateHash(weapon.WeaponModel), weapon.CurrentAmmo, false);
+                Game.PlayerPed.GiveWeapon((WeaponHash)Game.GenerateHash(weapon.HashName), weapon.CurrentAmmo, false);
             }
 
             Hud.ShowUI(true);

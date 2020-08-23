@@ -114,16 +114,10 @@ namespace Client.Scripts
 
             Function.Call((Hash)0xFCCC886EDE3C63EC, 2, true);
 
-            await Delay(1000);
-
             foreach (var weapon in weapons)
             {
-                Debug.WriteLine(weapon.HashName);
                 Game.PlayerPed.GiveWeapon((WeaponHash)Game.GenerateHash(weapon.WeaponModel), weapon.CurrentAmmo, false);
-
-                //API.GiveDelayedWeaponToPed(Game.PlayerPed.Handle, (uint)Game.GenerateHash(weapon.HashName), 0, true, 2);
             }
-
 
             Hud.ShowUI(true);
             API.DisplayRadar(true);

@@ -166,7 +166,36 @@ namespace Server
                 GameMode.WorldData.WorldTime.ToString(),
                 (uint)GameMode.WorldData.WeatherActual,
                 JsonConvert.SerializeObject(playerData.PocketInventory.GetWeaponItems()));
-    
+            }
+        }
+
+        /*
+         * if a item is removed, this function check if is a weapon, if yes is remove the player weapon
+        */
+        public static void OnItemInventoryMoved(Player client, ItemStack stack, Inventory oldInv, Inventory newInv)
+        {
+           if (stack.Item != null)
+            {
+                var cD = client.GetPlayerDatabase();
+
+                if (oldInv == newInv)
+                    return;
+
+                if (stack.Item is WeaponItem)
+                {
+                    var weapItem = stack.Item as WeaponItem;
+
+                    if (oldInv == cD.PocketInventory)
+                    {
+                        Console.WriteLine("Arme retiré");
+                        NetworkAPI.RemoveWeapon(client, (uint)Misc.GetHashKey(weapItem.Name));
+                    }
+                    else if (newInv == cD.PocketInventory)
+                    {
+                        Console.WriteLine("Arme ajouter");
+                        NetworkAPI.GiveWeapon(client, (uint)Misc.GetHashKey(weapItem.Name), weapItem.CurrentAmmo, false, 0, false, 1f);
+                    }
+                }
             }
         }
 

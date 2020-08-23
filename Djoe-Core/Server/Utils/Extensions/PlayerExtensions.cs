@@ -167,12 +167,12 @@ namespace Server.Utils.Extensions
             {
                 case InventoryTypes.Pocket:
                     return playerData.PocketInventory.Delete(slot, quantity);
-
+                    /*
                 case InventoryTypes.Bag:
                     return playerData.BagInventory.Delete(slot, quantity);
 
                 case InventoryTypes.Outfit:
-                    return playerData.OutfitInventory.Delete(slot, quantity);
+                    return playerData.OutfitInventory.Delete(slot, quantity);*/
             }
 
             return false;

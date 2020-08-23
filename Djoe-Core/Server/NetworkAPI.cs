@@ -37,9 +37,9 @@ namespace Server
             player.TriggerEvent("API_SetInvisible", invisible);
         }
 
-        public static void GiveWeapon(Player player, string weapName, int ammoCount, bool equip, int group, bool leftHanded, float condition)
+        public static void GiveWeapon(Player player, uint weapHash, int ammoCount, bool equip, int group, bool leftHanded, float condition)
         {
-            player.TriggerEvent("API_GiveWeapon", weapName, ammoCount, equip, group, leftHanded, condition);
+            player.TriggerEvent("API_GiveWeapon", weapHash, ammoCount, equip, group, leftHanded, condition);
         }
 
         public static void SetNoClip(Player player, bool active)
@@ -57,9 +57,14 @@ namespace Server
             player.TriggerEvent("API_SetPlayerPos", pos.X, pos.Y, pos.Z, pos.Heading);
         }
 
-        public static void RemoveWeapon(Player player)
+        public static void RemoveAllWeapons(Player player)
         {
-            player.TriggerEvent("API_RemoveWeapon");
+            player.TriggerEvent("API_RemoveAllWeapons");
+        }
+
+        public static void RemoveWeapon(Player player, uint weapHash)
+        {
+            player.TriggerEvent("API_RemoveWeapon", weapHash);
         }
     }
 }

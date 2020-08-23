@@ -17,6 +17,9 @@ namespace Server.Menus
 
         public WeaponWheelMenu(Player player)
         {
+            return;
+            // useless bad idea
+
             var pData = player.GetPlayerDatabase();
 
             if (pData == null)
@@ -60,7 +63,7 @@ namespace Server.Menus
         {
             if (menuItem.Id == "ID_RemoveWeapon")
             {
-                NetworkAPI.RemoveWeapon(client);
+                NetworkAPI.RemoveAllWeapons(client);
             }
             else if (menuItem.Id == "ID_WeaponSelect")
             {
@@ -84,7 +87,7 @@ namespace Server.Menus
                 }
 
 
-                NetworkAPI.GiveWeapon(client, weapon.WeaponModel, weapon.CurrentAmmo, true, 0, lefthanded, 0);
+                NetworkAPI.GiveWeapon(client, (uint)Misc.GetHashKey(weapon.WeaponModel), weapon.CurrentAmmo, true, 0, lefthanded, 0);
             }
         }
 

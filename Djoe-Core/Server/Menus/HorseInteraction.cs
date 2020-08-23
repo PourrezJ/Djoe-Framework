@@ -40,7 +40,7 @@ namespace Server.Menus
             {
                 case "ID_HorseInventory":
                     RadialManager.CloseMenu(client);
-                    new RPGInventoryMenu(playerData.PocketInventory, null, null, horseData.Inventory).OpenMenu(client);
+                    new RPGInventoryMenu(playerData.PocketInventory, horseData.Inventory).OpenMenu(client);
                     break;
             }
         }

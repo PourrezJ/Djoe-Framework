@@ -40,12 +40,14 @@ namespace Server
         public Player DistantPlayer;
         [JsonIgnore]
         public Inventory Inventory;
+        /*
         [JsonIgnore]
-        public Inventory Bag;
+        public Inventory Bag;*/
         [JsonIgnore]
         public Inventory Distant;
+        /*
         [JsonIgnore]
-        public OutfitInventory Outfit;
+        public OutfitInventory Outfit;*/
 
         [JsonIgnore]
         public OnCloseDelegate OnOpen { get; set; }
@@ -64,14 +66,14 @@ namespace Server
         public delegate void OnPriceChangeDelegate(Player client, RPGInventoryMenu menu, ItemStack stack, int price);
         #endregion
 
-        public RPGInventoryMenu(Inventory inventory, OutfitInventory outfitInventory = null, Inventory bag = null, Inventory distant = null, bool ismarket = false, Player distantPlayer = null)
+        public RPGInventoryMenu(Inventory inventory, /*OutfitInventory outfitInventory = null, Inventory bag = null,*/ Inventory distant = null, bool ismarket = false, Player distantPlayer = null)
         {
             try
             {
                 Inventory = inventory;
-                Bag = bag;
+               // Bag = bag;
                 Distant = distant;
-                Outfit = outfitInventory;
+                //Outfit = outfitInventory;
                 DistantPlayer = distantPlayer;
 
                 PocketsItems.CurrentSize = inventory.CurrentSize();
@@ -86,7 +88,7 @@ namespace Server
                         PocketsItems.RPGInventoryItems.Add(new RPGInventoryItem(inventory.InventoryList[i], InventoryTypes.Pocket, i));
                     }
                 }
-
+                /*
                 if (Bag != null)
                 {
                     BagItems = new RPGInventory();
@@ -98,7 +100,7 @@ namespace Server
                         if (Bag.InventoryList[i] != null && Bag.InventoryList[i].Item != null)
                             BagItems.RPGInventoryItems.Add(new RPGInventoryItem(Bag.InventoryList[i], InventoryTypes.Bag, i));
                     }
-                }
+                }*/
 
                 if (Distant != null)
                 {
@@ -114,7 +116,7 @@ namespace Server
                             DistantItems.RPGInventoryItems.Add(new RPGInventoryItem(Distant.InventoryList[i], InventoryTypes.Distant, i));
                     }
                 }
-
+                /*
                 if (Outfit != null)
                 {
                     OutfitItems = new RPGInventoryOutfit();
@@ -132,7 +134,7 @@ namespace Server
                             OutfitItems.NamedSlots[i] = new RPGOutfitSlots(i + 1, "", OutfitInventory.OutfitClasses[i], true);
                         }
                     }
-                }
+                }*/
             }
             catch (Exception ex)
             {

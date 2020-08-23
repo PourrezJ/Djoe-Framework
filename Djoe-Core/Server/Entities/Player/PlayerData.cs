@@ -70,7 +70,7 @@ namespace Server
 
             // Inventory distant = null; // Todo besoin de connaitre quel inventaire distant ouvrir si besoin
 
-            new RPGInventoryMenu(PocketInventory, OutfitInventory, BagInventory).OpenMenu(player);
+            new RPGInventoryMenu(PocketInventory/*, OutfitInventory, BagInventory*/).OpenMenu(player);
         }
     }
 }

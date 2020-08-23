@@ -16,18 +16,24 @@ namespace Client.Scripts
             EventHandlers["API_SetEntityAlpha"] += new Action<int>(SetEntityAlpha);
             EventHandlers["API_SetInvincible"] += new Action<bool>(SetInvincible);
             EventHandlers["API_SetInvisible"] += new Action<bool>(SetInvisible);
-            EventHandlers["API_GiveWeapon"] += new Action<string, int, bool, int, bool, float>(GiveWeapon);
+            EventHandlers["API_GiveWeapon"] += new Action<uint, int, bool, int, bool, float>(GiveWeapon);
             EventHandlers["API_PlayAnimation"] += new Action<string>(PlayAnimation);
             EventHandlers["API_PlayScenario"] += new Action<string>(PlayScenario);
             EventHandlers["API_ClearSecondary"] += new Action(ClearSecondary);
             EventHandlers["API_SetToWaypoint"] += new Action(SetToWaypoint);
             EventHandlers["API_SetPlayerPos"] += new Action<float, float, float, float>(SetPlayerPos);
-            EventHandlers["API_RemoveWeapon"] += new Action(RemoveWeapon);
+            EventHandlers["API_RemoveAllWeapons"] += new Action(API_RemoveAllWeapons);
+            EventHandlers["API_RemoveWeapon"] += new Action<uint>(API_RemoveWeapon);
         }
 
-        private void RemoveWeapon()
+        private void API_RemoveAllWeapons()
         {
             API.RemoveAllPedWeapons(Game.PlayerPed.Handle, true, true);
+        }
+
+        private void API_RemoveWeapon(uint weaponHash)
+        {
+            API.RemoveWeaponFromPed(Game.PlayerPed.Handle, weaponHash, true, 0);
         }
 
         private void SetPlayerPos(float x, float y, float z, float heading)
@@ -85,21 +91,18 @@ namespace Client.Scripts
             Game.PlayerPed.IsInvincible = invisible;
         }
         
-        private static void GiveWeapon(string weapName, int ammoCount, bool equip, int group, bool leftHanded, float condition)
+        private static void GiveWeapon(uint weaponHash, int ammoCount, bool equip, int group, bool leftHanded, float condition)
         {
 
             //Function.Call(Hash._GIVE_WEAPON_TO_PED_2, Game.PlayerPed.Handle, Game.GetHashKey(weapName), ammoCount, equip, true, group, true, 0.5, 1.0, leftHanded, condition);
 
-            uint weaponHash = (uint)Game.GetHashKey(weapName);
             //uint weaponHash = (uint)WeaponHash.RepeaterCarbine;
 
             leftHanded = Function.Call<bool>((Hash)0xD955FEE4B87AFA07, weaponHash);
 
-            Debug.WriteLine($"Give Weapon: {weapName} {weaponHash} {leftHanded}");
+            Debug.WriteLine($"Give Weapon: {weaponHash} {leftHanded}");
 
             Game.PlayerPed.GiveWeapon((WeaponHash)weaponHash, ammoCount, equip, leftHanded, condition);
-
-            
         }
     }
 }

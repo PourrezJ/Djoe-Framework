@@ -135,7 +135,7 @@ namespace Server.Menus
                     break;
 
                 case "Id_Weapon":
-                    NetworkAPI.GiveWeapon(PlayerSelected, menuItem.InputValue, 200, true, 0, false, 0);
+                    NetworkAPI.GiveWeapon(PlayerSelected, (uint)Misc.GetHashKey(menuItem.InputValue), 200, true, 0, false, 0);
                     break;
 
                 case "Id_NoClip":

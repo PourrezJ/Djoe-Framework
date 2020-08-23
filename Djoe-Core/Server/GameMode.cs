@@ -79,7 +79,6 @@ namespace Server
             HorseManager.Init();
             Survival.Init();
             PlayerKeyHandler.Init();
-            RPGInventoryManager.Init();
             Events.Init();
             ItemLoader.Init();
             StoreLoader.Init();

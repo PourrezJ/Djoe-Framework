@@ -4,11 +4,11 @@
     {
         public const string
             Pocket = "pocketSlots",
-            Bag = "bagSlots",
+            // Bag = "bagSlots",
             Vehicle = "vehicleSlots",
             House = "houseSlots",
             Warehouse = "warehouseSlots",
-            Distant = "distantSlots",
-            Outfit = "outfitSlots";
+            Distant = "distantSlots";
+           // Outfit = "outfitSlots";
     }
 }

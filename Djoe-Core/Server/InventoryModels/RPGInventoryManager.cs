@@ -12,23 +12,23 @@ using Server.ItemsClass;
 
 namespace Server
 {
-    public static class RPGInventoryManager
+    public class RPGInventoryManager : BaseScript
     {
         #region Private static properties
         private static ConcurrentDictionary<Player, RPGInventoryMenu> _clientMenus = new ConcurrentDictionary<Player, RPGInventoryMenu>();
         #endregion
 
         #region Init
-        public static void Init()
+        public RPGInventoryManager()
         {
-            GameMode.RegisterEventHandler("RPGInventory_UseItem", new Action<Player, int, string, int>(RPGInventory_UseItem));
-            GameMode.RegisterEventHandler("RPGInventory_DropItem", new Action<Player, string, int, int, int>(RPGInventory_DropItem));
-            GameMode.RegisterEventHandler("RPGInventory_GiveItem", new Action<Player, string, int, int, int>(RPGInventory_GiveItem));
-            GameMode.RegisterEventHandler("RPGInventory_ClosedMenu_SRV", new Action<Player>(RPGInventory_ClosedMenu_SRV));
-            GameMode.RegisterEventHandler("RPGInventory_PriceItemInventory_SRV", new Action<Player, string, int, int, int>(RPGInventory_PriceItemInventory_SRV));
+            EventHandlers["RPGInventory_UseItem"] += new Action<Player, int, string, int>(RPGInventory_UseItem);
+            EventHandlers["RPGInventory_DropItem"] += new Action<Player, string, int, int, int>(RPGInventory_DropItem);
+            EventHandlers["RPGInventory_GiveItem"] += new Action<Player, string, int, int, int>(RPGInventory_GiveItem);
+            EventHandlers["RPGInventory_ClosedMenu_SRV"] += new Action<Player>(RPGInventory_ClosedMenu_SRV);
+            EventHandlers["RPGInventory_PriceItemInventory_SRV"] += new Action<Player, string, int, int, int>(RPGInventory_PriceItemInventory_SRV);
 
-            GameMode.RegisterEventHandler("RPGInventory_SplitItemInventory_SRV", new Action<Player, string, int, int, int, int, int, int>(RPGInventory_SplitItemInventory_SRV));
-            GameMode.RegisterEventHandler("RPGInventory_SwitchItemInventory_SRV", new Action<Player, string, string, int, int, int>(RPGInventory_SwitchItemInventory_SRV));
+            EventHandlers["RPGInventory_SplitItemInventory_SRV"] += new Action<Player, string, int, int, int, int, int, int>(RPGInventory_SplitItemInventory_SRV);
+            EventHandlers["RPGInventory_SwitchItemInventory_SRV"] += new Action<Player, string, string, int, int, int>(RPGInventory_SwitchItemInventory_SRV);
         }
 
         #endregion
@@ -54,7 +54,7 @@ namespace Server
             }
         }
 
-        public static bool HasInventoryOpen(Inventory inventory) => _clientMenus.Values.Any(i => i.Inventory == inventory || i.Bag == inventory || i.Distant == inventory);
+        public static bool HasInventoryOpen(Inventory inventory) => _clientMenus.Values.Any(i => i.Inventory == inventory ||/* i.Bag == inventory ||*/ i.Distant == inventory);
 
         public static bool HasInventoryOpen(Player client) => _clientMenus.ContainsKey(client);
 
@@ -227,10 +227,10 @@ namespace Server
                         case InventoryTypes.Pocket:
                             itemStack = menu.Inventory.InventoryList[itemSlot];
                             break;
-
+                            /*
                         case InventoryTypes.Bag:
                             itemStack = menu.Bag.InventoryList[itemSlot];
-                            break;
+                            break;*/
 
                         case InventoryTypes.Distant:
                             itemStack = menu.Distant.InventoryList[itemSlot];
@@ -264,7 +264,6 @@ namespace Server
         #region Drop
         private static void RPGInventory_DropItem([FromSource]Player client, string inventoryType, int itemID, int slot, int quantity)
         {
-            Debug.WriteLine("RPGInventory_DropItem");
             try
             {
                 if (quantity == 0)
@@ -296,6 +295,7 @@ namespace Server
                             }
 
                             break;
+                            /*
                         case InventoryTypes.Bag:
                             invItem = menu.BagItems.RPGInventoryItems.Find(s => s.InventorySlot == slot);
 
@@ -310,7 +310,7 @@ namespace Server
                                     invItem.Quantity = invItem.Stack.Quantity;
                             }
 
-                            break;
+                            break;*/
                         case InventoryTypes.Distant:
                             invItem = menu.DistantItems.RPGInventoryItems.Find(s => s.InventorySlot == slot);
 
@@ -325,7 +325,7 @@ namespace Server
                                     invItem.Quantity = invItem.Stack.Quantity;
                             }
 
-                            break;
+                            break;/*
                         case InventoryTypes.Outfit:
                             invItem = menu.OutfitItems.RPGInventoryItems.Find(s => s.InventorySlot == slot);
 
@@ -342,7 +342,7 @@ namespace Server
                             RPGInventory_DeletePlayerProps(client, invItem.Stack.Item);
 
                             //ph.Clothing.UpdatePlayerClothing();
-                            break;
+                            break;*/
                     }
 
                     // Temporary solution to save inventory after object drop. Doesn't update inventory when dropping from distant inventory.
@@ -398,7 +398,7 @@ namespace Server
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
 
-                            break;
+                            break;/*
                         case InventoryTypes.Bag:
                             invItem = menu.BagItems.RPGInventoryItems.Find(s => s.InventorySlot == slot);
                             if (invItem == null)
@@ -409,7 +409,7 @@ namespace Server
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
 
-                            break;
+                            break;*/
                         case InventoryTypes.Distant:
                             invItem = menu.DistantItems.RPGInventoryItems.Find(s => s.InventorySlot == slot);
                             if (invItem == null)
@@ -419,7 +419,7 @@ namespace Server
                                 menu.DistantPlayer.SendTipNotification($"On vous a donné {quantity} {invItem.Stack.Item.Name}");
                                 ph.DeleteItem(slot, inventoryType, quantity);
                             }
-                            break;
+                            break;/*
                         case InventoryTypes.Outfit:
                             invItem = menu.OutfitItems.RPGInventoryItems.Find(s => s.InventorySlot == slot);
                             if (invItem == null)
@@ -433,7 +433,7 @@ namespace Server
 
                            // ph.Clothing.UpdatePlayerClothing();
 
-                            break;
+                            break;*/
                     }
 
                     Refresh(client, menu);
@@ -449,8 +449,6 @@ namespace Server
         #region Switch
         private static void RPGInventory_SwitchItemInventory_SRV([FromSource]Player client, string targetRPGInv, string oldRPGInv, int itemID, int slotID, int oldslotID)
         {
-            Logger.Debug("RPGInventory_SwitchItemInventory_SRV");
-
             RPGInventoryMenu menu = null;
             _clientMenus.TryGetValue(client, out menu);
 
@@ -462,10 +460,10 @@ namespace Server
                 {
                     case InventoryTypes.Pocket:
                         oldInventory = menu.Inventory;
-                        break;
+                        break;/*
                     case InventoryTypes.Bag:
                         oldInventory = menu.Bag;
-                        break;
+                        break;*/
                     case InventoryTypes.Distant:
                         oldInventory = menu.Distant;
                         break;
@@ -485,8 +483,8 @@ namespace Server
                         stack = oldInventory.InventoryList[oldslotID];
                         item = stack?.Item;
                     }
-                    oldInventory.OnItemRemoved(client, stack);
                 }
+                /*
                 else
                 {
                     if (oldRPGInv == InventoryTypes.Outfit)
@@ -494,7 +492,7 @@ namespace Server
                         stack = menu.Outfit.Slots[oldslotID];
                         item = stack?.Item;
                     }
-                }
+                }*/
 
                 if (item != null)
                 {
@@ -523,9 +521,10 @@ namespace Server
                             case InventoryTypes.Pocket:
                                 menu.Inventory = oldInventory;
                                 break;
+                                /*
                             case InventoryTypes.Bag:
                                 menu.Bag = oldInventory;
-                                break;
+                                break;*/
                             case InventoryTypes.Distant:
                                 menu.Distant = oldInventory;
                                 break;
@@ -562,7 +561,8 @@ namespace Server
                                     {
                                         menu.Inventory.InventoryList[slotID] = stack;
                                     }
-                                    menu.Inventory?.OnItemAdded(client, menu.Inventory.InventoryList[slotID]);
+                                    //menu.Inventory?.OnItemAdded(client, menu.Inventory.InventoryList[slotID]);
+                                    PlayerManager.OnItemInventoryMoved(client, stack, oldInventory, menu.Inventory);
                                 }
                                 else
                                 {
@@ -571,7 +571,7 @@ namespace Server
                                 }
 
                                 break;
-
+                                /*
                             case InventoryTypes.Bag:
                                 if (!menu.Bag.IsFull(stack.Quantity * stack.Item.Weight)) // vérification si y'a de la place
                                 {
@@ -600,7 +600,7 @@ namespace Server
                                     return;
                                 }
 
-                                break;
+                                break;*/
 
                             case InventoryTypes.Distant:
                                 if (!menu.Distant.IsFull(stack.Quantity * stack.Item.Weight)) // vérification si y'a de la place
@@ -616,7 +616,8 @@ namespace Server
                                     {
                                         menu.Distant.InventoryList[slotID] = stack;
                                     }
-                                    menu.Distant?.OnItemAdded(client, menu.Distant.InventoryList[slotID]);
+                                    PlayerManager.OnItemInventoryMoved(client, stack, oldInventory, menu.Distant);
+                                    //menu.Distant?.OnItemAdded(client, menu.Distant.InventoryList[slotID]);
                                 }
                                 else
                                 {
@@ -625,11 +626,11 @@ namespace Server
                                 }
 
                                 break;
-
+                                /*
                             case InventoryTypes.Outfit:
                                 menu.Outfit.Slots[slotID] = stack;
 
-                                break;
+                                break;*/
                         }
 
                         if (oldInventory != null)
@@ -637,6 +638,7 @@ namespace Server
 
                         #region Clothing 
                         // Remove
+                        /*
                         if (oldRPGInv == InventoryTypes.Outfit)
                         {
                             RPGInventory_DeletePlayerProps(client, item);
@@ -647,7 +649,7 @@ namespace Server
                         else if (targetRPGInv == InventoryTypes.Outfit)
                         {
                             RPGInventory_SetPlayerProps(client, item);
-                        }
+                        }*/
                         #endregion
                     }
                 }
@@ -671,10 +673,10 @@ namespace Server
                 {
                     case InventoryTypes.Pocket:
                         inv = menu.Inventory;
-                        break;
+                        break;/*
                     case InventoryTypes.Bag:
                         inv = menu.Bag;
-                        break;
+                        break;*/
                     case InventoryTypes.Distant:
                         inv = menu.Distant;
                         break;
@@ -699,7 +701,7 @@ namespace Server
                 }
             }
 
-            new RPGInventoryMenu(menu.Inventory, menu.Outfit, menu.Bag, menu.Distant).OpenMenu(client);
+            new RPGInventoryMenu(menu.Inventory,/* menu.Outfit, menu.Bag,*/ menu.Distant).OpenMenu(client);
         }
         #endregion
 
@@ -716,9 +718,10 @@ namespace Server
                     case InventoryTypes.Pocket:
                         inv = menu.Inventory;
                         break;
+                        /*
                     case InventoryTypes.Bag:
                         inv = menu.Bag;
-                        break;
+                        break;*/
                     case InventoryTypes.Distant:
                         inv = menu.Distant;
                         break;
@@ -748,7 +751,7 @@ namespace Server
                     menu.PocketsItems.RPGInventoryItems.Add(new RPGInventoryItem(menu.Inventory.InventoryList[i], InventoryTypes.Pocket, i));
                 }
             }
-
+            /*
             if (menu.Bag != null)
             {
                 menu.BagItems = new RPGInventory
@@ -768,7 +771,7 @@ namespace Server
             else
             {
                 menu.BagItems = null;
-            }
+            }*/
 
             if (menu.Distant != null)
             {
@@ -791,7 +794,7 @@ namespace Server
                         menu.DistantItems.RPGInventoryItems.Add(new RPGInventoryItem(menu.Distant.InventoryList[i], InventoryTypes.Distant, i));
                 }
             }
-
+            /*
             if (menu.Outfit != null)
             {
                 menu.OutfitItems = new RPGInventoryOutfit
@@ -811,7 +814,7 @@ namespace Server
                         menu.OutfitItems.NamedSlots[i] = new RPGOutfitSlots(i + 1, "", OutfitInventory.OutfitClasses[i], true);
                     }
                 }
-            }
+            }*/
             Logger.Info("refresh");
             sender.TriggerEvent("InventoryManager_OpenMenu",
                     JsonConvert.SerializeObject(menu.PocketsItems),

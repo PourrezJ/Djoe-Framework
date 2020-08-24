@@ -43,5 +43,26 @@ namespace Client.Utils
             Function.Call(Hash.SET_TEXT_FONT_FOR_CURRENT_COMMAND, font);
             Function.Call(Hash._DISPLAY_TEXT, str, x, y);
         }
+
+        public static async Task<bool> LoadModel(uint hash)
+        {
+            if (Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
+                return true;
+
+            if (Function.Call<bool>(Hash.IS_MODEL_VALID, hash))
+            {
+                Function.Call(Hash.REQUEST_MODEL, hash);
+                while (!Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
+                {
+                    await BaseScript.Delay(100);
+                }
+                return true;
+            }
+            else
+            {
+                Debug.WriteLine($"Model {hash} is not valid!");
+                return false;
+            }
+        }
     }
 }

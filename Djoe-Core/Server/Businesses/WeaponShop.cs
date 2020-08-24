@@ -29,17 +29,19 @@ namespace Server.Stores
 
             menu.ItemSelectCallback += OnItemSelectCallBack;
 
-            List<string> weaponsModels = new List<string>();
+            List<uint> weaponsModels = new List<uint>();
+            List<uint> weaponsHash = new List<uint>();
 
             foreach(var weapon in Weapons)
             {
                 var item = new MenuItem($"{weapon.Name} ${weapon.ItemPrice}", "", "ID_WeaponSelect");
                 item.Description = $"{weapon.Description}";
                 menu.Add(item);
-                weaponsModels.Add(weapon.WeaponModel);
+                weaponsModels.Add((uint)Utils.Misc.GetHashKey(weapon.WeaponModel));
+                weaponsHash.Add((uint)Utils.Misc.GetHashKey(weapon.HashName));
             }
 
-            menu.OpenMenu(client , Newtonsoft.Json.JsonConvert.SerializeObject(new { WeaponModel = weaponsModels, SpawnObject = SpawnObjectStore }));
+            menu.OpenMenu(client , Newtonsoft.Json.JsonConvert.SerializeObject(new { WeaponModel = weaponsModels, WeaponHash = weaponsHash, SpawnObject = SpawnObjectStore }));
         }
 
         private void OnItemSelectCallBack(Player client, Menu menu, IMenuItem menuItem, int itemIndex)

@@ -144,6 +144,21 @@ namespace ClientExtented.External
             return id == 0 ? null : (Vehicle)Entity.FromHandle(id);
         }
 
+        public static Prop CreateWeaponProp(WeaponHash weaponHash, int ammoCount, Vector3 position, float scale, bool showWorldModel, bool placeOnGround /*, bool isNetworked*/)
+        {
+            int handle = Function.Call<int>((Hash)0x9888652B8BA77F73, (int)weaponHash, ammoCount, position.X, position.Y, position.Z, showWorldModel, scale);
+
+            Debug.WriteLine("Weapon: " + handle.ToString());
+
+            Prop prop = new Prop(handle);
+
+            //prop.PositionNoOffset = new Vector3(position.X, position.Y, position.Z); // force pos?
+
+            if (placeOnGround)
+                Function.Call(Hash.PLACE_OBJECT_ON_GROUND_PROPERLY, prop.Handle);
+            return prop;
+        }
+
         public static async Task<Prop> CreateProp(Model model, Vector3 position, Vector3 rotation, bool dynamic, bool placeOnGround, bool isNetworked)
         {
             if (!await model.Request(4000))

@@ -74,6 +74,7 @@
     <Compile Include="External\Vehicle.cs" />
     <Compile Include="External\Weapon.cs" />
     <Compile Include="External\WeaponCollection.cs" />
+    <Compile Include="External\WeaponProp.cs" />
     <Compile Include="External\World.cs" />
     <Compile Include="Inputbox.cs" />
     <Compile Include="Interior.cs" />

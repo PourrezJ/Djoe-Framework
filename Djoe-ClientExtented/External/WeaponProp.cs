@@ -1,0 +1,22 @@
+﻿using CitizenFX.Core.Native;
+
+namespace ClientExtented.External
+{
+    public sealed class WeaponProp : Entity
+    {
+        public WeaponProp(int handle) : base(handle)
+        {
+
+        }
+
+        public override bool Exists()
+        {
+            return base.Exists() && API.GetEntityType(Handle) == 3;
+        }
+
+        public static bool Exists(Prop prop)
+        {
+            return !ReferenceEquals(prop, null) && prop.Exists();
+        }
+    }
+}

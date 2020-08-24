@@ -31,6 +31,9 @@ namespace Server.Entities
                     {
                         lock (PedsManager.PedsList)
                         {
+                            if (horse.PedNetwork != null)
+                                continue;
+
                             horse.PedNetwork = new PedNetwork()
                             {
                                 Health = horse.Health,

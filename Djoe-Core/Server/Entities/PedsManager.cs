@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using Server.Utils.Enums;
 using Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,15 +20,10 @@ namespace Server.Entities
         public delegate void NpcPrimaryCallBack(Player client, Ped npc);
         public delegate void NpcSecondaryCallBack(Player client, Ped npc);
 
-        [JsonIgnore, BsonIgnore]
-        public static NpcPrimaryCallBackAsync NpcInteractCallBackAsync { get; set; }
-        [JsonIgnore, BsonIgnore]
-        public static NpcSecondaryCallBackAsync NpcSecInteractCallBackAsync { get; set; }
-
-        [JsonIgnore, BsonIgnore]
         public static NpcPrimaryCallBack NpcInteractCallBack { get; set; }
-        [JsonIgnore, BsonIgnore]
         public static NpcSecondaryCallBack NpcSecInteractCallBack { get; set; }
+
+        public static bool PedSpawned { get; set; }
 
 
         public static PedNetwork CreatePed(PedHash pedHash, UCoords position, bool networked, bool isFrozen)
@@ -73,15 +69,19 @@ namespace Server.Entities
 
         public static void OnPlayerConnected(Player player)
         {
-            Task.Run(async () =>
+            /*
+            if (PedSpawned)
+                return;*/
+
+            PedSpawned = true;
+
+            Console.WriteLine("Current Ped: " + PedsList.Count);
+
+            lock (PedsList)
             {
-                await Task.Delay(15000);
-                lock (PedsList)
-                {
-                    if (PedsList.Count > 0)
-                        player.TriggerEvent("GetAllPeds", Newtonsoft.Json.JsonConvert.SerializeObject(PedsList));
-                }
-            });
+                if (PedsList.Count > 0)
+                    player.TriggerEvent("GetAllPeds", JsonConvert.SerializeObject(PedsList));
+            }
         }
 
         public static PedNetwork GetPedWithPos(Vector3 pos, float distance = 1.5f, PedType pedType = PedType.Pedestrial)

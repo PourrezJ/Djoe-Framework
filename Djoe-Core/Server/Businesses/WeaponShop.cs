@@ -54,12 +54,13 @@ namespace Server.Stores
             if (itemIndex > Weapons.Count)
                 return;
 
-            var weapon = Weapons[itemIndex];
+            WeaponItem weapon = Weapons[itemIndex];
 
             if (!pData.PocketInventory.IsFull(weapon.Weight) && pData.HasMoney(weapon.ItemPrice))
             {
                 client.SendTipRightNotification($"Vous venez d'acheter ~e~un(e) {weapon.Name} ~q~pour le prix de ~e~${weapon.ItemPrice}~q~.");
                 pData.PocketInventory.AddItem(weapon);
+                weapon.Equip(client);
             }
         }
     }

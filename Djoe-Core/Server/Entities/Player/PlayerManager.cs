@@ -187,11 +187,11 @@ namespace Server
 
                     if (oldInv == cD.PocketInventory)
                     {
-                        NetworkAPI.RemoveWeapon(client, (uint)Misc.GetHashKey(weapItem.HashName));
+                        weapItem.UnEquip(client);
                     }
                     else if (newInv == cD.PocketInventory)
                     {
-                        NetworkAPI.GiveWeapon(client, (uint)Misc.GetHashKey(weapItem.HashName), weapItem.CurrentAmmo, false, 0, false, 1f);
+                        weapItem.Equip(client);
                     }
                 }
             }

@@ -28,21 +28,25 @@ namespace Server.Utils
 
         public static void Debug(string message)
         {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Log(message, LogLevel.Debug);
         }
 
         public static void Info(string message)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Log(message, LogLevel.Info);
         }
 
         public static void Warn(string message)
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Log(message, LogLevel.Warn);
         }
 
         public static void Error(Exception exception)
         {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Error(exception, "ERROR");
         }
 
@@ -81,6 +85,7 @@ namespace Server.Utils
                 writer.WriteLine(text);
                 Console.WriteLine(text);
                 writer.Close();
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 

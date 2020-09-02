@@ -111,56 +111,56 @@ namespace Server
         private void OnMessage([FromSource] Player player, byte[] data)
         {
             RpcMessage message = DeserializeBinary<RpcMessage>(data) as RpcMessage;
-            Logger.Info("OnMessage: " + JsonConvert.SerializeObject(message));
+            Logger.Info("OnMessage: " + JsonConvert.SerializeObject(message) + "\n");
 
 
-            //switch (message.MethodName)
-            //{
-            //    case "InitSession":
-            //        Debug.WriteLine("InitSession");
+            switch (message.Header.MethodName)
+            {
+                case "InitSession":
+                    Debug.WriteLine("InitSession");
 
-            //        //return makeResponse("InitSessionResponse", new InitSessionResponse() { Sesid = ByteString.CopyFrom((byte)16) });
-            //        break;
+                    //return makeResponse("InitSessionResponse", new InitSessionResponse() { Sesid = ByteString.CopyFrom((byte)16) });
+                    break;
 
-            //    case "InitPlayer2":
-            //        Debug.WriteLine("InitPlayer2 \n");
-            //        /*
-            //        if (data == null)
-            //            return null;
+                case "InitPlayer2":
+                    Debug.WriteLine("InitPlayer2 \n");
+                    /*
+                    if (data == null)
+                        return null;
 
-            //        var req = InitPlayer2_Parameters.Parser.ParseFrom(data);
+                    var req = InitPlayer2_Parameters.Parser.ParseFrom(data);
 
-            //        if (req == null)
-            //            return null;
+                    if (req == null)
+                        return null;
 
-            //        playerDatas[source] = new PlayerData()
-            //        {
-            //            gh = req.Gh,
-            //            peerAddress = req.PeerAddress,
-            //            discriminator = req.Discriminator,
-            //            slot = -1
-            //        };
+                    playerDatas[source] = new PlayerData()
+                    {
+                        gh = req.Gh,
+                        peerAddress = req.PeerAddress,
+                        discriminator = req.Discriminator,
+                        slot = -1
+                    };
 
-            //        var result = new InitPlayerResult()
-            //        {
-            //            Code = 0
-            //        };
+                    var result = new InitPlayerResult()
+                    {
+                        Code = 0
+                    };
 
-            //        return makeResponse("InitPlayerResult", result);*/
-            //        break;
-            //    case "GetRestrictions":
-            //        Debug.WriteLine("GetRestrictions");
-            //        break;
+                    return makeResponse("InitPlayerResult", result);*/
+                    break;
+                case "GetRestrictions":
+                    Debug.WriteLine("GetRestrictions");
+                    break;
 
-            //    case "ConfirmSessionEntered":
-            //        Debug.WriteLine("ConfirmSessionEntered");
+                case "ConfirmSessionEntered":
+                    Debug.WriteLine("ConfirmSessionEntered");
 
-            //        break;
+                    break;
 
-            //    case "QueueForSession_Seamless":
-            //        Debug.WriteLine("QueueForSession_Seamless");
-            //        break;
-            //}
+                case "QueueForSession_Seamless":
+                    Debug.WriteLine("QueueForSession_Seamless");
+                    break;
+            }
         }
 
         private void emitMsg(Player target, Byte[] data)

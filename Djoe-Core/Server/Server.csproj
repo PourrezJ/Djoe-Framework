@@ -153,7 +153,8 @@
     <Compile Include="Scripts\Commands.cs" />
     <Compile Include="Entities\Player\PlayerManager.cs" />
     <Compile Include="Scripts\HardCap.cs" />
-    <Compile Include="Scripts\SessionManager.cs" />
+    <Compile Include="SessionManager\Messages.cs" />
+    <Compile Include="SessionManager\SessionManager.cs" />
     <Compile Include="Scripts\Survival.cs" />
     <Compile Include="Utils\Enums\AnimationFlags.cs" />
     <Compile Include="Utils\Enums\BlipSprite.cs" />

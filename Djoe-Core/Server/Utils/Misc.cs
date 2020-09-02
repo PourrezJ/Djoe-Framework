@@ -16,6 +16,11 @@ namespace Server.Utils
             return t;
         }
 
+        public static void Delay(int ms, Action action)
+        {
+            Task.Delay(ms).ContinueWith((t) => action());
+        }
+
         public static void StopTimer(System.Timers.Timer timer) => timer.Stop();
 
         public static int GetHashKey(string text)

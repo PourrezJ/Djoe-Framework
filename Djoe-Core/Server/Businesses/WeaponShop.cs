@@ -29,7 +29,7 @@ namespace Server.Stores
 
             menu.ItemSelectCallback += OnItemSelectCallBack;
 
-            List<uint> weaponsModels = new List<uint>();
+            List<int> weaponsModels = new List<int>();
             List<uint> weaponsHash = new List<uint>();
 
             foreach(var weapon in Weapons)
@@ -37,7 +37,7 @@ namespace Server.Stores
                 var item = new MenuItem($"{weapon.Name} ${weapon.ItemPrice}", "", "ID_WeaponSelect");
                 item.Description = $"{weapon.Description}";
                 menu.Add(item);
-                weaponsModels.Add((uint)Utils.Misc.GetHashKey(weapon.WeaponModel));
+                weaponsModels.Add(Utils.Misc.GetHashKey(weapon.WeaponModel));
                 weaponsHash.Add((uint)Utils.Misc.GetHashKey(weapon.HashName));
             }
 

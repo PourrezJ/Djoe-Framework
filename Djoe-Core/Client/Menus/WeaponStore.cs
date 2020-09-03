@@ -17,7 +17,7 @@ namespace Client.Menus
     public class WeaponStore
     {
         private static List<uint> weaponsHashList;
-        private static List<uint> weaponsModelList;
+        private static List<int> weaponsModelList;
         private static UCoords spawnCoords;
         private static Prop Prop;
         private static Camera Camera;
@@ -39,19 +39,20 @@ namespace Client.Menus
             var data = JObject.Parse(customData);
 
             weaponsHashList = data["WeaponHash"].ToObject<List<uint>>();
-            weaponsModelList = data["WeaponModel"].ToObject<List<uint>>();
+            weaponsModelList = data["WeaponModel"].ToObject<List<int>>();
             spawnCoords = data["SpawnObject"].ToObject<UCoords>();
 
             foreach(var weap in weaponsModelList)
             {
-                await Utils.Misc.LoadModel(weap);
+                await Misc.LoadModel(weap);
             }
 
             Game.PlayerPed.Alpha = 0;
 
-            Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[0], 100, spawnCoords.ToVector3(), 0.8f, true, false);
-            Prop.Rotation = new Vector3(0, 0, 180);
-            Camera = World.CreateCamera(Prop.Position.Forward(0, 1f), new Vector3(0, 0, 0));
+            Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[0], 100, spawnCoords.ToVector3(), 0.8f, true, true);
+            //Prop.Rotation = new Vector3(0, 0, 180);
+
+            Camera = World.CreateCamera(spawnCoords.ToVector3().Forward(0, 1f), new Vector3(0, 0, 0));
 
             Camera.PointAt(Prop.Position);
             Camera.IsActive = true;
@@ -71,8 +72,8 @@ namespace Client.Menus
                 }
             }
 
-            Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[newIndex], 100, spawnCoords.ToVector3(), 0.8f, true, false);
-            Prop.Rotation = new Vector3(0, 0, 180);
+            Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[newIndex], 100, spawnCoords.ToVector3(), 0.8f, true, true);
+            //Prop.Rotation = new Vector3(0, 0, 180);
         }
 
         private static void OnMenuClosedCallBack(Shared.MenuManager.Menu menu, MenuAPI.Menu uimenu)

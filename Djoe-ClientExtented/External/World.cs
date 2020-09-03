@@ -148,7 +148,7 @@ namespace ClientExtented.External
         {
             int handle = Function.Call<int>((Hash)0x9888652B8BA77F73, (int)weaponHash, ammoCount, position.X, position.Y, position.Z, showWorldModel, scale);
 
-            Debug.WriteLine("Weapon: " + handle.ToString());
+            //Debug.WriteLine("Weapon: " + handle.ToString());
 
             Prop prop = new Prop(handle);
 

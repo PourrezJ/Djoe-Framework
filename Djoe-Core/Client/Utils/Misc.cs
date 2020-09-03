@@ -44,7 +44,7 @@ namespace Client.Utils
             Function.Call(Hash._DISPLAY_TEXT, str, x, y);
         }
 
-        public static async Task<bool> LoadModel(uint hash)
+        public static async Task<bool> LoadModel(int hash)
         {
             if (Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
                 return true;

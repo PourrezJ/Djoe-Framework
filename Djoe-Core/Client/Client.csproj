@@ -83,6 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\NetworkAPI.cs" />
     <Compile Include="Scripts\RespawnSystem.cs" />
+    <Compile Include="Scripts\SessionManager.cs" />
     <Compile Include="Scripts\SpawnPlayer.cs" />
     <Compile Include="Scripts\Toast.cs" />
     <Compile Include="Ui\Notifications.cs" />

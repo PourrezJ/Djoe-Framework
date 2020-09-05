@@ -69,10 +69,11 @@ namespace Client.Menus
                 lock (Prop)
                 {
                     Prop.Delete();
+                    Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[newIndex], 100, spawnCoords.ToVector3(), 0.8f, true, true);
+
                 }
             }
 
-            Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[newIndex], 100, spawnCoords.ToVector3(), 0.8f, true, true);
             //Prop.Rotation = new Vector3(0, 0, 180);
         }
 

@@ -42,7 +42,9 @@ namespace Client.Menus
             weaponsModelList = data["WeaponModel"].ToObject<List<int>>();
             spawnCoords = data["SpawnObject"].ToObject<UCoords>();
 
-            foreach(var weap in weaponsModelList)
+            Camera = World.CreateCamera(spawnCoords.ToVector3().Forward(0, 1f), new Vector3(0, 0, 0));
+
+            foreach (var weap in weaponsModelList)
             {
                 await Misc.LoadModel(weap);
             }
@@ -51,12 +53,10 @@ namespace Client.Menus
 
             Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[0], 100, spawnCoords.ToVector3(), 0.8f, true, true);
             //Prop.Rotation = new Vector3(0, 0, 180);
-            /*
-            Camera = World.CreateCamera(spawnCoords.ToVector3().Forward(0, 1f), new Vector3(0, 0, 0));
-
+            
             Camera.PointAt(Prop.Position);
             Camera.IsActive = true;
-            API.RenderScriptCams(true, true, 200, true, true, 0);*/
+            API.RenderScriptCams(true, true, 200, true, true, 0);
         }
 
         private static void OnIndexChangeCallBack(Shared.MenuManager.Menu menu, MenuAPI.Menu uimenu, MenuAPI.MenuItem oldItem, MenuAPI.MenuItem newItem, int oldIndex, int newIndex)
@@ -81,7 +81,7 @@ namespace Client.Menus
         {
             if (menu.Id != "ID_WeaponShopMenu")
                 return;
-            /*
+            
             if (Camera != null)
             {
                 Camera.IsActive = false;
@@ -89,7 +89,7 @@ namespace Client.Menus
                 Camera = null;
             }
 
-            API.RenderScriptCams(true, true, 200, true, true, 0);*/
+            API.RenderScriptCams(true, true, 200, true, true, 0);
             Game.PlayerPed.Alpha = 255;
             Prop?.Delete();
 

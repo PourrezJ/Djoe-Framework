@@ -54,7 +54,7 @@ namespace Client.Utils
                 Function.Call(Hash.REQUEST_MODEL, hash);
                 while (!Function.Call<bool>(Hash.HAS_MODEL_LOADED, hash))
                 {
-                    await BaseScript.Delay(100);
+                    await BaseScript.Delay(0);
                 }
                 return true;
             }

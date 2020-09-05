@@ -64,13 +64,16 @@ namespace Client.Menus
             if (menu.Id != "ID_WeaponShopMenu")
                 return;
 
-            if (Prop != null)
+            lock(newItem)
             {
-                lock (Prop)
+                if (Prop != null)
                 {
-                    Prop.Delete();
-                    Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[newIndex], 100, spawnCoords.ToVector3(), 0.8f, true, true);
+                    lock (Prop)
+                    {
+                        Prop.Delete();
+                        Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[newIndex], 100, spawnCoords.ToVector3(), 0.8f, true, true);
 
+                    }
                 }
             }
 

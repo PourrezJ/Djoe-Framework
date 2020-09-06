@@ -116,7 +116,7 @@ namespace Client.Scripts
 
             foreach (var weapon in weapons)
             {
-                Game.PlayerPed.GiveWeapon((WeaponHash)Game.GenerateHash(weapon.HashName), weapon.CurrentAmmo, false);
+                Game.PlayerPed.GiveWeapon((uint)Game.GenerateHash(weapon.HashName), weapon.CurrentAmmo, false);
             }
 
             Hud.ShowUI(true);

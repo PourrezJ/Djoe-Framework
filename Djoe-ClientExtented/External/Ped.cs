@@ -120,27 +120,24 @@ namespace ClientExtented.External
             Function.Call((Hash)0xc6258f41d86676e0, Handle, (int)core, MathUtil.Clamp(value, 0, 100));
         }
         //( int ped, Hash weapName, int ammoCount, BOOL equipNow, BOOL p4, int group, BOOL p6, int p7, int p8, BOOL leftHanded )
-        public async void GiveWeapon(WeaponHash weapon, int ammoCount, bool equipNow = false, bool isLeftHanded = false, float condition = 0.0f)
+        public async void GiveWeapon(uint weapon, int ammoCount, bool equipNow = false, bool isLeftHanded = false, float condition = 0.0f)
         {
             var model = new Model((int)weapon);
 
             await model.Request(1000);
-
-            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, (uint)weapon, ammoCount, equipNow, true, 1, false,
-                0.5f, 1f, 752097756, isLeftHanded, condition);
-        }
-
-        public void GiveAllWeapons(int ammo = 200)
-        {
-            foreach (WeaponHash hash in Enum.GetValues(typeof(WeaponHash)))
+            Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, (uint)weapon, ammoCount, equipNow, true, 1, false, 0.5f, 1f, 752097756, isLeftHanded, condition);
+            /*
+            if (weapon == Game.GenerateHash("WEAPON_MELEE_LANTERN_ELECTRIC"))
             {
-                var wpn = new Weapon(this, hash);
-                if (wpn.Group == WeaponGroup.Animal)
-                {
-                    continue;
-                }
-                GiveWeapon(wpn, ammo);
+                Debug.WriteLine("GO PUTAIN DE LANTERN!");
+                Function.Call((Hash)0xB282DC6EBD803C75, Handle, weapon, 500, true, 0);
             }
+            else
+            {
+                Function.Call((Hash)0x5E3BDDBCB83F3D84, Handle, (uint)weapon, ammoCount, equipNow, true, 752097756, false,
+                0.5f, 1f, 752097756, isLeftHanded, condition);
+            }*/
+
         }
 
         public void SetIntoVehicle(Vehicle vehicle, VehicleSeat seat)

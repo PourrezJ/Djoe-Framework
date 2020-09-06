@@ -102,7 +102,7 @@ namespace Client.Scripts
 
             Debug.WriteLine($"Give Weapon: {weaponHash} {leftHanded}");
 
-            Game.PlayerPed.GiveWeapon((WeaponHash)weaponHash, ammoCount, equip, leftHanded, condition);
+            Game.PlayerPed.GiveWeapon(weaponHash, ammoCount, equip, leftHanded, condition);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace ClientExtented.External
                 }
                 else
                 {
-                    Owner.GiveWeapon(Hash, value);
+                    Owner.GiveWeapon((uint)Hash, value);
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace ClientExtented.External
                 }
                 else
                 {
-                    Owner.GiveWeapon(Hash, value);
+                    Owner.GiveWeapon((uint)Hash, value);
                 }
             }
         }

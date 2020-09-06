@@ -28,6 +28,7 @@ namespace ClientExtented.External
         public bool IsAttachedToAnyPed => Function.Call<bool>(Hash.IS_ENTITY_ATTACHED_TO_ANY_PED, Handle);
         public bool IsPedArrestingAnyPed => Function.Call<bool>((Hash)0xA9CC7856D52DBD25, Handle);
         public bool IsPedDuelling => Function.Call<bool>((Hash)0xC8B29D18022EA2B7, Handle);
+        public bool IsPedBeingHogtied => Function.Call<bool>((Hash)0xD453BB601D4A606E, Handle);
 
         public bool IsSittingInVehicle() => Function.Call<bool>(Hash.IS_PED_SITTING_IN_ANY_VEHICLE, Handle);
         public bool IsSittingInVehicle(Vehicle vehicle) => Function.Call<bool>(Hash.IS_PED_SITTING_IN_VEHICLE, Handle, vehicle.Handle);

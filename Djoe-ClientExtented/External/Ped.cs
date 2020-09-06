@@ -26,6 +26,8 @@ namespace ClientExtented.External
         public bool IsOnFoot => Function.Call<bool>(Hash.IS_PED_ON_FOOT, Handle);
         public bool IsOnMount => Function.Call<bool>(Hash.IS_PED_ON_MOUNT, Handle);
         public bool IsAttachedToAnyPed => Function.Call<bool>(Hash.IS_ENTITY_ATTACHED_TO_ANY_PED, Handle);
+        public bool IsPedArrestingAnyPed => Function.Call<bool>((Hash)0xA9CC7856D52DBD25, Handle);
+        public bool IsPedDuelling => Function.Call<bool>((Hash)0xC8B29D18022EA2B7, Handle);
 
         public bool IsSittingInVehicle() => Function.Call<bool>(Hash.IS_PED_SITTING_IN_ANY_VEHICLE, Handle);
         public bool IsSittingInVehicle(Vehicle vehicle) => Function.Call<bool>(Hash.IS_PED_SITTING_IN_VEHICLE, Handle, vehicle.Handle);

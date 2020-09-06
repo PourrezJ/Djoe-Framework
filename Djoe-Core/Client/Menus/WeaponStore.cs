@@ -49,6 +49,12 @@ namespace Client.Menus
                 await Misc.LoadModel(weap);
             }
 
+
+            for(int a = 0; a < weaponsHashList.Count; a++)
+            {
+                menu.Items[a].Text = API.GetLabelText_2(Function.Call<string>((Hash)0x6D3AC61694A791C5, weaponsHashList[a]));
+            }
+
             Game.PlayerPed.Alpha = 0;
 
             Prop = World.CreateWeaponProp((WeaponHash)weaponsHashList[0], 100, spawnCoords.ToVector3(), 0.8f, true, true);
